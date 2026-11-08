@@ -370,8 +370,8 @@ const defaults=()=>({
   vehicle:{name:null, country:'NO', dial:'+47', national:'912 34 567', own:''},
   status:{kind:'unknown',at:null,confirmed:false,until:null}, lastReply:null, lastSentAt:null, lastConfirmedAt:null,
   schedules:[
-    {id:1,nameKey:0,name:null,repeat:true,date:null,days:[1,1,1,1,1,0,0],depart:'07:00',preheat:30,enabled:true,skipDate:null,pausedUntil:null,automation:false},
-    {id:2,nameKey:1,name:null,repeat:true,date:null,days:[0,0,0,0,0,1,0],depart:'09:30',preheat:45,enabled:false,skipDate:null,pausedUntil:null,automation:false}],
+    {id:1,nameKey:0,name:null,repeat:true,date:null,days:[1,1,1,1,1,0,0],depart:'07:00',preheat:30,enabled:true,skipDates:[],pausedUntil:null,automation:false},
+    {id:2,nameKey:1,name:null,repeat:true,date:null,days:[0,0,0,0,0,1,0],depart:'09:30',preheat:45,enabled:false,skipDates:[],pausedUntil:null,automation:false}],
   sent:[], // armed occurrences: {scheduleId, dateKey, startAt, command, sentAt}
   rearmPending:null, // {scheduleId, dateKey, startAt, command, name, at}
   stopReminder:null, // {command, time, name}
@@ -413,16 +413,18 @@ function sendTimeFor(startAt){const n=now();
   if(S.settings.scheduleSend==='atStart')return {at:startAt>n?startAt:n,cmd:'START'};
   const[eh,em]=S.settings.eveningTime.split(':').map(Number);const ev=new Date(startAt);ev.setHours(eh,em,0,0);if(ev>=startAt)ev.setDate(ev.getDate()-1); // siste HH:MM før starttid
   const win=new Date(startAt.getTime()-WINDOW_MS);
-  let at=ev>win?ev:win; if(at<=n)at=n;   // sendetid = max(kveldstid, start − 23 t 30), aldri i fortiden
+  let at=ev>win?ev:win; const a=armed();if(a&&a.startAt>at&&a.startAt<startAt)at=new Date(a.startAt.getTime()+60000); // vent til en allerede sendt start har gått (modulen har ett slot)
+  if(at<=n)at=n;   // sendetid = max(kveldstid, start − 23 t 30), aldri i fortiden
   return {at,cmd:'START'+hhmm(startAt)};}
-function occurrenceFor(s){ if(!s.enabled)return null;const n=now();if(s.skipDate&&s.skipDate<dateKey(n))s.skipDate=null; // skip gjelder bare den ene forekomsten
+function startOn(s,k){const d=new Date(k+'T00:00:00');const[h,m]=s.depart.split(':').map(Number);d.setHours(h,m,0,0);return startFromDepart(d,s.preheat);}
+function occurrenceFor(s){ if(!s.enabled)return null;const n=now();s.skipDates=(s.skipDates||[]).filter(k=>startOn(s,k)>n); // hopp over gjelder navngitte forekomster og faller bort når starttiden er passert
   const paused=s.pausedUntil?new Date(s.pausedUntil+'T23:59:59'):null;
   for(let i=0;i<14;i++){const d=new Date(n);d.setDate(n.getDate()+i);const k=dateKey(d);
     if(s.repeat){if(!s.days[(d.getDay()+6)%7])continue;}else{if(s.date!==k)continue;}
     const[h,m]=s.depart.split(':').map(Number);const dep=new Date(d);dep.setHours(h,m,0,0);const st=startFromDepart(dep,s.preheat);
     const armed=S.sent.find(x=>x.scheduleId===s.id&&x.dateKey===k);
     if(armed){if(armed.startAt<=n)continue; /* sendt → utført når starttiden er passert */ return {kind:s.repeat?'schedule':'oneShot',id:s.id,name:schedName(s),departAt:dep,startAt:armed.startAt,sendAt:armed.sentAt,command:armed.command,sent:true,automation:s.automation,repeat:s.repeat,dateKey:k};}
-    if(st<=n)continue; if(paused&&d<=paused)continue; if(s.skipDate===k)continue;
+    if(st<=n)continue; if(paused&&d<=paused)continue; if(s.skipDates.includes(k))continue;
     const send=sendTimeFor(st);return {kind:s.repeat?'schedule':'oneShot',id:s.id,name:schedName(s),departAt:dep,startAt:st,sendAt:send.at,command:send.cmd,sent:false,automation:s.automation,repeat:s.repeat,dateKey:k};}
   return null;}
 function computeNext(){const c=[];for(const s of S.schedules){const x=occurrenceFor(s);if(x)c.push(x);}
@@ -529,11 +531,18 @@ function logList(items){if(!items.length)return el('div',{class:'hint'},t('log.e
       el('span',{class:'res'},e.dir==='in'?t('log.in'):t('log.'+e.res)+(e.mode?' · '+t('log.mode.'+e.mode):'')+(e.dir==='out'&&e.confirmed?' · ':''),e.dir==='out'&&e.confirmed?el('span',{class:'ok'},t('log.confirmed')):null)));}return w;}
 
 /* --- actions on occurrences --- */
+// Alle sendeveier som legger en STARThhmm i modulens ene slot går gjennom denne: advarsel og re-sending hvis en annen start er sendt.
+function armOpts(newCmd,newStart,newDateKey){const a=armed();const other=a&&a.dateKey!==newDateKey?a:null;if(!other)return {force:false,warn:null,rearm:null,other:null};
+  const sch=S.schedules.find(x=>x.id===other.scheduleId);const name=sch?schedName(sch):'';
+  return {force:true,other,name,warn:t('sheet.slotWarning',{new:newCmd,old:other.command,name,when:describeWhen(other.startAt)}),rearm:other.startAt>newStart?{command:other.command,later:true}:null};}
+function armDone(entry,opts,o){S.sent=[entry];S.status={kind:'scheduled',at:now(),confirmed:false,until:entry.startAt};if(o&&o.rearm&&opts.other)S.rearmPending={...opts.other,name:opts.name,at:new Date(entry.startAt.getTime()+60000)};
+  else if(opts.other){const os=S.schedules.find(x=>x.id===opts.other.scheduleId);if(os&&!os.repeat)S.schedules=S.schedules.filter(x=>x.id!==os.id);} // en overskrevet én-gangs-start uten re-sending er kansellert
+}
 function remindTime(){const[h,m]=S.settings.eveningTime.split(':').map(Number);return pad(h)+':'+pad((m+5)%60);}
 function skipOccurrence(n){const s=S.schedules.find(x=>x.id===n.id);
-  if(n.automation&&!n.sent){confirmModal(t('sched.skipConfirm',{day:fmtDay(n.departAt)}),t('sched.skipAutomation',{command:n.command,time:fmtTime(n.sendAt),remind:fmtHM(remindTime())}),t('common.ok'),()=>{s.skipDate=n.dateKey;S.stopReminder={command:n.command,time:fmtHM(remindTime()),name:n.name,sendAt:n.sendAt};render();});return;}
-  if(n.sent){openSheet({cmd:'STOP',custom:t('sched.skipSendsStop'),force:true,onDone:()=>{S.sent=S.sent.filter(x=>!(x.scheduleId===n.id&&x.dateKey===n.dateKey));s.skipDate=n.dateKey;}});}
-  else{s.skipDate=n.dateKey;toast(t('sched.skipped'));render();}}
+  if(n.automation&&!n.sent){confirmModal(t('sched.skipConfirm',{day:fmtDay(n.departAt)}),t('sched.skipAutomation',{command:n.command,time:fmtTime(n.sendAt),remind:fmtHM(remindTime())}),t('common.ok'),()=>{s.skipDates.push(n.dateKey);S.stopReminder={command:n.command,time:fmtHM(remindTime()),name:n.name,sendAt:n.sendAt};render();});return;}
+  if(n.sent){openSheet({cmd:'STOP',custom:t('sched.skipSendsStop'),force:true,onDone:()=>{S.sent=S.sent.filter(x=>!(x.scheduleId===n.id&&x.dateKey===n.dateKey));s.skipDates.push(n.dateKey);}});}
+  else{s.skipDates.push(n.dateKey);toast(t('sched.skipped'));render();}}
 function cancelOccurrence(n){ if(n.sent){openSheet({cmd:'STOP',explainKey:'stop',force:true,onDone:()=>{S.sent=S.sent.filter(x=>x.scheduleId!==n.id);S.schedules=S.schedules.filter(x=>x.id!==n.id);}});}
   else{S.schedules=S.schedules.filter(x=>x.id!==n.id);render();}}
 function armed(){const n=now();return S.sent.filter(x=>x.startAt>n).sort((a,b)=>a.startAt-b.startAt)[0]||null;}
@@ -544,15 +553,11 @@ function openStop(){const a=armed();
 
 /* --- plan (one-off) --- */
 // Lager/erstatter én-gangs-plan for datoen og sender STARThhmm nå (modulen har ett slot; ny overskriver).
-function armOneOff(dep,preheat,st,onCancel){const cmd='START'+hhmm(st);const s={id:Date.now(),name:null,nameKey:null,repeat:false,date:dateKey(dep),days:[0,0,0,0,0,0,0],depart:pad(dep.getHours())+':'+pad(dep.getMinutes()),preheat,enabled:true,skipDate:null,pausedUntil:null,automation:false};
-  const prev=armed();const other=prev&&prev.dateKey!==s.date?prev:null; // en sendt start for en annen dag ligger i modulens ene slot (samme dag = Endre tid, bevisst overskriving)
-  const prevSched=other?S.schedules.find(x=>x.id===other.scheduleId):null;const prevName=prevSched?schedName(prevSched):'';
+function armOneOff(dep,preheat,st,onCancel){const cmd='START'+hhmm(st);const s={id:Date.now(),name:null,nameKey:null,repeat:false,date:dateKey(dep),days:[0,0,0,0,0,0,0],depart:pad(dep.getHours())+':'+pad(dep.getMinutes()),preheat,enabled:true,skipDates:[],pausedUntil:null,automation:false};
+  const opts=armOpts(cmd,st,s.date); // samme dag = Endre tid, bevisst overskriving; annen dag = advarsel
   S.schedules=S.schedules.filter(x=>x.repeat||x.date!==s.date);S.schedules.push(s);
-  openSheet({cmd,explainKey:'startAt',vars:{time:fmtTime(st)},force:!!other,
-    warn:other?t('sheet.slotWarning',{new:cmd,old:other.command,name:prevName,when:describeWhen(other.startAt)}):null,
-    rearm:other&&other.startAt>st?{command:other.command,later:true}:null,
-    onDone:(o)=>{S.sent=[{scheduleId:s.id,dateKey:s.date,startAt:st,command:cmd,sentAt:now()}];S.status={kind:'scheduled',at:now(),confirmed:false,until:st};S.plan.date=null;
-      if(o&&o.rearm&&other){S.rearmPending={...other,name:prevName,at:new Date(st.getTime()+60000)};}go('home');},
+  openSheet({cmd,explainKey:'startAt',vars:{time:fmtTime(st)},force:opts.force,warn:opts.warn,rearm:opts.rearm,
+    onDone:(o)=>{armDone({scheduleId:s.id,dateKey:s.date,startAt:st,command:cmd,sentAt:now()},opts,o);S.plan.date=null;go('home');},
     onCancel:()=>{S.schedules=S.schedules.filter(x=>x.id!==s.id);if(onCancel)onCancel();}});}
 function planDepart(){const n=now();const d=S.plan.date?new Date(S.plan.date+'T00:00:00'):new Date(n);d.setHours(S.plan.h,S.plan.m,0,0);if(!S.plan.date&&d<=n)d.setDate(d.getDate()+1);return d;}
 function runtimeWarning(dep,preheat){if(preheat<=S.settings.runtime)return null;const st=startFromDepart(dep,preheat);const stop=new Date(st.getTime()+S.settings.runtime*60000);return el('div',{class:'warnline'},t('plan.runtimeWarning',{stop:fmtTime(stop),depart:fmtTime(dep),count:S.settings.runtime}));}
@@ -570,7 +575,7 @@ function rPlan(){const dep=planDepart();const st=startFromDepart(dep,S.plan.preh
   out.push(el('button',{class:'primary',onclick:()=>{
       if(past){openSheet({cmd:'START',explainKey:'start'});return;}
       if(within){armOneOff(dep,S.plan.preheat,st);return;}
-      const s={id:Date.now(),name:null,nameKey:null,repeat:false,date:dateKey(dep),days:[0,0,0,0,0,0,0],depart:pad(dep.getHours())+':'+pad(dep.getMinutes()),preheat:S.plan.preheat,enabled:true,skipDate:null,pausedUntil:null,automation:false};
+      const s={id:Date.now(),name:null,nameKey:null,repeat:false,date:dateKey(dep),days:[0,0,0,0,0,0,0],depart:pad(dep.getHours())+':'+pad(dep.getMinutes()),preheat:S.plan.preheat,enabled:true,skipDates:[],pausedUntil:null,automation:false};
       S.schedules=S.schedules.filter(x=>x.repeat||x.date!==s.date);S.schedules.push(s);S.plan.date=null;toast(t('plan.sendsLater',{when:describeWhen(send.at)}));go('home');}},t('plan.cta')));
   const act=computeNext().filter(o=>o.kind==='oneShot');
   for(const o of act){out.push(el('div',{class:'card'},el('h3',{},t('plan.active')),el('div',{class:'row wrap'},el('div',{},el('div',{class:'big num'},fmtTime(o.startAt)),el('div',{class:'hint'},fmtDay(o.startAt)+' · '+(o.sent?t('home.startsIn',{duration:fmtDur(o.startAt-now())}):t('home.sendsAt',{when:describeWhen(o.sendAt)}))+' · '+o.command)),
@@ -587,11 +592,11 @@ function rSched(){const out=[el('div',{class:'phone-head'},el('div',{style:'min-
         el('div',{class:'time num'},fmtHM(s.depart)),
         el('div',{class:'meta'},lbl?el('span',{},lbl):el('span',{class:'dots'},...dayKeys.map((k,i)=>el('span',{class:'dot-day'+(s.days[i]?' on':'')},t('days.'+k)))),schedName(s)?el('span',{},'· '+schedName(s)):null,el('span',{},'· '+t('plan.minutes',{count:s.preheat})),s.automation?el('span',{class:'badge warn'},t('sched.byAutomation')):null),
         s.enabled&&nx?el('div',{class:'next num'},t('sched.nextRun',{when:t('common.dayAt',{day:fmtDay(nx.departAt),time:fmtTime(nx.departAt)})})+' · '+nx.command+(nx.sent?' · '+t('log.sent'):'')):null,
-        s.skipDate?el('div',{class:'warnline'},t('sched.skipped')+' · '+fmtDate(new Date(s.skipDate+'T12:00:00'))+(s.automation?' · STOP '+fmtHM(remindTime()):'')):null,
+        s.skipDates.length?el('div',{class:'warnline'},t('sched.skipped')+' · '+s.skipDates.map(k=>fmtDate(new Date(k+'T12:00:00'))).join(', ')+(s.automation?' · STOP '+fmtHM(remindTime()):'')):null,
         s.pausedUntil?el('div',{class:'warnline'},t('sched.paused',{date:fmtDate(new Date(s.pausedUntil))})):null),
       el('button',{class:'switch',role:'switch','aria-checked':s.enabled?'true':'false','aria-label':schedName(s),onclick:()=>{s.enabled=!s.enabled;render();}}));
     out.push(row);}
-  out.push(el('button',{class:'fab','aria-label':t('sched.new'),onclick:()=>{S.edit={id:null,name:'',nameKey:null,repeat:true,date:null,days:[1,1,1,1,1,0,0],depart:'07:00',preheat:S.settings.defaultPreheat,enabled:true,skipDate:null,pausedUntil:null,automation:false};go('schedEdit');}},'+'));
+  out.push(el('button',{class:'fab','aria-label':t('sched.new'),onclick:()=>{S.edit={id:null,name:'',nameKey:null,repeat:true,date:null,days:[1,1,1,1,1,0,0],depart:'07:00',preheat:S.settings.defaultPreheat,enabled:true,skipDates:[],pausedUntil:null,automation:false};go('schedEdit');}},'+'));
   return out;}
 function rSchedEdit(){const e=S.edit;const[h,m]=e.depart.split(':').map(Number);const dep=new Date();dep.setHours(h,m,0,0);const st=startFromDepart(dep,e.preheat);
   const setDep=(hh,mm)=>{e.depart=pad((hh+24)%24)+':'+pad((mm+60)%60);render();};
@@ -604,7 +609,7 @@ function rSchedEdit(){const e=S.edit;const[h,m]=e.depart.split(':').map(Number);
       el('div',{class:'stepper'},el('button',{'aria-label':'-5 min',onclick:()=>setDep(h,m-5)},'−'),el('span',{class:'hint'},t('common.min',{count:5})),el('button',{'aria-label':'+5 min',onclick:()=>setDep(h,m+5)},'+')))),
     el('div',{class:'card'},el('div',{class:'row'},el('h3',{},t('sched.preheat')),el('span',{class:'big num',style:'font-size:18px'},t('plan.minutes',{count:e.preheat}))),el('input',{type:'range',min:10,max:120,step:5,value:e.preheat,id:'epre','aria-label':t('sched.preheat'),oninput:ev=>{e.preheat=+ev.target.value;render();}}),
       el('div',{class:'hint',style:'margin-top:6px'},t('sched.heaterStarts',{time:fmtTime(st)})+' · ',el('code',{class:'cmd'},'START'+hhmm(st))),runtimeWarning(dep,e.preheat)),
-    el('div',{class:'list'},el('div',{class:'item'},el('div',{class:'lab'},t('sched.skipNext'),e.skipDate?el('small',{},fmtDate(new Date(e.skipDate+'T12:00:00'))):null),el('button',{class:'switch',role:'switch','aria-checked':e.skipDate?'true':'false','aria-label':t('sched.skipNext'),onclick:()=>{if(e.skipDate){e.skipDate=null;}else{const probe={...e,skipDate:null,enabled:true};const nx=occurrenceFor(probe);e.skipDate=nx?nx.dateKey:null;}render();}})),
+    el('div',{class:'list'},el('div',{class:'item'},el('div',{class:'lab'},t('sched.skipNext'),...(e.skipDates||[]).map(k=>el('small',{},fmtDay(new Date(k+'T12:00:00'))+' '+fmtDate(new Date(k+'T12:00:00'))+' · ',el('button',{class:'link',style:'font-size:12px',onclick:()=>{e.skipDates=e.skipDates.filter(x=>x!==k);render();}},t('sched.undoSkip'))))),el('button',{class:'ghost','aria-label':t('sched.skipNext'),onclick:()=>{const probe={...e,enabled:true,skipDates:[...(e.skipDates||[])]};const nx=occurrenceFor(probe);if(nx){e.skipDates=[...(e.skipDates||[]),nx.dateKey];}render();}},'+')),
       el('div',{class:'item'},el('div',{class:'lab'},t('sched.pauseUntil'),e.pausedUntil?el('small',{},t('sched.paused',{date:fmtDate(new Date(e.pausedUntil))})):null),el('div',{class:'val'},el('input',{type:'date',id:'pause',value:e.pausedUntil||'',min:dateKey(now()),onchange:ev=>{e.pausedUntil=ev.target.value||null;render();}}),e.pausedUntil?el('button',{class:'ghost',onclick:()=>{e.pausedUntil=null;render();}},t('sched.clearPause')):null)),
       S.platform==='ios'?el('div',{class:'item'},el('div',{class:'lab'},t('sched.automation'),el('small',{},t('sched.automationHelp',{remind:fmtHM(remindTime())}))),el('button',{class:'switch',role:'switch','aria-checked':e.automation?'true':'false','aria-label':t('sched.automation'),onclick:()=>{e.automation=!e.automation;render();}})):null,
       S.platform==='ios'&&e.automation?el('button',{class:'item',onclick:()=>{S.recipe={mode:'plan',plan:JSON.parse(JSON.stringify(e)),back:'schedEdit'};go('recipe');}},el('div',{class:'lab'},t('settings.automationGuide')),el('span',{class:'val',html:ICON.chev})):null),
@@ -760,13 +765,17 @@ function showNotif(){
     el('div',{class:'nb'},t('notif.body',{command:nx.command,vehicle:vehicleName()})+' '+t('sched.heaterStarts',{time:fmtTime(nx.startAt)})+'.'),
     el('div',{class:'na'},el('button',{onclick:()=>{notif.classList.remove('show');skipOccurrence(nx);}},t('notif.later')),
       el('button',{class:'go',onclick:()=>{notif.classList.remove('show');go('home');
-        openSheet({cmd:nx.command,explainKey:/^START\d{4}$/.test(nx.command)?'startAt':'start',vars:{time:fmtTime(nx.startAt)},onDone:()=>{S.sent.push({scheduleId:nx.id,dateKey:nx.dateKey,startAt:nx.startAt,command:nx.command,sentAt:now()});S.status={kind:'scheduled',at:now(),confirmed:false,until:nx.startAt};}});}},t('notif.action'))));}
-function showMorning(){const nx=computeNext().find(x=>!x.sent);const cmd=nx?nx.command:'START0630';const direct=S.settings.mode==='direct'||S.settings.scheduleSend==='atStart';
+        const opts=armOpts(nx.command,nx.startAt,nx.dateKey);
+        openSheet({cmd:nx.command,explainKey:/^START\d{4}$/.test(nx.command)?'startAt':'start',vars:{time:fmtTime(nx.startAt)},force:opts.force,warn:opts.warn,rearm:opts.rearm,onDone:(o)=>{armDone({scheduleId:nx.id,dateKey:nx.dateKey,startAt:nx.startAt,command:nx.command,sentAt:now()},opts,o);}});}},t('notif.action'))));}
+function missedOccurrence(){const n=now();for(const s of S.schedules){if(!s.enabled)continue;for(let i=0;i<2;i++){const d=new Date(n);d.setDate(n.getDate()-i);const k=dateKey(d);
+    if(s.repeat?!s.days[(d.getDay()+6)%7]:s.date!==k)continue;if(s.skipDates.includes(k))continue;const st=startOn(s,k);
+    if(st<=n&&n-st<=2*3600000&&!S.sent.find(x=>x.scheduleId===s.id&&x.dateKey===k))return {id:s.id,dateKey:k,startAt:st,command:'START'+hhmm(st),name:schedName(s)};}}return null;}
+function showMorning(){const missed=missedOccurrence();const nx=missed||computeNext().find(x=>!x.sent);const cmd=nx?nx.command:'START0630';const direct=S.settings.mode==='direct'||S.settings.scheduleSend==='atStart';
   ensurePhoneVisible();notif.innerHTML='';notif.classList.add('show');
   notif.append(el('div',{class:'nh'},el('i',{}),t('notif.title'),el('span',{style:'margin-left:auto;text-transform:none;letter-spacing:0'},nx?fmtTime(nx.startAt):'06:30')),
     el('div',{class:'nb'},t(direct?'notif.morningReserveDirect':'notif.morningReserve',{command:cmd})),
     el('div',{class:'na'},el('button',{onclick:()=>{notif.classList.remove('show');}},t('notif.later')),
-      el('button',{class:'go',onclick:()=>{notif.classList.remove('show');go('home');openSheet({cmd:'START',explainKey:'start',onDone:()=>{if(nx){S.sent.push({scheduleId:nx.id,dateKey:nx.dateKey,startAt:now(),command:'START',sentAt:now()});}}});}},t('notif.action'))));}
+      el('button',{class:'go',onclick:()=>{notif.classList.remove('show');go('home');openSheet({cmd:'START',explainKey:'start',onDone:()=>{if(missed){S.sent.push({scheduleId:missed.id,dateKey:missed.dateKey,startAt:now(),command:'START',sentAt:now()});}}});}},t('notif.action'))));} // uten en glemt forekomst er reserven bare en vanlig START
 let toastT;function toast(msg){const tt=$('#toast');tt.textContent=msg;tt.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>tt.classList.remove('show'),2800);}
 function hideToast(){clearTimeout(toastT);$('#toast').classList.remove('show');}
 
@@ -797,7 +806,7 @@ function renderPanel(){const[title,desc]=PANEL[S.screen]||PANEL.home;$('#pTitle'
     androidPro:'Android Pro (APK utenfor Play): egen Expo-modul sender direkte via SmsManager, planlegger med eksakt alarm og leser svar fra modulens nummer. Null trykk på faste dager, bekreftelse før spontane sendinger.'};
   $('#pNote').textContent=notes[S.platform];
   const sc=$('#screens');sc.innerHTML='';const list=[['onb1','Oppsett'],['home','Hjem'],['plan','Planlegg'],['sched','Faste dager'],['schedEdit','Rediger plan'],['settings','Innstillinger'],['numbers','Autoriserte numre'],['recipe','Kortkommando-oppskrift'],['language','Språk'],['log','Logg']];
-  for(const[id,lab]of list)sc.append(el('button',{'aria-pressed':S.screen===id||(id==='onb1'&&S.screen.startsWith('onb'))?'true':'false',onclick:()=>{if(id==='recipe'){const w=S.schedules.find(x=>x.repeat);S.recipe=w?{mode:'plan',plan:JSON.parse(JSON.stringify(w)),back:'sched'}:{mode:'reply',back:'settings'};}if(id==='schedEdit'){const w=S.schedules.find(s=>s.repeat);S.edit=w?JSON.parse(JSON.stringify(w)):{id:null,name:'',nameKey:null,repeat:true,date:null,days:[1,1,1,1,1,0,0],depart:'07:00',preheat:30,enabled:true,skipDate:null,pausedUntil:null,automation:false};}go(id);}},lab));}
+  for(const[id,lab]of list)sc.append(el('button',{'aria-pressed':S.screen===id||(id==='onb1'&&S.screen.startsWith('onb'))?'true':'false',onclick:()=>{if(id==='recipe'){const w=S.schedules.find(x=>x.repeat);S.recipe=w?{mode:'plan',plan:JSON.parse(JSON.stringify(w)),back:'sched'}:{mode:'reply',back:'settings'};}if(id==='schedEdit'){const w=S.schedules.find(s=>s.repeat);S.edit=w?JSON.parse(JSON.stringify(w)):{id:null,name:'',nameKey:null,repeat:true,date:null,days:[1,1,1,1,1,0,0],depart:'07:00',preheat:30,enabled:true,skipDates:[],pausedUntil:null,automation:false};}go(id);}},lab));}
 
 /* ---------- top controls ---------- */
 const langSel=$('#lang');for(const l of LANGS)langSel.append(el('option',{value:l},I18N[l].meta.name));langSel.value=S.lang;

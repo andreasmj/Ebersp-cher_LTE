@@ -1,3 +1,4 @@
+process.env.TZ='Europe/Oslo'; // fake-clock dates are built in the same zone as the page
 const { chromium } = require('playwright');
 const file = 'file://' + require('node:path').resolve(__dirname, '..', 'index.html');
 const out = process.argv[2] || require('os').tmpdir();
@@ -57,6 +58,33 @@ async()=>{let fails=0;for(const lang of ['nb','de','fi','fr']){for(const w of [3
    await p.click('#simNotif');await p.click('#notif .go');await p.waitForTimeout(100);await p.click('.os .composer button');await p.waitForTimeout(150);await p.click('.quick button:nth-child(1)');await p.waitForTimeout(150);
    const [sw,iw]=await p.evaluate(()=>[document.documentElement.scrollWidth,window.innerWidth]);if(sw>iw){fails++;ok(`${lang} ${w} slot sheet overflow`,false,`${sw}/${iw}`);}await c.close();}}
  ok('slot-warning sheet: no overflow in 4 langs × 360/390',fails===0);},
+// 6 reminder path respects the single slot: Sun 20:50, Start om 30 min (START2120) -> reminder postponed to 21:21; early send warns
+async()=>{const sun=new Date();sun.setDate(sun.getDate()+((7-sun.getDay())%7));sun.setHours(20,50,0,0);const [c,p]=await ctx({width:1280,height:900},'nb','ios',sun);
+ await p.click('.quick button:nth-child(1)');await p.waitForTimeout(200);await p.click('.os .composer button');await p.waitForTimeout(250);
+ await p.click('#simNotif');await p.waitForTimeout(150);const hdr=await p.$eval('#notif .nh',e=>e.textContent);
+ ok('evening reminder postponed to 21:21 while START2120 is armed',/21:21/.test(hdr),hdr);
+ await p.click('#notif .go');await p.waitForTimeout(200);const sh=await p.$eval('.sheet',e=>e.textContent).catch(()=>'');ok('sending START0630 early shows slot warning',/husker bare én planlagt start/.test(sh)&&/erstatter START2120/.test(sh),sh.slice(0,160));
+ await p.click('.sheet .primary');await p.waitForTimeout(150);await p.click('.os .composer button');await p.waitForTimeout(250);
+ const cd=await card(p);const sentRows=await p.$$eval('.sched-row',r=>r.map(x=>x.textContent).join('|'));
+ ok('after early send only START0630 is armed; one-off no longer shown as armed',/START0630/.test(cd)&&/Starter om/.test(cd)&&!/START2120/.test(cd),cd.slice(0,200));
+ await c.close();},
+// 7 morning reserve binds to the missed occurrence
+async()=>{const mon=nextMonday(6,35);const [c,p]=await ctx({width:1280,height:900},'nb','ios',mon);
+ await p.click('#simMorning');await p.waitForTimeout(150);const nb=await p.$eval('#notif .nb',e=>e.textContent);ok('Mon 06:35 reserve names START0630',/START0630/.test(nb),nb);
+ await p.click('#notif .go');await p.waitForTimeout(150);await p.click('.os .composer button');await p.waitForTimeout(250);
+ const cd=await card(p);ok('after reserve: next is tirsdag (Monday handled), not onsdag',/tirsdag/.test(cd)&&!/onsdag/.test(cd),cd.slice(0,120));
+ const badge=await p.$eval('.phone-head .badge',e=>e.textContent);ok('after reserve: Varmer på',/Varmer på/.test(badge),badge);await c.close();},
+async()=>{const sun=new Date();sun.setDate(sun.getDate()+((7-sun.getDay())%7));sun.setHours(12,5,0,0);const [c,p]=await ctx({width:1280,height:900},'nb','ios',sun);
+ await p.click('#simMorning');await p.waitForTimeout(150);await p.click('#notif .go');await p.waitForTimeout(150);await p.click('.os .composer button');await p.waitForTimeout(250);
+ const cd=await card(p);ok('Sun 12:05 reserve without missed occurrence: mandag still next (no day vanishes)',/mandag/.test(cd),cd.slice(0,120));await c.close();},
+// 8 skip list: two taps skip two days; undo in edit screen
+async()=>{const sun=new Date();sun.setDate(sun.getDate()+((7-sun.getDay())%7));sun.setHours(12,0,0,0);const [c,p]=await ctx({width:1280,height:900},'nb','ios',sun);
+ await p.click('text=Hopp over neste');await p.waitForTimeout(150);await p.click('text=Hopp over neste');await p.waitForTimeout(150);
+ let cd=await card(p);ok('two skips: next is onsdag',/onsdag/.test(cd),cd.slice(0,100));
+ await p.click('#tabbar button:nth-child(3)');await p.locator('.sched-row').first().locator('.rowbtn').click();await p.waitForTimeout(150);
+ const undo=await p.$$('text=Angre hopp over');ok('edit screen lists two skipped dates with undo',undo.length===2,String(undo.length));
+ await undo[0].click();await p.waitForTimeout(100);await p.click('.primary');await p.waitForTimeout(150);await p.click('#tabbar button:nth-child(1)');await p.waitForTimeout(100);
+ cd=await card(p);ok('after undoing mandag: next is mandag again',/mandag/.test(cd),cd.slice(0,100));await c.close();},
 ];
 for(const [i,b] of blocks.entries()){try{await b();}catch(e){results.push(`CRASH block ${i+1}: ${e.message.split('\n')[0]}`);}}
 console.log(results.join('\n'));console.log('errors:',errors.length?errors:'none');await browser.close();})();

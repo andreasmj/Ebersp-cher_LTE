@@ -130,7 +130,8 @@
     "replaced": "Replaced by {name}",
     "skipAutomation": "Shortcuts will send {command} at {time} regardless. Send STOP afterwards. The app reminds you at {remind}.",
     "skipConfirm": "Skip {day}?",
-    "stopReminder": "STOP reminder at {time}"
+    "stopReminder": "STOP reminder at {time}",
+    "undoSkip": "Undo skip"
   },
   "days": {
     "mon": "M",

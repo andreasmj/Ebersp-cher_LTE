@@ -1,3 +1,4 @@
+process.env.TZ='Europe/Oslo'; // fake-clock dates are built in the same zone as the page
 const { chromium } = require('playwright');
 const file = 'file://' + require('node:path').resolve(__dirname, '..', 'index.html');
 const out = process.argv[2] || require('os').tmpdir();
@@ -81,9 +82,9 @@ async()=>{const [c,p]=await ctx({width:1280,height:900},false,'fr','android');
  await p.click('text=Importer');await p.waitForTimeout(150);ok('import shows phase-2 explanation',/phase 2/.test(await p.$eval('.sheet',e=>e.textContent)));
  await p.screenshot({path:`${out}/fr-settings.png`});await c.close();},
 // 10 widths all languages settings at 360 & 390
-async()=>{for(const lang of ['nb','en','de','sv','da','fi','es','fr']){for(const w of [360,390]){const [c,p]=await ctx({width:w,height:800},false,lang,'ios');
-   for(const tab of [1,2,3,4]){await p.click(`#tabbar button:nth-child(${tab})`);await p.waitForTimeout(60);const [sw,iw]=await docW(p);if(sw>iw)ok(`${lang} ${w} tab${tab} overflow`,false,`${sw}/${iw}`);}
-   await c.close();}} ok('width scan 8 langs × 360/390 × 4 tabs done',true);},
+async()=>{let scanned=0,bad=0;for(const lang of ['nb','en','de','sv','da','fi','es','fr']){for(const w of [360,390]){const [c,p]=await ctx({width:w,height:800},false,lang,'ios');
+   for(const tab of [1,2,3,4]){await p.click(`#tabbar button:nth-child(${tab})`);await p.waitForTimeout(60);const [sw,iw]=await docW(p);scanned++;if(sw>iw){bad++;ok(`${lang} ${w} tab${tab} overflow`,false,`${sw}/${iw}`);}}
+   await c.close();}} ok('width scan 8 langs × 360/390 × 4 tabs: no overflow',scanned===64&&bad===0,`${scanned} screens, ${bad} overflow`);},
 ];
 for(const [i,b] of blocks.entries()){try{await b();}catch(e){results.push(`CRASH block ${i+1}: ${e.message.split('\n')[0]}`);}}
 console.log(results.join('\n'));console.log('errors:',errors.length?errors:'none');await browser.close();})();

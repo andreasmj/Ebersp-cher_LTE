@@ -43,7 +43,7 @@ tillegg for en plan hvis iOS-versjonen viser seg å spørre før kjøring.
 
 ## Hopp over og pause
 
-Automasjonen vet ikke om «Hopp over neste». Appen løser det slik: når brukeren hopper over, viser
+Automasjonen vet ikke om «Hopp over neste» (lagret som en liste med datoer som kan angres). Appen løser det slik: når brukeren hopper over, viser
 appen en bekreftelse («Hopp over mandag? Kortkommandoer sender START0630 kl. 21:00 uansett. Appen
 minner deg kl. 21:05 om å sende STOP»), og kl. 21:05 samme kveld en påminnelse med «Send STOP»
 (ett trykk) som sletter den forhåndsprogrammerte starten i modulen. Ingen SMS sendes før

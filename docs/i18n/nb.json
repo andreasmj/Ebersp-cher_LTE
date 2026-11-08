@@ -130,7 +130,8 @@
     "replaced": "Erstattet av {name}",
     "skipAutomation": "Kortkommandoer sender {command} kl. {time} uansett. Send STOP etterpå. Appen minner deg kl. {remind}.",
     "skipConfirm": "Hopp over {day}?",
-    "stopReminder": "STOP-påminnelse kl. {time}"
+    "stopReminder": "STOP-påminnelse kl. {time}",
+    "undoSkip": "Angre hopp over"
   },
   "days": {
     "mon": "M",

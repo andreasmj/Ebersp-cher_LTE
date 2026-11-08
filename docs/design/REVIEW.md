@@ -230,13 +230,40 @@ gjort, 9 på alle 14 rader.
 - **Oppskriften bruker motorens sendetid-regel**: starttid 21:00 gir automasjonstid 21:30 dagen før
   (vindu), ikke 21:00 (24 t). Verifisert.
 - **Konfliktregel på avreisedag** (§6.5, mockup).
-- **ACCLIM-test låsesikker** (§15 pkt. 7, research 01). Verifiseringsliste: «Kjør umiddelbart» for
-  Melding-utløser og URL-koding i Kortkommandoer (research 02).
+- **ACCLIM-test låsesikker** (§15 pkt. 7, research 01). (Verifiseringslinjene for Melding-utløseren i
+  research 02 kom først med i v1.4; v1.3-loggen påsto dem for tidlig.)
 - **§0 forbehold**: iOS kan be om bekreftelse i automasjon; lesing av svar tar appen i forgrunnen.
 - Småting: versjon 1.3 i Om, 277 nøkler i §9, §15 nummerert riktig, STATUS-tekst i panelet,
   sjekk-tall 23 + 29 + 17. 6 nye nøkler i alle 8 språk (277, full paritet).
 - `docs/mockup/checks/round3.cjs` (17 sjekker med falsk klokke) lagt til i `run.cjs`.
 
-## 9. Sluttscore versjon 1.3
+## 9. Sluttverifisering av versjon 1.3 (8. nov 2026)
 
-_(fylles inn fra sluttverifisering)_
+Samme reviewer som i runde 3 verifiserte v1.3 med 66 egne klokkestyrte sjekker og forfatterens 69.
+Rapport: `docs/design/review-external-v1.3.md`. Score: F1–F9 alle 9 unntatt ingen; Arkitektur 9,
+Personvern 9, «Mye bedre» 9, **Kanttilfeller 8, Mockup 8**. Snitt 8,9. Gjenstående:
+1. Slot-sjekken gjaldt ikke kveldspåminnelsens «Send nå» (to starter kunne bli «sendt» samtidig).
+2. Mockupens morgen-reserve registrerte neste dags forekomst som utført (en dag forsvant).
+3. To trykk på «Hopp over neste» flyttet hoppet i stedet for å legge til; ingen angre.
+4. Småting: research 02 manglet verifiseringslinjene v1.3-loggen påsto; tautologisk sjekk i round2;
+   §0 manglet låst-skjerm-forbeholdet.
+
+## 10. Endringslogg v1.3 → v1.4
+
+- **Invariant: høyst én sendt STARThhmm.** Én felles armeringsfunksjon brukes av Planlegg, Start om
+  30 min, Endre tid, re-sending og kveldspåminnelsen; den advarer om slotet og tilbyr re-sending.
+  I tillegg utsetter planleggingsmotoren sendetiden til ett minutt etter en allerede sendt start
+  som ligger mellom sendetid og starttid (DESIGN §6.2/§6.3, §12). Verifisert med falsk klokke:
+  søndag 20:50 + «Start om 30 min» gir påminnelse 21:21, og en tidlig sending viser advarselen.
+- **Morgen-reserve bundet til den glemte forekomsten** (starttid passert < 2 t, ikke sendt). Uten en
+  glemt forekomst er reserven bare en vanlig START; ingen dag forsvinner. Verifisert mandag 06:35
+  (mandag markeres, tirsdag står) og søndag 12:05 (mandag står).
+- **Hopp over som liste** (`skip_dates`) med «Angre hopp over» per dato i redigeringsskjermen; to
+  trykk hopper over to dager; datoer faller bort når starttiden er passert (ikke ved midnatt).
+- Research 02 §3 har nå linjene om eneste sender, lesing av svar og verifisering av Melding-utløser
+  og URL-koding. Round2-sjekken teller skannede skjermer. §0 nevner låst skjerm. 1 ny nøkkel (278).
+- round3: 10 nye klokkestyrte sjekker (27 i alt, 79 totalt). Sjekkskriptene kjører i Europe/Oslo så falske klokkeslett matcher siden.
+
+## 11. Sluttscore versjon 1.4
+
+_(fylles inn fra sluttbekreftelse)_

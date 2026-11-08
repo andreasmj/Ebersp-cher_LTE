@@ -130,7 +130,8 @@
     "replaced": "Remplacé par {name}",
     "skipAutomation": "Raccourcis enverra {command} à {time} quoi qu’il arrive. Envoyez STOP ensuite. L’app vous le rappelle à {remind}.",
     "skipConfirm": "Ignorer {day} ?",
-    "stopReminder": "Rappel STOP à {time}"
+    "stopReminder": "Rappel STOP à {time}",
+    "undoSkip": "Annuler l’omission"
   },
   "days": {
     "mon": "L",

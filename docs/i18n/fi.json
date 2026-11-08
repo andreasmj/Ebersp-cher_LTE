@@ -130,7 +130,8 @@
     "replaced": "Korvattu: {name}",
     "skipAutomation": "Pikakomennot lähettää {command} klo {time} joka tapauksessa. Lähetä STOP sen jälkeen. Sovellus muistuttaa klo {remind}.",
     "skipConfirm": "Ohitetaanko {day}?",
-    "stopReminder": "STOP-muistutus klo {time}"
+    "stopReminder": "STOP-muistutus klo {time}",
+    "undoSkip": "Kumoa ohitus"
   },
   "days": {
     "mon": "Ma",

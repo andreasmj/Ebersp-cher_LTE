@@ -42,8 +42,19 @@ vår type app. Designet må derfor ha tre sendemoduser og velge riktig per platt
 - Appens rolle: regner ut nøyaktig tekst (`START0630`) og nummer, og viser en
   «Lag automasjon i Kortkommandoer»-guide med kopier-knapper. Én automasjon per unikt
   (dager, tidspunkt). iOS 18 «Send senere» i Meldinger gjelder bare iMessage (ikke SMS) og støtter ikke gjentakelse, og er derfor uaktuell.
-- Fase 2: `expo-app-intents` (0.5.x, alpha, krever iOS 16.4+) gjør at Siri/Kortkommandoer kan
-  spørre appen «hva skal sendes nå?» slik at én automasjon dekker alle planer.
+- Når en plan er merket «Sendes av Kortkommandoer», er automasjonen eneste sender: appen
+  planlegger ingen påminnelse for den (ingen dobbeltsending). Hopp over gir en bekreftelse og en
+  STOP-påminnelse kl. 21:05 (etter automasjonen); pause ber brukeren slå av automasjonen.
+- Lese svar på iPhone: Kortkommando-automasjon med utløser «Melding» fra modulens nummer og
+  handlingen «Åpne URL varmestart://reply?text=[Meldingstekst]». Appen tar imot lenken
+  (expo-linking) og parser svaret. Appen kommer kort i forgrunnen; ved låst skjerm kjøres det
+  ved neste opplåsing.
+- Må verifiseres på brukerens iOS: at utløseren «Melding» kan kjøre med «Kjør umiddelbart» (uten
+  «Spør før kjøring»), at Kortkommandoer URL-koder meldingsteksten i «Åpne URL» (ellers må appen
+  tåle rå tekst), og at kjøringen ved låst skjerm skjer ved neste opplåsing.
+- Fase 2: `expo-app-intents` (0.5.x, alpha, krever iOS 16.4+) tar imot svarteksten uten å åpne
+  appen, og lar Siri/Kortkommandoer spørre appen «hva skal sendes nå?» slik at én automasjon
+  dekker alle planer.
 
 ## 4. Påminnelses-modus (begge plattformer, fallback) – alltid aktiv
 

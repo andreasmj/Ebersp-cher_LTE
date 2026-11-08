@@ -130,7 +130,8 @@
     "replaced": "Ersetzt durch {name}",
     "skipAutomation": "Kurzbefehle sendet {command} um {time} trotzdem. Sende danach STOP. Die App erinnert dich um {remind}.",
     "skipConfirm": "{day} überspringen?",
-    "stopReminder": "STOP-Erinnerung um {time}"
+    "stopReminder": "STOP-Erinnerung um {time}",
+    "undoSkip": "Überspringen rückgängig"
   },
   "days": {
     "mon": "Mo",

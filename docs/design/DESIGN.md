@@ -3,8 +3,8 @@
 Arbeidstittel: **Varmestart** (engelsk: WarmStart). «Eberspächer» og «EasyStart» er varemerker
 og brukes ikke i appnavn eller ikon, bare i beskrivende tekst («Fungerer med EasyStart GSM»).
 
-Versjon 1.3 · 8. november 2026 · Expo SDK 58 · Kun lokal lagring · 8 språk
-Endringer fra 1.0 er merket **[1.1]**, fra 1.1 **[1.2]**, fra 1.2 **[1.3]**; alle er oppsummert i `REVIEW.md`.
+Versjon 1.4 · 8. november 2026 · Expo SDK 58 · Kun lokal lagring · 8 språk
+Endringer fra 1.0 er merket **[1.1]**, fra 1.1 **[1.2]**, fra 1.2 **[1.3]**, fra 1.3 **[1.4]**; alle er oppsummert i `REVIEW.md`.
 
 ---
 
@@ -31,7 +31,8 @@ til modulen med landkode. Ingen konto, ingen server, ingen abonnement; alt lagre
 
 Forbehold **[1.3]**: Kortkommando-automasjon på iPhone kan på enkelte iOS-versjoner likevel be om
 bekreftelse før «Send melding»; appen beholder derfor påminnelsen som valg per plan. Lesing av svar
-via Kortkommandoer tar appen kort i forgrunnen. Begge er beskrevet i appen før brukeren slår dem på.
+via Kortkommandoer tar appen kort i forgrunnen, og ved låst skjerm skjer det ved neste opplåsing.
+Begge er beskrevet i appen før brukeren slår dem på.
 
 Kilder for påstandene om Eberspächer-appen (hentet 8. nov 2026): App Store-oppføring id476315065
 (funksjonsliste «Start heater, Stop heater, Start heater at a given time, Get current temperature»;
@@ -276,6 +277,8 @@ starttid  = avreise − forvarming
 vindu     = starttid − 23 t 30 min            // modulen godtar STARThhmm innen 24 t
 kveldstid = siste forekomst av HH:MM før starttid   // standard 21:00 [1.2]
 sendetid  = max(kveldstid, vindu)             // aldri mer enn 23 t 30 før start
+            hvis en sendt start ligger mellom sendetid og starttid:
+              sendetid = den sendte starten + 1 min   // modulen har ett slot [1.4]
             hvis sendetid < nå: nå
 kommando  = "START" + hhmm(starttid)          // modus «kvelden før»
 ```
@@ -297,11 +300,15 @@ planlagt ──(sendetid: varsling vist)──▶ påminnet ──(bruker sender
 - **planlagt**: forekomst regnet ut, varsling planlagt for sendetid.
 - **påminnet**: varsling vist (kvelden før). Handlinger: «Send nå», «Ikke i dag» (= hopp over).
 - **sendt**: `STARThhmm` levert til meldingsapp/modul. Modulen holder tiden. Neste-kort viser nedtelling.
+- **Invariant [1.4]**: høyst én sendt `STARThhmm` om gangen. Alle sendeveier (kveldspåminnelse,
+  Planlegg, Start om 30 min, Endre tid, re-sending) går gjennom samme armeringsfunksjon som
+  sjekker slotet, advarer og tilbyr re-sending, og erstatter den sendte forekomsten.
 - **utført [1.3]**: når starttiden er passert, forlater forekomsten Neste-kortet (status viser
   «Varmer på · antatt» til kjøretiden er over). Sendte forekomster slettes fra tabellen etter
   starttid + kjøretid. Dette gjelder også morgen-reserven og «Start om 30 min».
 - **bekreftet**: svar matchet (Android Pro, iPhone med Kortkommando). Status-pille blir «bekreftet».
-- **ubesvart → morgen-reserve**: hvis forekomsten fortsatt er «planlagt/påminnet» ved starttid,
+- **ubesvart → morgen-reserve**: reserven er alltid bundet til den konkrete forekomsten som ikke ble
+  sendt (starttid passert for mindre enn to timer siden), aldri til neste dag **[1.4]**. Hvis forekomsten fortsatt er «planlagt/påminnet» ved starttid,
   vises en tidssensitiv varsling «Du sendte ikke START0630 i går. Send START nå?» → `START`.
   Dette er sikkerhetsnettet for en oversett kveldspåminnelse. I Direkte-modus og «ved starttid»
   brukes reserven bare når sendingen feilet, med teksten «Sending av START feilet. Send START
@@ -322,8 +329,10 @@ omstart (`BOOT_COMPLETED`). Ingen bakgrunnsprosess er nødvendig i MVP.
 Konflikter grupperes på **avreisedag** (ikke startdag, siden en avreise 00:15 har starttid dagen
 før) **[1.3]**. Én-gangs-plan samme avreisedag erstatter ukeplanens forekomst («Jobb: Erstattet av
 Planlegg start»). Ellers vinner tidligste starttid, de andre vises som «Dekket av Jobb».
-**Hopp over** lagres som datoen til den ene forekomsten som hoppes over (`skip_date`) og nullstilles
-automatisk når datoen er passert, så neste forekomst aldri hoppes over ved et uhell **[1.3]**.
+**Hopp over** lagres som en liste med datoer (`skip_dates`), én per forekomst som hoppes over; to
+trykk hopper over to dager, og hver dato kan angres i redigeringsskjermen («Angre hopp over»).
+Datoer faller bort når forekomstens starttid er passert, så neste forekomst aldri hoppes over ved
+et uhell **[1.3]** **[1.4]**.
 På en Kortkommando-plan er hopp over en bekreftelse («Hopp over mandag? Kortkommandoer sender
 START0630 kl. 21:00 uansett. Appen minner deg kl. 21:05 om å sende STOP»); ingen SMS sendes før
 påminnelsen **[1.3]**. Pause fjerner forekomster uten å endre planen og vises med dato på planen.
@@ -357,7 +366,7 @@ CREATE TABLE plan (                -- én-gangs og ukeplan i samme tabell
   days_mask INTEGER,               -- bit 0 = mandag … bit 6 = søndag (ukeplan)
   date TEXT,                       -- YYYY-MM-DD (én gang)
   depart_hhmm TEXT NOT NULL, preheat_min INTEGER NOT NULL,
-  enabled INTEGER NOT NULL DEFAULT 1, skip_date TEXT, paused_until TEXT,   -- skip_date: én forekomst (YYYY-MM-DD)
+  enabled INTEGER NOT NULL DEFAULT 1, skip_dates TEXT, paused_until TEXT,  -- skip_dates: JSON-liste av YYYY-MM-DD
   automation INTEGER DEFAULT 0,    -- iPhone: sendes av Kortkommandoer
   created_at TEXT NOT NULL);
 
@@ -410,7 +419,7 @@ Andre profiler: `easystart_call` (PIN-basert, 3 timere i enheten, ukedager) og `
 
 - Språk: **nb, en, de, sv, da, fi, es, fr**. `i18next` + `react-i18next`, ICU-flertall,
   `expo-localization` for startspråk. Språkvalg i Innstillinger overstyrer OS. Bytte uten omstart.
-- Alle tekster ligger i `docs/i18n/` (277 nøkler per språk, lik struktur, verifisert med skript)
+- Alle tekster ligger i `docs/i18n/` (278 nøkler per språk, lik struktur, verifisert med skript)
   og brukes av mockupen, så lengde og layout er sjekket per språk.
 - Sammensatte dato/tid-fraser har egne nøkler per språk (`common.dayAt`: «am {day} um {time}»,
   «{day}na klo {time}», «{day} à {time}»), slik at grammatikken blir riktig i tysk og finsk.
@@ -515,7 +524,8 @@ export default ({ config }) => ({
 | «Start om 30 min» og så Stopp | Er en én-gangs-plan; STOP advarer og tilbyr re-sending |
 | Én-gangs-start mens START0630 for i morgen er sendt | Arket advarer om modulens ene slot og minner om re-sending etter at den nye starten har gått |
 | Forekomst sendt, starttid passert | Går til «utført», forlater Neste-kortet; status «Varmer på · antatt» til kjøretid er over |
-| Hopp over, dagen passert | `skip_date` nullstilles automatisk; neste forekomst hoppes ikke over |
+| Hopp over, dagen passert | datoen faller ut av `skip_dates`; neste forekomst hoppes ikke over |
+| Kveldspåminnelse mens en én-gangs-start er sendt for i kveld | Påminnelsen utsettes til ett minutt etter den sendte starten; sendes den likevel tidligere, advarer arket og tilbyr re-sending |
 | Hopp over på Kortkommando-plan | Bekreftelse + STOP-påminnelse kl. 21:05 etter at automasjonen har sendt |
 | Endre tid etter at START0630 er sendt | Ny STARThhmm sendes straks og overskriver modulens slot |
 | Starttid passert i Planlegg | START i stedet for STARThhmm |
@@ -538,14 +548,15 @@ export default ({ config }) => ({
 - Enhetstester (Jest): kommandoprofiler; `sendTimeFor` (kveldstid = siste HH:MM før start, 23 t 30-vindu,
   avreise 23:00 og 00:15, fortid); tilstandsmaskin (alle overganger i §6.3, inkl. ubesvart → morgen-reserve
   og sendt → utført); konflikter på avreisedag (én-gangs erstatter ukeplan, tidligste vinner);
-  `skip_date` nullstilles; modulens ene slot (advarsel + re-sending); pause; DST-overganger; status-utløp;
+  `skip_dates` faller bort og kan angres; modulens ene slot på alle sendeveier (advarsel, re-sending,
+  utsatt påminnelse); morgen-reserve bundet til glemt forekomst; pause; DST-overganger; status-utløp;
   nummer-validering for alle 8 land; eksport uten/med PIN.
 - Komponenttester: kommando-ark i alle 8 språk (snapshot), STOP-ark med advarsel og re-sending,
   Planlegg med begge vakter.
 - Svar-parsing med ekte svar-SMS fra brukerens modul (samles i §15 pkt. 1).
 - E2E (Maestro): onboarding, start, planlegg, ukeplan, påminnelse → send, morgen-reserve,
   hopp over etter sending, Endre tid etter sending, Start om 30 min + Stopp, bytt språk, eksporter.
-- Mockup-sjekker (Playwright, `docs/mockup/checks/`): 23 + 29 + 17 automatiserte sjekker av logikken over
+- Mockup-sjekker (Playwright, `docs/mockup/checks/`): 23 + 29 + 27 automatiserte sjekker av logikken over
   (runde 3 bruker falsk klokke for sendt → utført og `skip_date`) og av layout i 8 språk ×
   360/390/1280 px; kjøres med `node docs/mockup/checks/run.cjs`.
 - Fysisk enhetsmatrise: iPhone (siste iOS og iOS 16.4), Pixel (Android 14/15/16), Samsung dual-SIM

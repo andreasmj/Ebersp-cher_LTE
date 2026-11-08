@@ -1,3 +1,4 @@
+process.env.TZ='Europe/Oslo'; // fake-clock dates are built in the same zone as the page
 const { chromium } = require('playwright');
 const file = 'file://' + require('node:path').resolve(__dirname, '..', 'index.html');
 const out = process.argv[2] || require('os').tmpdir();

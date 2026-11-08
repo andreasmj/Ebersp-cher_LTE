@@ -130,7 +130,8 @@
     "replaced": "Sustituido por {name}",
     "skipAutomation": "Atajos enviará {command} a las {time} de todos modos. Envía STOP después. La app te lo recuerda a las {remind}.",
     "skipConfirm": "¿Omitir el {day}?",
-    "stopReminder": "Recordatorio de STOP a las {time}"
+    "stopReminder": "Recordatorio de STOP a las {time}",
+    "undoSkip": "Deshacer omitir"
   },
   "days": {
     "mon": "L",
