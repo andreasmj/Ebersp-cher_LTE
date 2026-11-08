@@ -665,7 +665,7 @@ function rSettings(){const st=S.settings;const canDirect=S.platform==='androidPr
       item(t('settings.export'),null,'JSON',()=>exportModal()),item(t('settings.import'),null,'JSON',()=>confirmModal(t('settings.import'),t('settings.importHelp'),t('common.ok'),()=>{})),
       item(t('settings.deleteAll'),null,'',()=>confirmModal(t('settings.deleteAll'),t('settings.deleteConfirm'),t('settings.deleteAll'),()=>{const l=S.lang,p=S.platform;S=defaults();S.lang=l;S.platform=p;applyPlatformDefaults();S.vehicle.national='';S.schedules=[];S.log=[];S.lastSentAt=null;S.screen='onb1';render();},true))),
     el('div',{class:'section-title'},t('settings.about')),
-    el('div',{class:'list'},item(t('settings.version'),null,'1.3 · Expo SDK 58',null),el('div',{class:'item'},el('div',{class:'lab'},el('small',{},t('settings.notAffiliated')),el('small',{},t('settings.privacy'))))),
+    el('div',{class:'list'},item(t('settings.version'),null,'1.4 · Expo SDK 58',null),el('div',{class:'item'},el('div',{class:'lab'},el('small',{},t('settings.notAffiliated')),el('small',{},t('settings.privacy'))))),
     el('p',{class:'hint',style:'text-align:center'},t('platform.note.'+S.platform))];}
 function profileName(){return {easystart_gsm:t('settings.profileGsm'),easystart_call:t('settings.profileCall'),custom:t('settings.profileCustom')}[S.settings.profile];}
 function profileSheet(){ensurePhoneVisible();sheetLayer.innerHTML='';sheetLayer.classList.add('show');const list=el('div',{class:'list'});
@@ -780,7 +780,7 @@ function missedOccurrence(){const n=now();for(const s of S.schedules){if(!s.enab
 function showMorning(){const missed=missedOccurrence();const nx=missed||computeNext().find(x=>!x.sent);const cmd=nx?nx.command:'START0630';const direct=S.settings.mode==='direct'||S.settings.scheduleSend==='atStart';
   ensurePhoneVisible();notif.innerHTML='';notif.classList.add('show');
   notif.append(el('div',{class:'nh'},el('i',{}),t('notif.title'),el('span',{style:'margin-left:auto;text-transform:none;letter-spacing:0'},nx?fmtTime(nx.startAt):'06:30')),
-    el('div',{class:'nb'},t(direct?'notif.morningReserveDirect':'notif.morningReserve',{command:cmd})),
+    el('div',{class:'nb'},missed?t(direct?'notif.morningReserveDirect':'notif.morningReserve',{command:cmd}):t('notif.body',{command:'START',vehicle:vehicleName()})), // uten glemt forekomst: vanlig START-spørsmål
     el('div',{class:'na'},el('button',{onclick:()=>{notif.classList.remove('show');}},t('notif.later')),
       el('button',{class:'go',onclick:()=>{notif.classList.remove('show');go('home');openSheet({cmd:'START',explainKey:'start',onDone:()=>{if(missed){S.sent.push({scheduleId:missed.id,dateKey:missed.dateKey,startAt:now(),command:'START',sentAt:now()});}}});}},t('notif.action'))));} // uten en glemt forekomst er reserven bare en vanlig START
 let toastT;function toast(msg){const tt=$('#toast');tt.textContent=msg;tt.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>tt.classList.remove('show'),2800);}

@@ -264,6 +264,30 @@ Personvern 9, «Mye bedre» 9, **Kanttilfeller 8, Mockup 8**. Snitt 8,9. Gjenst�
   og URL-koding. Round2-sjekken teller skannede skjermer. §0 nevner låst skjerm. 1 ny nøkkel (278).
 - round3: 10 nye klokkestyrte sjekker (27 i alt, 79 totalt). Sjekkskriptene kjører i Europe/Oslo så falske klokkeslett matcher siden.
 
-## 11. Sluttscore versjon 1.4
+## 11. Sluttscore versjon 1.4 (8. nov 2026)
 
-_(fylles inn fra sluttbekreftelse)_
+Samme uavhengige reviewer som i runde 3 og 4 bekreftet v1.4 med 40 egne klokkestyrte sjekker og
+forfatterens 79. Rapport: `docs/design/review-external-v1.4.md`. Ingen regresjoner.
+
+| Punkt | v1.0 | v1.1 | v1.2 | v1.3 | **v1.4** |
+|---|---|---|---|---|---|
+| F1 Start/Stopp | 8 | 8 | 9 | 9 | **9** |
+| F2 Forhåndsprogrammering | 7 | 8 | 8 | 9 | **9** |
+| F3 Faste dager | 7 | 8 | 8 | 9 | **9** |
+| F4 Oppsett | 9 | 9 | 9 | 9 | **9** |
+| F5 Språk | 7 | 8 | 9 | 9 | **9** |
+| F6 SMS-strategi | 8 | 8 | 9 | 9 | **9** |
+| F7 Status/temperatur | 6 | 8 | 9 | 9 | **9** |
+| F8 Logg | 8 | 9 | 9 | 9 | **9** |
+| F9 Avansert | 7 | 6 | 8 | 9 | **9** |
+| Teknisk arkitektur | 8 | 9 | 9 | 9 | **9** |
+| Lokal lagring / personvern | 8 | 9 | 9 | 9 | **9** |
+| Kanttilfeller / planleggingsmotor | 6 | 7 | 8 | 8 | **9** |
+| Mockup | 7 | 7 | 8 | 8 | **9** |
+| «Mye bedre enn Eberspächer-appen» | 7 | 8 | 8 | 9 | **9** |
+| **Snitt** | 7,4 | 8,0 | 8,6 | 8,9 | **9,0** |
+
+Reviewerens konklusjon: klar for brukerens egen review av designløsning og mockup. Kosmetiske rester
+(versjonsrad, `skip_dates` i §13/README, reserve-tekst i simuleringsknappen) er rettet i samme commit.
+De åpne spørsmålene i DESIGN §15 (svartekster, ACCLIM-format, modulens klokke) krever fysisk enhet
+før implementering, som dokumentet selv sier.

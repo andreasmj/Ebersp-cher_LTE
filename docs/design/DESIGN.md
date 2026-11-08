@@ -557,7 +557,7 @@ export default ({ config }) => ({
 - E2E (Maestro): onboarding, start, planlegg, ukeplan, påminnelse → send, morgen-reserve,
   hopp over etter sending, Endre tid etter sending, Start om 30 min + Stopp, bytt språk, eksporter.
 - Mockup-sjekker (Playwright, `docs/mockup/checks/`): 23 + 29 + 27 automatiserte sjekker av logikken over
-  (runde 3 bruker falsk klokke for sendt → utført og `skip_date`) og av layout i 8 språk ×
+  (runde 3 bruker falsk klokke for sendt → utført og `skip_dates`) og av layout i 8 språk ×
   360/390/1280 px; kjøres med `node docs/mockup/checks/run.cjs`.
 - Fysisk enhetsmatrise: iPhone (siste iOS og iOS 16.4), Pixel (Android 14/15/16), Samsung dual-SIM
   for Direkte-modus; Kortkommando-automasjon testes på brukerens iOS-versjon.
