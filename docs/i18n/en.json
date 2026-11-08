@@ -20,7 +20,9 @@
       "unknown": "Status unknown",
       "started": "Heater on",
       "stopped": "Heater off",
-      "scheduled": "Start scheduled"
+      "scheduled": "Start scheduled",
+      "assumed": "assumed {time}",
+      "confirmed": "confirmed {time}"
     },
     "start": "Start",
     "stop": "Stop",
@@ -46,7 +48,13 @@
     "replyInMessages": "The reply arrives in Messages",
     "openMessages": "Open Messages",
     "lastReply": "Last reply from module",
-    "temperature": "Cabin temperature"
+    "temperature": "Cabin temperature",
+    "lastConfirmed": "Last confirmed {when}",
+    "lastSent": "Last sent {when}",
+    "neverConfirmed": "Not confirmed yet",
+    "moveStart": "Change time",
+    "stopHint": "Stops the heater and clears any scheduled start",
+    "runsUntil": "Runs until {time}"
   },
   "sheet": {
     "title": "Send SMS",
@@ -65,7 +73,9 @@
     },
     "sentDirect": "Sent directly",
     "delivered": "Delivered",
-    "osSent": "Sent from Messages"
+    "osSent": "Sent from Messages",
+    "stopWarning": "STOP also clears the scheduled start at {time}.",
+    "rearm": "Send {command} again afterwards"
   },
   "plan": {
     "title": "Plan a start",
@@ -80,7 +90,9 @@
     "cancel": "Cancel scheduled start",
     "tomorrow": "tomorrow",
     "today": "today",
-    "tonight": "tonight at {time}"
+    "tonight": "tonight at {time}",
+    "pastWarning": "The start time has passed. Sends START instead.",
+    "runtimeWarning": "The heater stops at {stop}, before departure at {depart}. Run time is {count} min and is set on the heater control unit."
   },
   "sched": {
     "title": "Weekly",
@@ -106,7 +118,13 @@
     "covered": "Covered by {name}",
     "edit": "Edit schedule",
     "nextRun": "Next: {when}",
-    "heaterStarts": "Heater starts at {time}"
+    "heaterStarts": "Heater starts at {time}",
+    "skipSendsStop": "The start has already been sent to the module. Skipping sends STOP.",
+    "automation": "Sent by Shortcuts",
+    "automationHelp": "The app sends no reminder for this schedule. Skip and pause must be done in Shortcuts; the app shows how.",
+    "byAutomation": "Shortcuts",
+    "clearPause": "Remove pause",
+    "replaced": "Replaced by {name}"
   },
   "days": {
     "mon": "M",
@@ -143,8 +161,8 @@
     "sending": "Sending",
     "mode": "Send mode",
     "modes": {
-      "compose": "Compose",
-      "composeDesc": "Opens the SMS app with everything filled in. You tap Send.",
+      "compose": "Via Messages",
+      "composeDesc": "Opens Messages with everything filled in. You tap Send there.",
       "direct": "Direct",
       "directDesc": "Sends SMS in the background. Android Pro (APK) only.",
       "automation": "Automation",
@@ -183,7 +201,24 @@
     "privacy": "Everything is stored on your phone. No data is collected.",
     "vehicle": "Vehicle",
     "vehicleName": "Name",
-    "eveningTime": "Time the evening before"
+    "eveningTime": "Time the evening before",
+    "heaterRuntime": "Heater run time",
+    "heaterRuntimeHelp": "Set on the heater’s own control unit (EasyStart Timer/Select). The app uses it for warnings and to expire the status.",
+    "simValidUntil": "SIM card valid until",
+    "simHelp": "Reminder 7 days before.",
+    "readReplies": "Read replies from module",
+    "readRepliesHelpIos": "Needs one Shortcuts automation: “When I get a message from the module → Open Varmestart”. The app shows the recipe.",
+    "readRepliesHelpPro": "The Pro version reads replies from the module’s number automatically.",
+    "pinChange": "Change PIN",
+    "numbersHelp": "Your own number is always included. All numbers are re-sent on every change. Max 5.",
+    "addNumber": "Add number",
+    "tempAlarmLow": "Alert below",
+    "tempAlarmHigh": "Alert above",
+    "exportWarning": "The backup contains phone numbers. The PIN is included only if you tick the box.",
+    "includePin": "Include PIN",
+    "deleteConfirm": "Delete all data on this phone? This cannot be undone.",
+    "resetConfirm": "The module loses all settings, including authorised numbers. Are you sure?",
+    "automationGuide": "Shortcuts recipe"
   },
   "onboarding": {
     "welcome": {
@@ -195,11 +230,14 @@
     "skip": "Skip",
     "number": {
       "title": "Module phone number",
-      "body": "The number of the SIM card in the module. Your own number must be registered in the module for it to respond."
+      "body": "The number of the SIM card in the module. Your own number must be registered in the module for it to respond.",
+      "field": "Number",
+      "sim": "Two SIM cards? Messages must send from the number registered in the module.",
+      "register": "The first number is registered by the installer or with ACCLIM from an already registered number."
     },
     "test": {
       "title": "Test the connection",
-      "body": "Send STATUS to the module. With confirmations on, it replies within a minute.",
+      "body": "Send STATUS to the module and check that it replies in Messages.",
       "cta": "Send STATUS"
     },
     "done": {
@@ -225,7 +263,9 @@
       "direct": "Direct",
       "automation": "Automation",
       "reminder": "Reminder"
-    }
+    },
+    "assumed": "assumed",
+    "confirmed": "confirmed by module"
   },
   "platform": {
     "label": "Platform",
@@ -242,7 +282,9 @@
     "title": "Varmestart",
     "body": "Send {command} to {vehicle} now?",
     "action": "Send now",
-    "later": "Not today"
+    "later": "Not today",
+    "morningReserve": "You did not send {command} yesterday. Send START now?",
+    "renew": "Open Varmestart to renew the schedules for the next two weeks."
   },
   "common": {
     "on": "On",
@@ -256,6 +298,10 @@
     "now": "now",
     "hours": "{count} h",
     "min": "{count} min",
-    "at": "at"
+    "at": "at",
+    "dayAt": "{day} at {time}",
+    "todayAt": "today at {time}",
+    "tomorrowAt": "tomorrow at {time}",
+    "number": "Number"
   }
 }

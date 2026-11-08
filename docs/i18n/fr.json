@@ -20,7 +20,9 @@
       "unknown": "État inconnu",
       "started": "Chauffage allumé",
       "stopped": "Chauffage éteint",
-      "scheduled": "Démarrage programmé"
+      "scheduled": "Démarrage programmé",
+      "assumed": "présumé {time}",
+      "confirmed": "confirmé {time}"
     },
     "start": "Démarrer",
     "stop": "Arrêter",
@@ -46,7 +48,13 @@
     "replyInMessages": "La réponse arrive dans Messages",
     "openMessages": "Ouvrir Messages",
     "lastReply": "Dernière réponse du module",
-    "temperature": "Température de l’habitacle"
+    "temperature": "Température de l’habitacle",
+    "lastConfirmed": "Dernière confirmation {when}",
+    "lastSent": "Dernier envoi {when}",
+    "neverConfirmed": "Pas encore confirmé",
+    "moveStart": "Changer l’heure",
+    "stopHint": "Arrête le chauffage et annule le démarrage programmé",
+    "runsUntil": "Fonctionne jusqu’à {time}"
   },
   "sheet": {
     "title": "Envoyer un SMS",
@@ -65,7 +73,9 @@
     },
     "sentDirect": "Envoyé directement",
     "delivered": "Remis",
-    "osSent": "Envoyé depuis Messages"
+    "osSent": "Envoyé depuis Messages",
+    "stopWarning": "STOP annule aussi le démarrage programmé à {time}.",
+    "rearm": "Renvoyer {command} ensuite"
   },
   "plan": {
     "title": "Programmer un démarrage",
@@ -80,7 +90,9 @@
     "cancel": "Annuler le démarrage programmé",
     "tomorrow": "demain",
     "today": "aujourd’hui",
-    "tonight": "ce soir à {time}"
+    "tonight": "ce soir à {time}",
+    "pastWarning": "L’heure de démarrage est passée. START est envoyé à la place.",
+    "runtimeWarning": "Le chauffage s’arrête à {stop}, avant le départ à {depart}. La durée de fonctionnement est de {count} min et se règle sur la commande du chauffage."
   },
   "sched": {
     "title": "Jours fixes",
@@ -106,7 +118,13 @@
     "covered": "Couvert par {name}",
     "edit": "Modifier le programme",
     "nextRun": "Prochain : {when}",
-    "heaterStarts": "Le chauffage démarre à {time}"
+    "heaterStarts": "Le chauffage démarre à {time}",
+    "skipSendsStop": "Le démarrage a déjà été envoyé au module. Ignorer envoie STOP.",
+    "automation": "Envoyé par Raccourcis",
+    "automationHelp": "L’app n’envoie aucun rappel pour ce programme. Ignorer et suspendre se font dans Raccourcis ; l’app montre comment.",
+    "byAutomation": "Raccourcis",
+    "clearPause": "Retirer la pause",
+    "replaced": "Remplacé par {name}"
   },
   "days": {
     "mon": "L",
@@ -143,8 +161,8 @@
     "sending": "Envoi",
     "mode": "Mode d’envoi",
     "modes": {
-      "compose": "Rédiger",
-      "composeDesc": "Ouvre l’app SMS avec tout prérempli. Vous appuyez sur Envoyer.",
+      "compose": "Via Messages",
+      "composeDesc": "Ouvre Messages avec tout prérempli. Vous appuyez sur Envoyer là-bas.",
       "direct": "Direct",
       "directDesc": "Envoie les SMS en arrière-plan. Android Pro (APK) uniquement.",
       "automation": "Automatisation",
@@ -183,7 +201,24 @@
     "privacy": "Tout est stocké sur le téléphone. Aucune donnée n’est collectée.",
     "vehicle": "Véhicule",
     "vehicleName": "Nom",
-    "eveningTime": "Heure la veille"
+    "eveningTime": "Heure la veille",
+    "heaterRuntime": "Durée de fonctionnement du chauffage",
+    "heaterRuntimeHelp": "Se règle sur la commande du chauffage (EasyStart Timer/Select). L’app l’utilise pour les avertissements et pour faire expirer l’état.",
+    "simValidUntil": "Carte SIM valable jusqu’au",
+    "simHelp": "Rappel 7 jours avant.",
+    "readReplies": "Lire les réponses du module",
+    "readRepliesHelpIos": "Nécessite une automatisation Raccourcis : « Quand je reçois un message du module → Ouvrir Varmestart ». L’app affiche la marche à suivre.",
+    "readRepliesHelpPro": "La version Pro lit automatiquement les réponses du numéro du module.",
+    "pinChange": "Changer le PIN",
+    "numbersHelp": "Votre propre numéro est toujours inclus. Tous les numéros sont renvoyés à chaque modification. 5 maximum.",
+    "addNumber": "Ajouter un numéro",
+    "tempAlarmLow": "Alerter en dessous de",
+    "tempAlarmHigh": "Alerter au-dessus de",
+    "exportWarning": "La sauvegarde contient des numéros de téléphone. Le PIN n’est inclus que si vous cochez la case.",
+    "includePin": "Inclure le PIN",
+    "deleteConfirm": "Supprimer toutes les données de ce téléphone ? Cette action est irréversible.",
+    "resetConfirm": "Le module perd tous ses réglages, y compris les numéros autorisés. Êtes-vous sûr ?",
+    "automationGuide": "Marche à suivre pour Raccourcis"
   },
   "onboarding": {
     "welcome": {
@@ -195,11 +230,14 @@
     "skip": "Passer",
     "number": {
       "title": "Numéro de téléphone du module",
-      "body": "Le numéro de la carte SIM du module. Votre propre numéro doit être enregistré dans le module pour qu’il réponde."
+      "body": "Le numéro de la carte SIM du module. Votre propre numéro doit être enregistré dans le module pour qu’il réponde.",
+      "field": "Numéro",
+      "sim": "Deux cartes SIM ? Messages doit envoyer depuis le numéro enregistré dans le module.",
+      "register": "Le premier numéro est enregistré par l’installateur ou avec ACCLIM depuis un numéro déjà enregistré."
     },
     "test": {
       "title": "Tester la connexion",
-      "body": "Envoyez STATUS au module. Avec les confirmations activées, il répond en moins d’une minute.",
+      "body": "Envoyez STATUS au module et vérifiez qu’il répond dans Messages.",
       "cta": "Envoyer STATUS"
     },
     "done": {
@@ -225,7 +263,9 @@
       "direct": "Direct",
       "automation": "Automatisation",
       "reminder": "Rappel"
-    }
+    },
+    "assumed": "présumé",
+    "confirmed": "confirmé par le module"
   },
   "platform": {
     "label": "Plateforme",
@@ -242,11 +282,13 @@
     "title": "Varmestart",
     "body": "Envoyer {command} à {vehicle} maintenant ?",
     "action": "Envoyer maintenant",
-    "later": "Pas aujourd’hui"
+    "later": "Pas aujourd’hui",
+    "morningReserve": "Vous n’avez pas envoyé {command} hier. Envoyer START maintenant ?",
+    "renew": "Ouvrez Varmestart pour renouveler les programmes des deux prochaines semaines."
   },
   "common": {
-    "on": "Oui",
-    "off": "Non",
+    "on": "Activé",
+    "off": "Désactivé",
     "ok": "OK",
     "yes": "Oui",
     "no": "Non",
@@ -256,6 +298,10 @@
     "now": "maintenant",
     "hours": "{count} h",
     "min": "{count} min",
-    "at": "à"
+    "at": "à",
+    "dayAt": "{day} à {time}",
+    "todayAt": "aujourd’hui à {time}",
+    "tomorrowAt": "demain à {time}",
+    "number": "Numéro"
   }
 }

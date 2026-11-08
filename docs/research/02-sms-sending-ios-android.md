@@ -48,11 +48,15 @@ vår type app. Designet må derfor ha tre sendemoduser og velge riktig per platt
 ## 4. Påminnelses-modus (begge plattformer, fallback) – alltid aktiv
 
 - `expo-notifications` (58.1.8) lokal varsling på sendetidspunktet med handlingsknapp
-  «Send nå». Trykk → appen åpner → komponer-modus med riktig tekst → ett trykk Send.
-  Totalt to trykk fra låst skjerm.
+  «Send nå». Trykk → appen åpner → Meldinger åpnes med riktig tekst → ett trykk Send.
+  Totalt to trykk fra låst skjerm med standardinnstilling («Bekreft før sending» av i
+  Via Meldinger-modus); tre hvis brukeren har slått bekreftelse på.
+- Morgen-reserve: hvis forekomsten ikke er sendt ved starttid, vises en tidssensitiv varsling
+  «Du sendte ikke START0630 i går. Send START nå?».
 - Ukentlige triggere (`weekly`, weekday 1=søndag … 7=lørdag, hour, minute).
-- Android 12+ eksakt varsling krever `SCHEDULE_EXACT_ALARM` (config plugin). Uten den kan
-  varsling komme forsinket under Doze. Appen må informere og lenke til innstillingen.
+- Android 12+ eksakt varsling krever `SCHEDULE_EXACT_ALARM` (config plugin), også i
+  butikk-bygget. Uten den kan varsling komme forsinket under Doze. Appen må informere og lenke
+  til innstillingen (Android 14+ nekter som standard).
 - iOS: lokale varslinger er presise; appen kan ikke sende SMS fra varslingen uten brukertrykk.
 
 ## Hvorfor «kvelden før» er standard for faste dager
@@ -64,7 +68,7 @@ får brukeren hele kvelden til å trykke Send. Avbestilling er ett trykk (`STOP`
 Alternativ «ved starttid» (`START` kl. 06:30) finnes som valg, og er standard i
 Direkte-modus på Android der det ikke krever brukertrykk.
 
-## Expo SDK 58 – versjoner (npm, 8. nov 2026)
+## Expo SDK 58 – versjoner (verifisert med `npm view <pakke> version` 8. nov 2026)
 
 | Pakke | Versjon | Rolle |
 |---|---|---|
@@ -79,8 +83,10 @@ Direkte-modus på Android der det ikke krever brukertrykk.
 | libphonenumber-js | 1.13.15 | Landkoder, E.164-validering |
 | i18next + react-i18next | siste | Oversettelser, ICU-flertall |
 
-Minimumskrav rapportert for SDK 58 (verifiser i docs.expo.dev-tabellen): iOS 16.4+,
-Android 7+ (compileSdk 37), Node 22.13+. Expo Go for SDK 58 støtter bare SDK 58.
+Pakkenes versjonsnumre er lest direkte fra npm-registeret i denne økten. Minimumskrav for SDK 58
+er bare rapportert av tredjepart og må verifiseres i docs.expo.dev-tabellen: iOS 16.4+, Android 7+
+(compileSdk 37), Node 22.13+. Expo Go for SDK 58 støtter bare SDK 58. Kjør `npx expo install --fix`
+ved prosjektstart.
 
 ## Kilder
 

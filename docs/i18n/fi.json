@@ -20,7 +20,9 @@
       "unknown": "Tila tuntematon",
       "started": "Lämmitin päällä",
       "stopped": "Lämmitin pois",
-      "scheduled": "Käynnistys ajastettu"
+      "scheduled": "Käynnistys ajastettu",
+      "assumed": "oletettu {time}",
+      "confirmed": "vahvistettu {time}"
     },
     "start": "Käynnistä",
     "stop": "Pysäytä",
@@ -46,7 +48,13 @@
     "replyInMessages": "Vastaus tulee Viestit-sovellukseen",
     "openMessages": "Avaa Viestit",
     "lastReply": "Moduulin viimeisin vastaus",
-    "temperature": "Auton sisälämpötila"
+    "temperature": "Auton sisälämpötila",
+    "lastConfirmed": "Viimeksi vahvistettu {when}",
+    "lastSent": "Viimeksi lähetetty {when}",
+    "neverConfirmed": "Ei vielä vahvistettu",
+    "moveStart": "Muuta aikaa",
+    "stopHint": "Pysäyttää lämmittimen ja poistaa ajastetun käynnistyksen",
+    "runsUntil": "Käy klo {time} asti"
   },
   "sheet": {
     "title": "Lähetä tekstiviesti",
@@ -65,14 +73,16 @@
     },
     "sentDirect": "Lähetetty suoraan",
     "delivered": "Toimitettu",
-    "osSent": "Lähetetty Viesteistä"
+    "osSent": "Lähetetty Viesteistä",
+    "stopWarning": "STOP poistaa myös ajastetun käynnistyksen klo {time}.",
+    "rearm": "Lähetä {command} uudelleen jälkeenpäin"
   },
   "plan": {
     "title": "Ajasta käynnistys",
     "departure": "Lähtöaika",
     "preheat": "Esilämmitys",
     "minutes": "{count} min",
-    "summary": "Lämmitin käynnistyy {start}, auto on lämmin klo {depart}.",
+    "summary": "Lämmitin käynnistyy klo {start}, auto on lämmin klo {depart}.",
     "sends": "Lähettää {command} nyt",
     "sendsLater": "Lähetetään {when}",
     "cta": "Ajasta",
@@ -80,7 +90,9 @@
     "cancel": "Peruuta ajastettu käynnistys",
     "tomorrow": "huomenna",
     "today": "tänään",
-    "tonight": "tänä iltana klo {time}"
+    "tonight": "tänä iltana klo {time}",
+    "pastWarning": "Käynnistysaika on ohi. Lähetetään sen sijaan START.",
+    "runtimeWarning": "Lämmitin sammuu klo {stop}, ennen lähtöä klo {depart}. Käyntiaika on {count} min ja se asetetaan lämmittimen ohjaimesta."
   },
   "sched": {
     "title": "Viikko-ohjelma",
@@ -106,7 +118,13 @@
     "covered": "Katettu: {name}",
     "edit": "Muokkaa ohjelmaa",
     "nextRun": "Seuraava: {when}",
-    "heaterStarts": "Lämmitin käynnistyy {time}"
+    "heaterStarts": "Lämmitin käynnistyy klo {time}",
+    "skipSendsStop": "Käynnistys on jo lähetetty moduulille. Ohittaminen lähettää STOP.",
+    "automation": "Pikakomennot lähettää",
+    "automationHelp": "Sovellus ei lähetä muistutusta tästä ohjelmasta. Ohitus ja tauko tehdään Pikakomennoissa; sovellus näyttää miten.",
+    "byAutomation": "Pikakomennot",
+    "clearPause": "Poista tauko",
+    "replaced": "Korvattu: {name}"
   },
   "days": {
     "mon": "Ma",
@@ -143,8 +161,8 @@
     "sending": "Lähetys",
     "mode": "Lähetystapa",
     "modes": {
-      "compose": "Viestisovellus",
-      "composeDesc": "Avaa viestisovelluksen valmiiksi täytettynä. Sinä painat Lähetä.",
+      "compose": "Viestit-sovelluksen kautta",
+      "composeDesc": "Avaa Viestit valmiiksi täytettynä. Painat Lähetä siellä.",
       "direct": "Suora",
       "directDesc": "Lähettää tekstiviestin taustalla. Vain Android Pro (APK).",
       "automation": "Automaatio",
@@ -183,7 +201,24 @@
     "privacy": "Kaikki tallennetaan puhelimeen. Tietoja ei kerätä.",
     "vehicle": "Ajoneuvo",
     "vehicleName": "Nimi",
-    "eveningTime": "Kellonaika edellisenä iltana"
+    "eveningTime": "Kellonaika edellisenä iltana",
+    "heaterRuntime": "Lämmittimen käyntiaika",
+    "heaterRuntimeHelp": "Asetetaan lämmittimen omasta ohjaimesta (EasyStart Timer/Select). Sovellus käyttää sitä varoituksiin ja tilan vanhentamiseen.",
+    "simValidUntil": "SIM-kortti voimassa",
+    "simHelp": "Muistutus 7 päivää ennen.",
+    "readReplies": "Lue moduulin vastaukset",
+    "readRepliesHelpIos": "Vaatii yhden Pikakomennot-automaation: ”Kun saan viestin moduulilta → Avaa Varmestart”. Sovellus näyttää ohjeen.",
+    "readRepliesHelpPro": "Pro-versio lukee moduulin numerosta tulevat vastaukset automaattisesti.",
+    "pinChange": "Vaihda PIN",
+    "numbersHelp": "Oma numerosi on aina mukana. Kaikki numerot lähetetään uudelleen jokaisessa muutoksessa. Enintään 5.",
+    "addNumber": "Lisää numero",
+    "tempAlarmLow": "Hälytä alle",
+    "tempAlarmHigh": "Hälytä yli",
+    "exportWarning": "Varmuuskopio sisältää puhelinnumeroita. PIN otetaan mukaan vain, jos valitset ruudun.",
+    "includePin": "Sisällytä PIN",
+    "deleteConfirm": "Poistetaanko kaikki tiedot tästä puhelimesta? Tätä ei voi kumota.",
+    "resetConfirm": "Moduuli menettää kaikki asetukset, myös valtuutetut numerot. Oletko varma?",
+    "automationGuide": "Ohje Pikakomennoille"
   },
   "onboarding": {
     "welcome": {
@@ -195,11 +230,14 @@
     "skip": "Ohita",
     "number": {
       "title": "Moduulin puhelinnumero",
-      "body": "Moduulin SIM-kortin numero. Oman numerosi on oltava rekisteröity moduuliin, jotta se vastaa."
+      "body": "Moduulin SIM-kortin numero. Oman numerosi on oltava rekisteröity moduuliin, jotta se vastaa.",
+      "field": "Numero",
+      "sim": "Kaksi SIM-korttia? Viestien on lähdettävä numerosta, joka on rekisteröity moduuliin.",
+      "register": "Ensimmäisen numeron rekisteröi asentaja tai se tehdään ACCLIM-komennolla jo rekisteröidystä numerosta."
     },
     "test": {
       "title": "Testaa yhteys",
-      "body": "Lähetä STATUS moduulille. Kun vahvistukset ovat päällä, se vastaa minuutin sisällä.",
+      "body": "Lähetä STATUS moduulille ja tarkista, että se vastaa Viesteihin.",
       "cta": "Lähetä STATUS"
     },
     "done": {
@@ -225,7 +263,9 @@
       "direct": "Suora",
       "automation": "Automaatio",
       "reminder": "Muistutus"
-    }
+    },
+    "assumed": "oletettu",
+    "confirmed": "moduulin vahvistama"
   },
   "platform": {
     "label": "Alusta",
@@ -240,9 +280,11 @@
   },
   "notif": {
     "title": "Varmestart",
-    "body": "Lähetetäänkö {command} kohteeseen {vehicle} nyt?",
+    "body": "Lähetetäänkö {command} nyt? ({vehicle})",
     "action": "Lähetä nyt",
-    "later": "Ei tänään"
+    "later": "Ei tänään",
+    "morningReserve": "Et lähettänyt {command} eilen. Lähetetäänkö START nyt?",
+    "renew": "Avaa Varmestart uusiaksesi ohjelmat seuraaville kahdelle viikolle."
   },
   "common": {
     "on": "Päällä",
@@ -256,6 +298,10 @@
     "now": "nyt",
     "hours": "{count} h",
     "min": "{count} min",
-    "at": "klo"
+    "at": "klo",
+    "dayAt": "{day}na klo {time}",
+    "todayAt": "tänään klo {time}",
+    "tomorrowAt": "huomenna klo {time}",
+    "number": "Numero"
   }
 }

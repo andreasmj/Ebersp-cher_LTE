@@ -20,7 +20,9 @@
       "unknown": "Status ukjent",
       "started": "Varmer på",
       "stopped": "Varmer av",
-      "scheduled": "Start planlagt"
+      "scheduled": "Start planlagt",
+      "assumed": "antatt {time}",
+      "confirmed": "bekreftet {time}"
     },
     "start": "Start",
     "stop": "Stopp",
@@ -46,7 +48,13 @@
     "replyInMessages": "Svaret kommer i Meldinger",
     "openMessages": "Åpne Meldinger",
     "lastReply": "Siste svar fra modulen",
-    "temperature": "Temperatur i bilen"
+    "temperature": "Temperatur i bilen",
+    "lastConfirmed": "Sist bekreftet {when}",
+    "lastSent": "Sist sendt {when}",
+    "neverConfirmed": "Ikke bekreftet enda",
+    "moveStart": "Endre tid",
+    "stopHint": "Stopper varmeren og sletter planlagt start",
+    "runsUntil": "Går til {time}"
   },
   "sheet": {
     "title": "Send SMS",
@@ -65,7 +73,9 @@
     },
     "sentDirect": "Sendt direkte",
     "delivered": "Levert",
-    "osSent": "Sendt fra Meldinger"
+    "osSent": "Sendt fra Meldinger",
+    "stopWarning": "STOP sletter også planlagt start {time}.",
+    "rearm": "Send {command} på nytt etterpå"
   },
   "plan": {
     "title": "Planlegg start",
@@ -80,7 +90,9 @@
     "cancel": "Avbryt planlagt start",
     "tomorrow": "i morgen",
     "today": "i dag",
-    "tonight": "i kveld kl. {time}"
+    "tonight": "i kveld kl. {time}",
+    "pastWarning": "Starttiden er passert. Sender START i stedet.",
+    "runtimeWarning": "Varmeren stopper {stop}, før avreise {depart}. Kjøretiden er {count} min og settes på varmerens styreenhet."
   },
   "sched": {
     "title": "Faste dager",
@@ -106,7 +118,13 @@
     "covered": "Dekket av {name}",
     "edit": "Rediger plan",
     "nextRun": "Neste: {when}",
-    "heaterStarts": "Varmeren starter {time}"
+    "heaterStarts": "Varmeren starter {time}",
+    "skipSendsStop": "Starten er allerede sendt til modulen. Hopp over sender STOP.",
+    "automation": "Sendes av Kortkommandoer",
+    "automationHelp": "Appen sender ingen påminnelse for denne planen. Hopp over og pause må gjøres i Kortkommandoer; appen viser hvordan.",
+    "byAutomation": "Kortkommandoer",
+    "clearPause": "Fjern pause",
+    "replaced": "Erstattet av {name}"
   },
   "days": {
     "mon": "M",
@@ -143,8 +161,8 @@
     "sending": "Sending",
     "mode": "Sendemodus",
     "modes": {
-      "compose": "Komponer",
-      "composeDesc": "Åpner SMS-appen med alt utfylt. Du trykker Send.",
+      "compose": "Via Meldinger",
+      "composeDesc": "Åpner Meldinger med alt utfylt. Du trykker Send der.",
       "direct": "Direkte",
       "directDesc": "Sender SMS i bakgrunnen. Kun Android Pro (APK).",
       "automation": "Automasjon",
@@ -183,7 +201,24 @@
     "privacy": "Alt lagres på telefonen. Ingen data samles inn.",
     "vehicle": "Kjøretøy",
     "vehicleName": "Navn",
-    "eveningTime": "Klokkeslett kvelden før"
+    "eveningTime": "Klokkeslett kvelden før",
+    "heaterRuntime": "Varmerens kjøretid",
+    "heaterRuntimeHelp": "Settes på varmerens egen styreenhet (EasyStart Timer/Select). Appen bruker den til advarsler og til å la status utløpe.",
+    "simValidUntil": "SIM-kortet gyldig til",
+    "simHelp": "Påminnelse 7 dager før.",
+    "readReplies": "Les svar fra modulen",
+    "readRepliesHelpIos": "Krever én Kortkommando-automasjon: «Når jeg mottar melding fra modulen → Åpne Varmestart». Appen viser oppskriften.",
+    "readRepliesHelpPro": "Pro-versjonen leser svar fra modulens nummer automatisk.",
+    "pinChange": "Endre PIN",
+    "numbersHelp": "Ditt eget nummer er alltid med. Alle numre sendes på nytt ved endring. Maks 5.",
+    "addNumber": "Legg til nummer",
+    "tempAlarmLow": "Varsle under",
+    "tempAlarmHigh": "Varsle over",
+    "exportWarning": "Sikkerhetskopien inneholder telefonnumre. PIN tas bare med hvis du huker av.",
+    "includePin": "Ta med PIN",
+    "deleteConfirm": "Slett alle data på denne telefonen? Dette kan ikke angres.",
+    "resetConfirm": "Modulen mister alle innstillinger, også autoriserte numre. Er du sikker?",
+    "automationGuide": "Oppskrift for Kortkommandoer"
   },
   "onboarding": {
     "welcome": {
@@ -195,11 +230,14 @@
     "skip": "Hopp over",
     "number": {
       "title": "Modulens telefonnummer",
-      "body": "Nummeret til SIM-kortet i modulen. Ditt eget nummer må være registrert i modulen for at den skal svare."
+      "body": "Nummeret til SIM-kortet i modulen. Ditt eget nummer må være registrert i modulen for at den skal svare.",
+      "field": "Nummer",
+      "sim": "To SIM-kort? Meldinger må sende fra nummeret som er registrert i modulen.",
+      "register": "Første nummer registreres av installatøren eller med ACCLIM fra et allerede registrert nummer."
     },
     "test": {
       "title": "Test forbindelsen",
-      "body": "Send STATUS til modulen. Har du bekreftelser på, svarer den innen et minutt.",
+      "body": "Send STATUS til modulen og se at den svarer i Meldinger.",
       "cta": "Send STATUS"
     },
     "done": {
@@ -225,7 +263,9 @@
       "direct": "Direkte",
       "automation": "Automasjon",
       "reminder": "Påminnelse"
-    }
+    },
+    "assumed": "antatt",
+    "confirmed": "bekreftet av modulen"
   },
   "platform": {
     "label": "Plattform",
@@ -242,7 +282,9 @@
     "title": "Varmestart",
     "body": "Send {command} til {vehicle} nå?",
     "action": "Send nå",
-    "later": "Ikke i dag"
+    "later": "Ikke i dag",
+    "morningReserve": "Du sendte ikke {command} i går. Send START nå?",
+    "renew": "Åpne Varmestart for å fornye planene for de neste to ukene."
   },
   "common": {
     "on": "På",
@@ -256,6 +298,10 @@
     "now": "nå",
     "hours": "{count} t",
     "min": "{count} min",
-    "at": "kl."
+    "at": "kl.",
+    "dayAt": "{day} kl. {time}",
+    "todayAt": "i dag kl. {time}",
+    "tomorrowAt": "i morgen kl. {time}",
+    "number": "Nummer"
   }
 }

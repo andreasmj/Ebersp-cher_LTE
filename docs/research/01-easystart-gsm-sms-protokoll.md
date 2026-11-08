@@ -70,6 +70,11 @@ kommandoprofil, men EasyStart GSM er standard.
 - [ ] Om `START` under en aktiv forhåndsprogrammering overstyrer eller legger til
 - [ ] Oppførsel ved `STARThhmm` med klokkeslett som allerede er passert i dag (antatt: neste døgn)
 - [ ] Om PIN kreves for `ASPONSE` i 2023-versjonen (TC202 krever det)
+- [ ] Om `STATUS`/`TEMP` svarer uavhengig av `ASPONSE` (spørringer kontra bekreftelser)
+- [ ] Hvor modulen får klokken fra (nett/NITZ eller intern) og hva som skjer med `STARThhmm`
+      sendt kvelden før et sommertidsskifte
+- [ ] Eksakt feilmelding ved ukjent kommando i 2G/4G-versjonen («Unknown Message!» er fra TC202)
+- [ ] Om `START` under en aktiv `STARThhmm` sletter forhåndsprogrammeringen (antatt: nei)
 
 ## Kilder
 

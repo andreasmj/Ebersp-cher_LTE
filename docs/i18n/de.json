@@ -9,7 +9,7 @@
     "tagline": "Warmes Auto, wenn du aus der Tür gehst"
   },
   "nav": {
-    "home": "Start",
+    "home": "Übersicht",
     "plan": "Planen",
     "schedules": "Wochenplan",
     "settings": "Einstellungen"
@@ -20,7 +20,9 @@
       "unknown": "Status unbekannt",
       "started": "Heizung an",
       "stopped": "Heizung aus",
-      "scheduled": "Start geplant"
+      "scheduled": "Start geplant",
+      "assumed": "angenommen {time}",
+      "confirmed": "bestätigt {time}"
     },
     "start": "Start",
     "stop": "Stopp",
@@ -46,7 +48,13 @@
     "replyInMessages": "Die Antwort kommt in Nachrichten",
     "openMessages": "Nachrichten öffnen",
     "lastReply": "Letzte Antwort des Moduls",
-    "temperature": "Innenraumtemperatur"
+    "temperature": "Innenraumtemperatur",
+    "lastConfirmed": "Zuletzt bestätigt {when}",
+    "lastSent": "Zuletzt gesendet {when}",
+    "neverConfirmed": "Noch nicht bestätigt",
+    "moveStart": "Zeit ändern",
+    "stopHint": "Stoppt die Heizung und löscht einen geplanten Start",
+    "runsUntil": "Läuft bis {time}"
   },
   "sheet": {
     "title": "SMS senden",
@@ -65,7 +73,9 @@
     },
     "sentDirect": "Direkt gesendet",
     "delivered": "Zugestellt",
-    "osSent": "Aus Nachrichten gesendet"
+    "osSent": "Aus Nachrichten gesendet",
+    "stopWarning": "STOP löscht auch den geplanten Start um {time}.",
+    "rearm": "{command} danach erneut senden"
   },
   "plan": {
     "title": "Start planen",
@@ -80,7 +90,9 @@
     "cancel": "Geplanten Start abbrechen",
     "tomorrow": "morgen",
     "today": "heute",
-    "tonight": "heute Abend um {time}"
+    "tonight": "heute Abend um {time}",
+    "pastWarning": "Die Startzeit ist vorbei. Es wird stattdessen START gesendet.",
+    "runtimeWarning": "Die Heizung stoppt um {stop}, vor der Abfahrt um {depart}. Die Laufzeit beträgt {count} Min und wird am Bedienelement der Heizung eingestellt."
   },
   "sched": {
     "title": "Wochenplan",
@@ -106,7 +118,13 @@
     "covered": "Abgedeckt durch {name}",
     "edit": "Plan bearbeiten",
     "nextRun": "Nächster: {when}",
-    "heaterStarts": "Heizung startet um {time}"
+    "heaterStarts": "Heizung startet um {time}",
+    "skipSendsStop": "Der Start wurde bereits an das Modul gesendet. Überspringen sendet STOP.",
+    "automation": "Wird von Kurzbefehlen gesendet",
+    "automationHelp": "Die App sendet für diesen Plan keine Erinnerung. Überspringen und Pausieren erfolgen in Kurzbefehlen; die App zeigt wie.",
+    "byAutomation": "Kurzbefehle",
+    "clearPause": "Pause aufheben",
+    "replaced": "Ersetzt durch {name}"
   },
   "days": {
     "mon": "Mo",
@@ -125,7 +143,7 @@
       "sat": "Samstag",
       "sun": "Sonntag"
     },
-    "weekdays": "Wochentags",
+    "weekdays": "Wochentage",
     "everyday": "Täglich",
     "weekend": "Wochenende"
   },
@@ -139,12 +157,12 @@
     "profile": "Befehlsprofil",
     "profileGsm": "Eberspächer EasyStart GSM 2G/4G",
     "language": "Sprache",
-    "languageSystem": "Wie Telefon",
+    "languageSystem": "Wie Systemsprache",
     "sending": "Senden",
     "mode": "Sendemodus",
     "modes": {
-      "compose": "Verfassen",
-      "composeDesc": "Öffnet die SMS-App mit allem ausgefüllt. Du tippst Senden.",
+      "compose": "Über Nachrichten",
+      "composeDesc": "Öffnet Nachrichten mit allem ausgefüllt. Du tippst dort auf Senden.",
       "direct": "Direkt",
       "directDesc": "Sendet SMS im Hintergrund. Nur Android Pro (APK).",
       "automation": "Automation",
@@ -153,7 +171,7 @@
       "reminderDesc": "Mitteilung mit „Jetzt senden“ zur Sendezeit."
     },
     "confirm": "Vor dem Senden bestätigen",
-    "scheduleSend": "Wochenplan senden",
+    "scheduleSend": "Wochenplan wird gesendet",
     "eveningBefore": "Am Vorabend um {time}",
     "atStart": "Zur Startzeit",
     "reminders": "Erinnerungen",
@@ -183,7 +201,24 @@
     "privacy": "Alles wird auf dem Telefon gespeichert. Es werden keine Daten erhoben.",
     "vehicle": "Fahrzeug",
     "vehicleName": "Name",
-    "eveningTime": "Uhrzeit am Vorabend"
+    "eveningTime": "Uhrzeit am Vorabend",
+    "heaterRuntime": "Laufzeit der Heizung",
+    "heaterRuntimeHelp": "Wird am Bedienelement der Heizung (EasyStart Timer/Select) eingestellt. Die App nutzt sie für Warnungen und lässt den Status danach ablaufen.",
+    "simValidUntil": "SIM-Karte gültig bis",
+    "simHelp": "Erinnerung 7 Tage vorher.",
+    "readReplies": "Antworten des Moduls lesen",
+    "readRepliesHelpIos": "Braucht eine Kurzbefehle-Automation: „Wenn ich eine Nachricht vom Modul erhalte → Varmestart öffnen“. Die App zeigt die Anleitung.",
+    "readRepliesHelpPro": "Die Pro-Version liest Antworten von der Nummer des Moduls automatisch.",
+    "pinChange": "PIN ändern",
+    "numbersHelp": "Deine eigene Nummer ist immer dabei. Bei jeder Änderung werden alle Nummern neu gesendet. Maximal 5.",
+    "addNumber": "Nummer hinzufügen",
+    "tempAlarmLow": "Warnen unter",
+    "tempAlarmHigh": "Warnen über",
+    "exportWarning": "Die Sicherung enthält Telefonnummern. Die PIN ist nur enthalten, wenn du das Kästchen aktivierst.",
+    "includePin": "PIN einschließen",
+    "deleteConfirm": "Alle Daten auf diesem Telefon löschen? Das kann nicht rückgängig gemacht werden.",
+    "resetConfirm": "Das Modul verliert alle Einstellungen, auch die berechtigten Nummern. Bist du sicher?",
+    "automationGuide": "Anleitung für Kurzbefehle"
   },
   "onboarding": {
     "welcome": {
@@ -195,11 +230,14 @@
     "skip": "Überspringen",
     "number": {
       "title": "Telefonnummer des Moduls",
-      "body": "Die Nummer der SIM-Karte im Modul. Deine eigene Nummer muss im Modul registriert sein, damit es antwortet."
+      "body": "Die Nummer der SIM-Karte im Modul. Deine eigene Nummer muss im Modul registriert sein, damit es antwortet.",
+      "field": "Nummer",
+      "sim": "Zwei SIM-Karten? Nachrichten muss von der Nummer senden, die im Modul registriert ist.",
+      "register": "Die erste Nummer registriert der Einbaubetrieb oder du per ACCLIM von einer bereits registrierten Nummer."
     },
     "test": {
       "title": "Verbindung testen",
-      "body": "Sende STATUS an das Modul. Mit eingeschalteten Bestätigungen antwortet es innerhalb einer Minute.",
+      "body": "Sende STATUS an das Modul und prüfe, ob es in Nachrichten antwortet.",
       "cta": "STATUS senden"
     },
     "done": {
@@ -217,15 +255,17 @@
     "delivered": "Zugestellt",
     "failed": "Fehlgeschlagen",
     "reply": "Antwort",
-    "out": "Aus",
-    "in": "Ein",
+    "out": "Gesendet",
+    "in": "Empfangen",
     "empty": "Noch keine Ereignisse",
     "mode": {
       "compose": "Verfassen",
       "direct": "Direkt",
       "automation": "Automation",
       "reminder": "Erinnerung"
-    }
+    },
+    "assumed": "angenommen",
+    "confirmed": "vom Modul bestätigt"
   },
   "platform": {
     "label": "Plattform",
@@ -242,7 +282,9 @@
     "title": "Varmestart",
     "body": "{command} jetzt an {vehicle} senden?",
     "action": "Jetzt senden",
-    "later": "Heute nicht"
+    "later": "Heute nicht",
+    "morningReserve": "Du hast gestern {command} nicht gesendet. Jetzt START senden?",
+    "renew": "Öffne Varmestart, um die Pläne für die nächsten zwei Wochen zu erneuern."
   },
   "common": {
     "on": "An",
@@ -256,6 +298,10 @@
     "now": "jetzt",
     "hours": "{count} Std",
     "min": "{count} Min",
-    "at": "um"
+    "at": "um",
+    "dayAt": "am {day} um {time}",
+    "todayAt": "heute um {time}",
+    "tomorrowAt": "morgen um {time}",
+    "number": "Nummer"
   }
 }

@@ -36,6 +36,11 @@ i stedet, brukes plandagene uendret, klokkeslettet er starttiden og teksten er `
 Én automasjon per unikt (dager, klokkeslett, tekst). Endrer brukeren planen i appen, viser appen
 en gul linje «Automasjonen på iPhone må oppdateres» med ny oppskrift.
 
+Når planen er merket «Sendes av Kortkommandoer», er automasjonen eneste sender: appen planlegger
+ingen påminnelse for planen, registrerer forekomsten som «sendt av automasjon (ubekreftet)» ved
+automasjonstidspunktet, og viser «Kortkommandoer» på planen. Brukeren kan slå på påminnelse i
+tillegg for en plan hvis iOS-versjonen viser seg å spørre før kjøring.
+
 ## Hopp over og pause
 
 Automasjonen vet ikke om «Hopp over neste». Appen løser det slik: når brukeren hopper over, viser

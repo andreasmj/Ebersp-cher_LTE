@@ -20,13 +20,15 @@
       "unknown": "Estado desconocido",
       "started": "Calefactor encendido",
       "stopped": "Calefactor apagado",
-      "scheduled": "Arranque programado"
+      "scheduled": "Encendido programado",
+      "assumed": "supuesto {time}",
+      "confirmed": "confirmado {time}"
     },
     "start": "Encender",
     "stop": "Apagar",
-    "next": "Próximo arranque",
-    "nextNone": "Sin arranque programado",
-    "startsIn": "Arranca en {duration}",
+    "next": "Próximo encendido",
+    "nextNone": "Sin encendido programado",
+    "startsIn": "Se enciende en {duration}",
     "sendsAt": "Se envía {when}",
     "sentAt": "Enviado {time}",
     "cancel": "Cancelar",
@@ -46,7 +48,13 @@
     "replyInMessages": "La respuesta llega a Mensajes",
     "openMessages": "Abrir Mensajes",
     "lastReply": "Última respuesta del módulo",
-    "temperature": "Temperatura del habitáculo"
+    "temperature": "Temperatura del habitáculo",
+    "lastConfirmed": "Última confirmación {when}",
+    "lastSent": "Último envío {when}",
+    "neverConfirmed": "Aún sin confirmar",
+    "moveStart": "Cambiar hora",
+    "stopHint": "Apaga el calefactor y borra el encendido programado",
+    "runsUntil": "Funciona hasta las {time}"
   },
   "sheet": {
     "title": "Enviar SMS",
@@ -57,30 +65,34 @@
     "why": "¿Por qué se abre Mensajes?",
     "whyBody": "iPhone y Google Play no permiten que las apps envíen SMS sin que pulses Enviar. Varmestart lo rellena todo; tú pulsas una vez.",
     "explain": {
-      "start": "Encender el calefactor ahora.",
+      "start": "Enciende el calefactor ahora.",
       "stop": "Apaga el calefactor y borra cualquier arranque programado.",
-      "startAt": "Encender el calefactor a las {time}. El módulo controla la hora por sí mismo.",
+      "startAt": "Enciende el calefactor a las {time}. El módulo controla la hora por sí mismo.",
       "temp": "Pide la temperatura al módulo.",
       "status": "Pide al módulo el estado y los códigos de error."
     },
     "sentDirect": "Enviado directamente",
     "delivered": "Entregado",
-    "osSent": "Enviado desde Mensajes"
+    "osSent": "Enviado desde Mensajes",
+    "stopWarning": "STOP también borra el encendido programado a las {time}.",
+    "rearm": "Enviar {command} de nuevo después"
   },
   "plan": {
-    "title": "Programar arranque",
+    "title": "Programar encendido",
     "departure": "Salida",
     "preheat": "Precalentamiento",
     "minutes": "{count} min",
-    "summary": "El calefactor arranca a las {start}; el coche está caliente a las {depart}.",
+    "summary": "El calefactor se enciende a las {start}; el coche está caliente a las {depart}.",
     "sends": "Envía {command} ahora",
     "sendsLater": "Se envía {when}",
     "cta": "Programar",
     "active": "Programación activa",
-    "cancel": "Cancelar arranque programado",
+    "cancel": "Cancelar encendido programado",
     "tomorrow": "mañana",
     "today": "hoy",
-    "tonight": "esta noche a las {time}"
+    "tonight": "esta noche a las {time}",
+    "pastWarning": "La hora de encendido ya ha pasado. Se envía START en su lugar.",
+    "runtimeWarning": "El calefactor se apaga a las {stop}, antes de la salida a las {depart}. El tiempo de funcionamiento es de {count} min y se ajusta en el mando del calefactor."
   },
   "sched": {
     "title": "Días fijos",
@@ -90,7 +102,7 @@
       "body": "Crea un horario, por ejemplo Trabajo lun–vie 07:00. La app envía el comando START por ti."
     },
     "sendsEvening": "Se envía la noche anterior a las {time}",
-    "sendsAtStart": "Se envía a la hora de arranque",
+    "sendsAtStart": "Se envía a la hora de encendido",
     "change": "Cambiar",
     "skipNext": "Omitir el próximo",
     "pauseUntil": "Pausar hasta",
@@ -106,7 +118,13 @@
     "covered": "Cubierto por {name}",
     "edit": "Editar horario",
     "nextRun": "Próximo: {when}",
-    "heaterStarts": "El calefactor arranca a las {time}"
+    "heaterStarts": "El calefactor se enciende a las {time}",
+    "skipSendsStop": "El encendido ya se ha enviado al módulo. Omitir envía STOP.",
+    "automation": "Lo envía Atajos",
+    "automationHelp": "La app no envía recordatorios para este horario. Omitir y pausar se hacen en Atajos; la app muestra cómo.",
+    "byAutomation": "Atajos",
+    "clearPause": "Quitar pausa",
+    "replaced": "Sustituido por {name}"
   },
   "days": {
     "mon": "L",
@@ -143,8 +161,8 @@
     "sending": "Envío",
     "mode": "Modo de envío",
     "modes": {
-      "compose": "Redactar",
-      "composeDesc": "Abre la app de SMS con todo rellenado. Tú pulsas Enviar.",
+      "compose": "Vía Mensajes",
+      "composeDesc": "Abre Mensajes con todo rellenado. Pulsas Enviar allí.",
       "direct": "Directo",
       "directDesc": "Envía SMS en segundo plano. Solo Android Pro (APK).",
       "automation": "Automatización",
@@ -155,10 +173,10 @@
     "confirm": "Confirmar antes de enviar",
     "scheduleSend": "Los días fijos se envían",
     "eveningBefore": "La noche anterior a las {time}",
-    "atStart": "A la hora de arranque",
+    "atStart": "A la hora de encendido",
     "reminders": "Recordatorios",
     "exactAlarm": "Permitir alarmas exactas",
-    "exactAlarmHelp": "Android lo necesita para enviar en el segundo exacto.",
+    "exactAlarmHelp": "Android lo necesita para enviar a la hora exacta.",
     "heater": "Calefactor",
     "defaultPreheat": "Precalentamiento predeterminado",
     "seasonMode": "Modo",
@@ -183,7 +201,24 @@
     "privacy": "Todo se guarda en el teléfono. No se recopilan datos.",
     "vehicle": "Vehículo",
     "vehicleName": "Nombre",
-    "eveningTime": "Hora de la noche anterior"
+    "eveningTime": "Hora de la noche anterior",
+    "heaterRuntime": "Tiempo de funcionamiento del calefactor",
+    "heaterRuntimeHelp": "Se ajusta en el propio mando del calefactor (EasyStart Timer/Select). La app lo usa para avisos y para caducar el estado.",
+    "simValidUntil": "Tarjeta SIM válida hasta",
+    "simHelp": "Recordatorio 7 días antes.",
+    "readReplies": "Leer respuestas del módulo",
+    "readRepliesHelpIos": "Requiere una automatización de Atajos: «Cuando reciba un mensaje del módulo → Abrir Varmestart». La app muestra los pasos.",
+    "readRepliesHelpPro": "La versión Pro lee automáticamente las respuestas del número del módulo.",
+    "pinChange": "Cambiar PIN",
+    "numbersHelp": "Tu propio número siempre se incluye. Todos los números se reenvían en cada cambio. Máximo 5.",
+    "addNumber": "Añadir número",
+    "tempAlarmLow": "Avisar por debajo de",
+    "tempAlarmHigh": "Avisar por encima de",
+    "exportWarning": "La copia contiene números de teléfono. El PIN solo se incluye si marcas la casilla.",
+    "includePin": "Incluir PIN",
+    "deleteConfirm": "¿Borrar todos los datos de este teléfono? No se puede deshacer.",
+    "resetConfirm": "El módulo pierde todos los ajustes, incluidos los números autorizados. ¿Seguro?",
+    "automationGuide": "Pasos para Atajos"
   },
   "onboarding": {
     "welcome": {
@@ -195,11 +230,14 @@
     "skip": "Omitir",
     "number": {
       "title": "Número de teléfono del módulo",
-      "body": "El número de la tarjeta SIM del módulo. Tu propio número debe estar registrado en el módulo para que responda."
+      "body": "El número de la tarjeta SIM del módulo. Tu propio número debe estar registrado en el módulo para que responda.",
+      "field": "Número",
+      "sim": "¿Dos tarjetas SIM? Mensajes debe enviar desde el número registrado en el módulo.",
+      "register": "El primer número lo registra el instalador o se hace con ACCLIM desde un número ya registrado."
     },
     "test": {
       "title": "Probar la conexión",
-      "body": "Envía STATUS al módulo. Con las confirmaciones activadas, responde en menos de un minuto.",
+      "body": "Envía STATUS al módulo y comprueba que responde en Mensajes.",
       "cta": "Enviar STATUS"
     },
     "done": {
@@ -213,7 +251,7 @@
     "title": "Registro",
     "sent": "Enviado",
     "cancelled": "Cancelado",
-    "unknown": "Entregado a la app de mensajes",
+    "unknown": "Pasado a la app de mensajes",
     "delivered": "Entregado",
     "failed": "Fallido",
     "reply": "Respuesta",
@@ -225,7 +263,9 @@
       "direct": "Directo",
       "automation": "Automatización",
       "reminder": "Recordatorio"
-    }
+    },
+    "assumed": "supuesto",
+    "confirmed": "confirmado por el módulo"
   },
   "platform": {
     "label": "Plataforma",
@@ -242,11 +282,13 @@
     "title": "Varmestart",
     "body": "¿Enviar {command} a {vehicle} ahora?",
     "action": "Enviar ahora",
-    "later": "Hoy no"
+    "later": "Hoy no",
+    "morningReserve": "Ayer no enviaste {command}. ¿Enviar START ahora?",
+    "renew": "Abre Varmestart para renovar los horarios de las próximas dos semanas."
   },
   "common": {
-    "on": "Sí",
-    "off": "No",
+    "on": "Activado",
+    "off": "Desactivado",
     "ok": "OK",
     "yes": "Sí",
     "no": "No",
@@ -256,6 +298,10 @@
     "now": "ahora",
     "hours": "{count} h",
     "min": "{count} min",
-    "at": "a las"
+    "at": "a las",
+    "dayAt": "{day} a las {time}",
+    "todayAt": "hoy a las {time}",
+    "tomorrowAt": "mañana a las {time}",
+    "number": "Número"
   }
 }
