@@ -1,0 +1,261 @@
+{
+  "meta": {
+    "code": "nb",
+    "name": "Norsk",
+    "locale": "nb-NO"
+  },
+  "app": {
+    "name": "Varmestart",
+    "tagline": "Varm bil når du går ut døra"
+  },
+  "nav": {
+    "home": "Hjem",
+    "plan": "Planlegg",
+    "schedules": "Faste dager",
+    "settings": "Innstillinger"
+  },
+  "home": {
+    "vehicleDefault": "Bilen",
+    "status": {
+      "unknown": "Status ukjent",
+      "started": "Varmer på",
+      "stopped": "Varmer av",
+      "scheduled": "Start planlagt"
+    },
+    "start": "Start",
+    "stop": "Stopp",
+    "next": "Neste start",
+    "nextNone": "Ingen planlagt start",
+    "startsIn": "Starter om {duration}",
+    "sendsAt": "Sendes {when}",
+    "sentAt": "Sendt {time}",
+    "cancel": "Avbryt",
+    "quick": {
+      "start30": "Start om 30 min",
+      "temp": "Temperatur",
+      "status": "Status"
+    },
+    "recent": "Siste hendelser",
+    "noEvents": "Ingen hendelser enda",
+    "noNumber": {
+      "title": "Legg inn modulens nummer",
+      "body": "Varmestart trenger bare telefonnummeret til SIM-kortet i EasyStart GSM-modulen.",
+      "cta": "Legg inn nummer"
+    },
+    "askModule": "Spør modulen",
+    "replyInMessages": "Svaret kommer i Meldinger",
+    "openMessages": "Åpne Meldinger",
+    "lastReply": "Siste svar fra modulen",
+    "temperature": "Temperatur i bilen"
+  },
+  "sheet": {
+    "title": "Send SMS",
+    "to": "Til",
+    "message": "Melding",
+    "send": "Send",
+    "cancel": "Avbryt",
+    "why": "Hvorfor åpnes Meldinger?",
+    "whyBody": "iPhone og Google Play lar ikke apper sende SMS uten at du trykker Send selv. Varmestart fyller ut alt, du trykker én gang.",
+    "explain": {
+      "start": "Starter varmeren nå.",
+      "stop": "Stopper varmeren og sletter eventuell planlagt start.",
+      "startAt": "Starter varmeren kl. {time}. Modulen holder tiden selv.",
+      "temp": "Spør modulen om temperaturen.",
+      "status": "Spør modulen om status og feilkoder."
+    },
+    "sentDirect": "Sendt direkte",
+    "delivered": "Levert",
+    "osSent": "Sendt fra Meldinger"
+  },
+  "plan": {
+    "title": "Planlegg start",
+    "departure": "Avreise",
+    "preheat": "Forvarming",
+    "minutes": "{count} min",
+    "summary": "Varmeren starter {start}, bilen er varm til {depart}.",
+    "sends": "Sender {command} nå",
+    "sendsLater": "Sendes {when}",
+    "cta": "Planlegg",
+    "active": "Aktiv forhåndsprogrammering",
+    "cancel": "Avbryt planlagt start",
+    "tomorrow": "i morgen",
+    "today": "i dag",
+    "tonight": "i kveld kl. {time}"
+  },
+  "sched": {
+    "title": "Faste dager",
+    "new": "Ny plan",
+    "empty": {
+      "title": "Ingen faste dager enda",
+      "body": "Lag en plan, for eksempel Jobb man–fre 07:00. Appen sender START-kommandoen for deg."
+    },
+    "sendsEvening": "Sendes kvelden før kl. {time}",
+    "sendsAtStart": "Sendes ved starttid",
+    "change": "Endre",
+    "skipNext": "Hopp over neste",
+    "pauseUntil": "Pause til dato",
+    "name": "Navn",
+    "namePlaceholder": "f.eks. Jobb",
+    "days": "Dager",
+    "departure": "Avreise",
+    "preheat": "Forvarming",
+    "save": "Lagre",
+    "delete": "Slett plan",
+    "paused": "Pauset til {date}",
+    "skipped": "Neste gang hoppes over",
+    "covered": "Dekket av {name}",
+    "edit": "Rediger plan",
+    "nextRun": "Neste: {when}",
+    "heaterStarts": "Varmeren starter {time}"
+  },
+  "days": {
+    "mon": "M",
+    "tue": "T",
+    "wed": "O",
+    "thu": "T",
+    "fri": "F",
+    "sat": "L",
+    "sun": "S",
+    "long": {
+      "mon": "Mandag",
+      "tue": "Tirsdag",
+      "wed": "Onsdag",
+      "thu": "Torsdag",
+      "fri": "Fredag",
+      "sat": "Lørdag",
+      "sun": "Søndag"
+    },
+    "weekdays": "Hverdager",
+    "everyday": "Hver dag",
+    "weekend": "Helg"
+  },
+  "settings": {
+    "title": "Innstillinger",
+    "module": "Modul",
+    "phone": "Modulens telefonnummer",
+    "phoneHelp": "Nummeret til SIM-kortet i EasyStart GSM-modulen, ikke ditt eget.",
+    "country": "Land",
+    "test": "Send test-SMS (STATUS)",
+    "profile": "Kommandoprofil",
+    "profileGsm": "Eberspächer EasyStart GSM 2G/4G",
+    "language": "Språk",
+    "languageSystem": "Følg telefonen",
+    "sending": "Sending",
+    "mode": "Sendemodus",
+    "modes": {
+      "compose": "Komponer",
+      "composeDesc": "Åpner SMS-appen med alt utfylt. Du trykker Send.",
+      "direct": "Direkte",
+      "directDesc": "Sender SMS i bakgrunnen. Kun Android Pro (APK).",
+      "automation": "Automasjon",
+      "automationDesc": "iOS Kortkommandoer sender for deg på faste dager.",
+      "reminder": "Påminnelse",
+      "reminderDesc": "Varsling med «Send nå» på sendetidspunktet."
+    },
+    "confirm": "Bekreft før sending",
+    "scheduleSend": "Faste dager sendes",
+    "eveningBefore": "Kvelden før kl. {time}",
+    "atStart": "Ved starttid",
+    "reminders": "Påminnelser",
+    "exactAlarm": "Tillat eksakte alarmer",
+    "exactAlarmHelp": "Android krever dette for sending på sekundet.",
+    "heater": "Varmer",
+    "defaultPreheat": "Standard forvarmingstid",
+    "seasonMode": "Modus",
+    "winter": "Vinter (varme)",
+    "summer": "Sommer (ventilasjon)",
+    "advanced": "Avansert",
+    "pin": "Modulens PIN",
+    "pinHelp": "Brukes bare til konfigurasjonskommandoer. Standard 1234.",
+    "ack": "Bekreftelses-SMS fra modulen",
+    "numbers": "Autoriserte numre",
+    "tempAlarm": "Temperaturalarm",
+    "clear": "Slett feilkoder",
+    "reset": "Fabrikkinnstilling",
+    "data": "Data",
+    "log": "Logg",
+    "export": "Eksporter sikkerhetskopi",
+    "import": "Importer",
+    "deleteAll": "Slett alle data",
+    "about": "Om",
+    "version": "Versjon",
+    "notAffiliated": "Varmestart er ikke tilknyttet Eberspächer. EasyStart er et varemerke som tilhører Eberspächer.",
+    "privacy": "Alt lagres på telefonen. Ingen data samles inn.",
+    "vehicle": "Kjøretøy",
+    "vehicleName": "Navn",
+    "eveningTime": "Klokkeslett kvelden før"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Varm bil med én SMS",
+      "body": "Varmestart styrer Eberspächer-varmeren din gjennom EasyStart GSM-modulen. Du trenger bare modulens telefonnummer."
+    },
+    "next": "Neste",
+    "back": "Tilbake",
+    "skip": "Hopp over",
+    "number": {
+      "title": "Modulens telefonnummer",
+      "body": "Nummeret til SIM-kortet i modulen. Ditt eget nummer må være registrert i modulen for at den skal svare."
+    },
+    "test": {
+      "title": "Test forbindelsen",
+      "body": "Send STATUS til modulen. Har du bekreftelser på, svarer den innen et minutt.",
+      "cta": "Send STATUS"
+    },
+    "done": {
+      "title": "Klar!",
+      "body": "Trykk Start når du vil ha varme. Legg til faste dager så slipper du å huske det.",
+      "cta": "Gå til Hjem"
+    },
+    "step": "Trinn {n} av {total}"
+  },
+  "log": {
+    "title": "Logg",
+    "sent": "Sendt",
+    "cancelled": "Avbrutt",
+    "unknown": "Sendt til meldingsappen",
+    "delivered": "Levert",
+    "failed": "Feilet",
+    "reply": "Svar",
+    "out": "Ut",
+    "in": "Inn",
+    "empty": "Ingen hendelser enda",
+    "mode": {
+      "compose": "Komponer",
+      "direct": "Direkte",
+      "automation": "Automasjon",
+      "reminder": "Påminnelse"
+    }
+  },
+  "platform": {
+    "label": "Plattform",
+    "ios": "iPhone",
+    "android": "Android (Google Play)",
+    "androidPro": "Android Pro (APK)",
+    "note": {
+      "ios": "På iPhone åpnes Meldinger med alt utfylt. Du trykker Send. Faste dager: påminnelse kvelden før, eller Kortkommandoer-automasjon.",
+      "android": "Butikkversjonen åpner SMS-appen med alt utfylt. Du trykker Send. Google Play tillater ikke bakgrunnssending.",
+      "androidPro": "Pro-versjonen sender SMS direkte og i bakgrunnen på faste dager, og leser svar fra modulen."
+    }
+  },
+  "notif": {
+    "title": "Varmestart",
+    "body": "Send {command} til {vehicle} nå?",
+    "action": "Send nå",
+    "later": "Ikke i dag"
+  },
+  "common": {
+    "on": "På",
+    "off": "Av",
+    "ok": "OK",
+    "yes": "Ja",
+    "no": "Nei",
+    "close": "Lukk",
+    "copy": "Kopier",
+    "copied": "Kopiert",
+    "now": "nå",
+    "hours": "{count} t",
+    "min": "{count} min",
+    "at": "kl."
+  }
+}

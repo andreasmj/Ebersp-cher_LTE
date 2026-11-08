@@ -1,0 +1,261 @@
+{
+  "meta": {
+    "code": "fi",
+    "name": "Suomi",
+    "locale": "fi-FI"
+  },
+  "app": {
+    "name": "Varmestart",
+    "tagline": "Lämmin auto, kun astut ulos ovesta"
+  },
+  "nav": {
+    "home": "Koti",
+    "plan": "Ajasta",
+    "schedules": "Viikko-ohjelma",
+    "settings": "Asetukset"
+  },
+  "home": {
+    "vehicleDefault": "Auto",
+    "status": {
+      "unknown": "Tila tuntematon",
+      "started": "Lämmitin päällä",
+      "stopped": "Lämmitin pois",
+      "scheduled": "Käynnistys ajastettu"
+    },
+    "start": "Käynnistä",
+    "stop": "Pysäytä",
+    "next": "Seuraava käynnistys",
+    "nextNone": "Ei ajastettua käynnistystä",
+    "startsIn": "Käynnistyy {duration} kuluttua",
+    "sendsAt": "Lähetetään {when}",
+    "sentAt": "Lähetetty {time}",
+    "cancel": "Peruuta",
+    "quick": {
+      "start30": "Käynnistä 30 min kuluttua",
+      "temp": "Lämpötila",
+      "status": "Tila"
+    },
+    "recent": "Viimeisimmät tapahtumat",
+    "noEvents": "Ei tapahtumia vielä",
+    "noNumber": {
+      "title": "Syötä moduulin numero",
+      "body": "Varmestart tarvitsee vain EasyStart GSM-moduulin SIM-kortin puhelinnumeron.",
+      "cta": "Syötä numero"
+    },
+    "askModule": "Kysy moduulilta",
+    "replyInMessages": "Vastaus tulee Viestit-sovellukseen",
+    "openMessages": "Avaa Viestit",
+    "lastReply": "Moduulin viimeisin vastaus",
+    "temperature": "Auton sisälämpötila"
+  },
+  "sheet": {
+    "title": "Lähetä tekstiviesti",
+    "to": "Vastaanottaja",
+    "message": "Viesti",
+    "send": "Lähetä",
+    "cancel": "Peruuta",
+    "why": "Miksi Viestit avautuu?",
+    "whyBody": "iPhone ja Google Play eivät salli sovellusten lähettää tekstiviestejä ilman, että painat Lähetä. Varmestart täyttää kaiken, sinä painat kerran.",
+    "explain": {
+      "start": "Käynnistää lämmittimen nyt.",
+      "stop": "Pysäyttää lämmittimen ja poistaa mahdollisen ajastetun käynnistyksen.",
+      "startAt": "Käynnistää lämmittimen klo {time}. Moduuli pitää ajan itse.",
+      "temp": "Kysyy moduulilta lämpötilan.",
+      "status": "Kysyy moduulilta tilan ja vikakoodit."
+    },
+    "sentDirect": "Lähetetty suoraan",
+    "delivered": "Toimitettu",
+    "osSent": "Lähetetty Viesteistä"
+  },
+  "plan": {
+    "title": "Ajasta käynnistys",
+    "departure": "Lähtöaika",
+    "preheat": "Esilämmitys",
+    "minutes": "{count} min",
+    "summary": "Lämmitin käynnistyy {start}, auto on lämmin klo {depart}.",
+    "sends": "Lähettää {command} nyt",
+    "sendsLater": "Lähetetään {when}",
+    "cta": "Ajasta",
+    "active": "Aktiivinen ajastus",
+    "cancel": "Peruuta ajastettu käynnistys",
+    "tomorrow": "huomenna",
+    "today": "tänään",
+    "tonight": "tänä iltana klo {time}"
+  },
+  "sched": {
+    "title": "Viikko-ohjelma",
+    "new": "Uusi ohjelma",
+    "empty": {
+      "title": "Ei viikko-ohjelmia vielä",
+      "body": "Luo ohjelma, esimerkiksi Työ ma–pe 07:00. Sovellus lähettää START-komennon puolestasi."
+    },
+    "sendsEvening": "Lähetetään edellisenä iltana klo {time}",
+    "sendsAtStart": "Lähetetään käynnistysaikaan",
+    "change": "Muuta",
+    "skipNext": "Ohita seuraava",
+    "pauseUntil": "Tauko päivämäärään",
+    "name": "Nimi",
+    "namePlaceholder": "esim. Työ",
+    "days": "Päivät",
+    "departure": "Lähtöaika",
+    "preheat": "Esilämmitys",
+    "save": "Tallenna",
+    "delete": "Poista ohjelma",
+    "paused": "Tauolla {date} asti",
+    "skipped": "Seuraava kerta ohitetaan",
+    "covered": "Katettu: {name}",
+    "edit": "Muokkaa ohjelmaa",
+    "nextRun": "Seuraava: {when}",
+    "heaterStarts": "Lämmitin käynnistyy {time}"
+  },
+  "days": {
+    "mon": "Ma",
+    "tue": "Ti",
+    "wed": "Ke",
+    "thu": "To",
+    "fri": "Pe",
+    "sat": "La",
+    "sun": "Su",
+    "long": {
+      "mon": "Maanantai",
+      "tue": "Tiistai",
+      "wed": "Keskiviikko",
+      "thu": "Torstai",
+      "fri": "Perjantai",
+      "sat": "Lauantai",
+      "sun": "Sunnuntai"
+    },
+    "weekdays": "Arkipäivät",
+    "everyday": "Joka päivä",
+    "weekend": "Viikonloppu"
+  },
+  "settings": {
+    "title": "Asetukset",
+    "module": "Moduuli",
+    "phone": "Moduulin puhelinnumero",
+    "phoneHelp": "EasyStart GSM-moduulin SIM-kortin numero, ei omasi.",
+    "country": "Maa",
+    "test": "Lähetä testiviesti (STATUS)",
+    "profile": "Komentoprofiili",
+    "profileGsm": "Eberspächer EasyStart GSM 2G/4G",
+    "language": "Kieli",
+    "languageSystem": "Puhelimen mukaan",
+    "sending": "Lähetys",
+    "mode": "Lähetystapa",
+    "modes": {
+      "compose": "Viestisovellus",
+      "composeDesc": "Avaa viestisovelluksen valmiiksi täytettynä. Sinä painat Lähetä.",
+      "direct": "Suora",
+      "directDesc": "Lähettää tekstiviestin taustalla. Vain Android Pro (APK).",
+      "automation": "Automaatio",
+      "automationDesc": "iOS Pikakomennot lähettää puolestasi viikko-ohjelman mukaan.",
+      "reminder": "Muistutus",
+      "reminderDesc": "Ilmoitus ”Lähetä nyt” lähetysaikaan."
+    },
+    "confirm": "Vahvista ennen lähetystä",
+    "scheduleSend": "Viikko-ohjelma lähetetään",
+    "eveningBefore": "Edellisenä iltana klo {time}",
+    "atStart": "Käynnistysaikaan",
+    "reminders": "Muistutukset",
+    "exactAlarm": "Salli tarkat hälytykset",
+    "exactAlarmHelp": "Android vaatii tämän sekunnin tarkkaan lähetykseen.",
+    "heater": "Lämmitin",
+    "defaultPreheat": "Oletusesilämmitysaika",
+    "seasonMode": "Tila",
+    "winter": "Talvi (lämmitys)",
+    "summer": "Kesä (tuuletus)",
+    "advanced": "Lisäasetukset",
+    "pin": "Moduulin PIN",
+    "pinHelp": "Käytetään vain asetuskomentoihin. Oletus 1234.",
+    "ack": "Vahvistusviesti moduulilta",
+    "numbers": "Valtuutetut numerot",
+    "tempAlarm": "Lämpötilahälytys",
+    "clear": "Poista vikakoodit",
+    "reset": "Tehdasasetukset",
+    "data": "Tiedot",
+    "log": "Loki",
+    "export": "Vie varmuuskopio",
+    "import": "Tuo",
+    "deleteAll": "Poista kaikki tiedot",
+    "about": "Tietoja",
+    "version": "Versio",
+    "notAffiliated": "Varmestart ei ole Eberspächerin sovellus. EasyStart on Eberspächerin tavaramerkki.",
+    "privacy": "Kaikki tallennetaan puhelimeen. Tietoja ei kerätä.",
+    "vehicle": "Ajoneuvo",
+    "vehicleName": "Nimi",
+    "eveningTime": "Kellonaika edellisenä iltana"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Lämmin auto yhdellä tekstiviestillä",
+      "body": "Varmestart ohjaa Eberspächer-lämmitintäsi EasyStart GSM-moduulin kautta. Tarvitset vain moduulin puhelinnumeron."
+    },
+    "next": "Seuraava",
+    "back": "Takaisin",
+    "skip": "Ohita",
+    "number": {
+      "title": "Moduulin puhelinnumero",
+      "body": "Moduulin SIM-kortin numero. Oman numerosi on oltava rekisteröity moduuliin, jotta se vastaa."
+    },
+    "test": {
+      "title": "Testaa yhteys",
+      "body": "Lähetä STATUS moduulille. Kun vahvistukset ovat päällä, se vastaa minuutin sisällä.",
+      "cta": "Lähetä STATUS"
+    },
+    "done": {
+      "title": "Valmis!",
+      "body": "Paina Käynnistä, kun haluat lämpöä. Lisää viikko-ohjelma, niin sinun ei tarvitse muistaa.",
+      "cta": "Siirry Kotiin"
+    },
+    "step": "Vaihe {n}/{total}"
+  },
+  "log": {
+    "title": "Loki",
+    "sent": "Lähetetty",
+    "cancelled": "Peruutettu",
+    "unknown": "Siirretty viestisovellukseen",
+    "delivered": "Toimitettu",
+    "failed": "Epäonnistui",
+    "reply": "Vastaus",
+    "out": "Lähtevä",
+    "in": "Saapuva",
+    "empty": "Ei tapahtumia vielä",
+    "mode": {
+      "compose": "Viestisovellus",
+      "direct": "Suora",
+      "automation": "Automaatio",
+      "reminder": "Muistutus"
+    }
+  },
+  "platform": {
+    "label": "Alusta",
+    "ios": "iPhone",
+    "android": "Android (Google Play)",
+    "androidPro": "Android Pro (APK)",
+    "note": {
+      "ios": "iPhonessa Viestit avautuu valmiiksi täytettynä. Sinä painat Lähetä. Viikko-ohjelma: muistutus edellisenä iltana tai Pikakomennot-automaatio.",
+      "android": "Kauppaversio avaa viestisovelluksen valmiiksi täytettynä. Sinä painat Lähetä. Google Play ei salli lähetystä taustalla.",
+      "androidPro": "Pro-versio lähettää tekstiviestit suoraan ja taustalla viikko-ohjelman mukaan ja lukee moduulin vastaukset."
+    }
+  },
+  "notif": {
+    "title": "Varmestart",
+    "body": "Lähetetäänkö {command} kohteeseen {vehicle} nyt?",
+    "action": "Lähetä nyt",
+    "later": "Ei tänään"
+  },
+  "common": {
+    "on": "Päällä",
+    "off": "Pois",
+    "ok": "OK",
+    "yes": "Kyllä",
+    "no": "Ei",
+    "close": "Sulje",
+    "copy": "Kopioi",
+    "copied": "Kopioitu",
+    "now": "nyt",
+    "hours": "{count} h",
+    "min": "{count} min",
+    "at": "klo"
+  }
+}

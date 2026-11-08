@@ -1,0 +1,261 @@
+{
+  "meta": {
+    "code": "de",
+    "name": "Deutsch",
+    "locale": "de-DE"
+  },
+  "app": {
+    "name": "Varmestart",
+    "tagline": "Warmes Auto, wenn du aus der Tür gehst"
+  },
+  "nav": {
+    "home": "Start",
+    "plan": "Planen",
+    "schedules": "Wochenplan",
+    "settings": "Einstellungen"
+  },
+  "home": {
+    "vehicleDefault": "Mein Auto",
+    "status": {
+      "unknown": "Status unbekannt",
+      "started": "Heizung an",
+      "stopped": "Heizung aus",
+      "scheduled": "Start geplant"
+    },
+    "start": "Start",
+    "stop": "Stopp",
+    "next": "Nächster Start",
+    "nextNone": "Kein Start geplant",
+    "startsIn": "Startet in {duration}",
+    "sendsAt": "Wird {when} gesendet",
+    "sentAt": "Gesendet {time}",
+    "cancel": "Abbrechen",
+    "quick": {
+      "start30": "Start in 30 Min",
+      "temp": "Temperatur",
+      "status": "Status"
+    },
+    "recent": "Letzte Ereignisse",
+    "noEvents": "Noch keine Ereignisse",
+    "noNumber": {
+      "title": "Nummer des Moduls eingeben",
+      "body": "Varmestart braucht nur die Telefonnummer der SIM-Karte im EasyStart GSM-Modul.",
+      "cta": "Nummer eingeben"
+    },
+    "askModule": "Modul abfragen",
+    "replyInMessages": "Die Antwort kommt in Nachrichten",
+    "openMessages": "Nachrichten öffnen",
+    "lastReply": "Letzte Antwort des Moduls",
+    "temperature": "Innenraumtemperatur"
+  },
+  "sheet": {
+    "title": "SMS senden",
+    "to": "An",
+    "message": "Nachricht",
+    "send": "Senden",
+    "cancel": "Abbrechen",
+    "why": "Warum öffnet sich Nachrichten?",
+    "whyBody": "iPhone und Google Play erlauben Apps kein SMS-Senden ohne dein Tippen auf Senden. Varmestart füllt alles aus, du tippst einmal.",
+    "explain": {
+      "start": "Startet die Heizung jetzt.",
+      "stop": "Stoppt die Heizung und löscht einen geplanten Start.",
+      "startAt": "Startet die Heizung um {time}. Das Modul hält die Zeit selbst ein.",
+      "temp": "Fragt das Modul nach der Temperatur.",
+      "status": "Fragt das Modul nach Status und Fehlercodes."
+    },
+    "sentDirect": "Direkt gesendet",
+    "delivered": "Zugestellt",
+    "osSent": "Aus Nachrichten gesendet"
+  },
+  "plan": {
+    "title": "Start planen",
+    "departure": "Abfahrt",
+    "preheat": "Vorheizen",
+    "minutes": "{count} Min",
+    "summary": "Die Heizung startet um {start}, das Auto ist bis {depart} warm.",
+    "sends": "Sendet jetzt {command}",
+    "sendsLater": "Wird {when} gesendet",
+    "cta": "Planen",
+    "active": "Aktiver geplanter Start",
+    "cancel": "Geplanten Start abbrechen",
+    "tomorrow": "morgen",
+    "today": "heute",
+    "tonight": "heute Abend um {time}"
+  },
+  "sched": {
+    "title": "Wochenplan",
+    "new": "Neuer Plan",
+    "empty": {
+      "title": "Noch kein Wochenplan",
+      "body": "Lege einen Plan an, z. B. Arbeit Mo–Fr 07:00. Die App sendet den START-Befehl für dich."
+    },
+    "sendsEvening": "Wird am Vorabend um {time} gesendet",
+    "sendsAtStart": "Wird zur Startzeit gesendet",
+    "change": "Ändern",
+    "skipNext": "Nächsten überspringen",
+    "pauseUntil": "Pausieren bis",
+    "name": "Name",
+    "namePlaceholder": "z. B. Arbeit",
+    "days": "Tage",
+    "departure": "Abfahrt",
+    "preheat": "Vorheizen",
+    "save": "Speichern",
+    "delete": "Plan löschen",
+    "paused": "Pausiert bis {date}",
+    "skipped": "Nächstes Mal übersprungen",
+    "covered": "Abgedeckt durch {name}",
+    "edit": "Plan bearbeiten",
+    "nextRun": "Nächster: {when}",
+    "heaterStarts": "Heizung startet um {time}"
+  },
+  "days": {
+    "mon": "Mo",
+    "tue": "Di",
+    "wed": "Mi",
+    "thu": "Do",
+    "fri": "Fr",
+    "sat": "Sa",
+    "sun": "So",
+    "long": {
+      "mon": "Montag",
+      "tue": "Dienstag",
+      "wed": "Mittwoch",
+      "thu": "Donnerstag",
+      "fri": "Freitag",
+      "sat": "Samstag",
+      "sun": "Sonntag"
+    },
+    "weekdays": "Wochentags",
+    "everyday": "Täglich",
+    "weekend": "Wochenende"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "module": "Modul",
+    "phone": "Telefonnummer des Moduls",
+    "phoneHelp": "Die Nummer der SIM-Karte im EasyStart GSM-Modul, nicht deine eigene.",
+    "country": "Land",
+    "test": "Test-SMS senden (STATUS)",
+    "profile": "Befehlsprofil",
+    "profileGsm": "Eberspächer EasyStart GSM 2G/4G",
+    "language": "Sprache",
+    "languageSystem": "Wie Telefon",
+    "sending": "Senden",
+    "mode": "Sendemodus",
+    "modes": {
+      "compose": "Verfassen",
+      "composeDesc": "Öffnet die SMS-App mit allem ausgefüllt. Du tippst Senden.",
+      "direct": "Direkt",
+      "directDesc": "Sendet SMS im Hintergrund. Nur Android Pro (APK).",
+      "automation": "Automation",
+      "automationDesc": "iOS-Kurzbefehle senden für dich nach Wochenplan.",
+      "reminder": "Erinnerung",
+      "reminderDesc": "Mitteilung mit „Jetzt senden“ zur Sendezeit."
+    },
+    "confirm": "Vor dem Senden bestätigen",
+    "scheduleSend": "Wochenplan senden",
+    "eveningBefore": "Am Vorabend um {time}",
+    "atStart": "Zur Startzeit",
+    "reminders": "Erinnerungen",
+    "exactAlarm": "Exakte Alarme erlauben",
+    "exactAlarmHelp": "Android braucht dies für sekundengenaues Senden.",
+    "heater": "Heizung",
+    "defaultPreheat": "Standard-Vorheizzeit",
+    "seasonMode": "Modus",
+    "winter": "Winter (Heizen)",
+    "summer": "Sommer (Lüften)",
+    "advanced": "Erweitert",
+    "pin": "PIN des Moduls",
+    "pinHelp": "Nur für Konfigurationsbefehle. Standard 1234.",
+    "ack": "Bestätigungs-SMS vom Modul",
+    "numbers": "Berechtigte Nummern",
+    "tempAlarm": "Temperaturalarm",
+    "clear": "Fehlercodes löschen",
+    "reset": "Werkseinstellungen",
+    "data": "Daten",
+    "log": "Protokoll",
+    "export": "Sicherung exportieren",
+    "import": "Importieren",
+    "deleteAll": "Alle Daten löschen",
+    "about": "Über",
+    "version": "Version",
+    "notAffiliated": "Varmestart ist nicht mit Eberspächer verbunden. EasyStart ist eine Marke von Eberspächer.",
+    "privacy": "Alles wird auf dem Telefon gespeichert. Es werden keine Daten erhoben.",
+    "vehicle": "Fahrzeug",
+    "vehicleName": "Name",
+    "eveningTime": "Uhrzeit am Vorabend"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Warmes Auto mit einer SMS",
+      "body": "Varmestart steuert deine Eberspächer-Heizung über das EasyStart GSM-Modul. Du brauchst nur die Telefonnummer des Moduls."
+    },
+    "next": "Weiter",
+    "back": "Zurück",
+    "skip": "Überspringen",
+    "number": {
+      "title": "Telefonnummer des Moduls",
+      "body": "Die Nummer der SIM-Karte im Modul. Deine eigene Nummer muss im Modul registriert sein, damit es antwortet."
+    },
+    "test": {
+      "title": "Verbindung testen",
+      "body": "Sende STATUS an das Modul. Mit eingeschalteten Bestätigungen antwortet es innerhalb einer Minute.",
+      "cta": "STATUS senden"
+    },
+    "done": {
+      "title": "Fertig!",
+      "body": "Tippe Start, wann immer du Wärme willst. Lege einen Wochenplan an, damit du nichts vergisst.",
+      "cta": "Zur Startseite"
+    },
+    "step": "Schritt {n} von {total}"
+  },
+  "log": {
+    "title": "Protokoll",
+    "sent": "Gesendet",
+    "cancelled": "Abgebrochen",
+    "unknown": "An Nachrichten-App übergeben",
+    "delivered": "Zugestellt",
+    "failed": "Fehlgeschlagen",
+    "reply": "Antwort",
+    "out": "Aus",
+    "in": "Ein",
+    "empty": "Noch keine Ereignisse",
+    "mode": {
+      "compose": "Verfassen",
+      "direct": "Direkt",
+      "automation": "Automation",
+      "reminder": "Erinnerung"
+    }
+  },
+  "platform": {
+    "label": "Plattform",
+    "ios": "iPhone",
+    "android": "Android (Google Play)",
+    "androidPro": "Android Pro (APK)",
+    "note": {
+      "ios": "Auf dem iPhone öffnet sich Nachrichten mit allem ausgefüllt. Du tippst Senden. Wochenplan: Erinnerung am Vorabend oder Kurzbefehle-Automation.",
+      "android": "Die Store-Version öffnet die SMS-App mit allem ausgefüllt. Du tippst Senden. Google Play erlaubt kein Senden im Hintergrund.",
+      "androidPro": "Die Pro-Version sendet SMS direkt und im Hintergrund nach Wochenplan und liest Antworten des Moduls."
+    }
+  },
+  "notif": {
+    "title": "Varmestart",
+    "body": "{command} jetzt an {vehicle} senden?",
+    "action": "Jetzt senden",
+    "later": "Heute nicht"
+  },
+  "common": {
+    "on": "An",
+    "off": "Aus",
+    "ok": "OK",
+    "yes": "Ja",
+    "no": "Nein",
+    "close": "Schließen",
+    "copy": "Kopieren",
+    "copied": "Kopiert",
+    "now": "jetzt",
+    "hours": "{count} Std",
+    "min": "{count} Min",
+    "at": "um"
+  }
+}

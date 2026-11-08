@@ -1,0 +1,261 @@
+{
+  "meta": {
+    "code": "en",
+    "name": "English",
+    "locale": "en-GB"
+  },
+  "app": {
+    "name": "Varmestart",
+    "tagline": "A warm car when you walk out the door"
+  },
+  "nav": {
+    "home": "Home",
+    "plan": "Plan",
+    "schedules": "Weekly",
+    "settings": "Settings"
+  },
+  "home": {
+    "vehicleDefault": "My car",
+    "status": {
+      "unknown": "Status unknown",
+      "started": "Heater on",
+      "stopped": "Heater off",
+      "scheduled": "Start scheduled"
+    },
+    "start": "Start",
+    "stop": "Stop",
+    "next": "Next start",
+    "nextNone": "No start scheduled",
+    "startsIn": "Starts in {duration}",
+    "sendsAt": "Sends {when}",
+    "sentAt": "Sent {time}",
+    "cancel": "Cancel",
+    "quick": {
+      "start30": "Start in 30 min",
+      "temp": "Temperature",
+      "status": "Status"
+    },
+    "recent": "Recent events",
+    "noEvents": "No events yet",
+    "noNumber": {
+      "title": "Add the module's number",
+      "body": "Varmestart only needs the phone number of the SIM card in the EasyStart GSM module.",
+      "cta": "Add number"
+    },
+    "askModule": "Ask the module",
+    "replyInMessages": "The reply arrives in Messages",
+    "openMessages": "Open Messages",
+    "lastReply": "Last reply from module",
+    "temperature": "Cabin temperature"
+  },
+  "sheet": {
+    "title": "Send SMS",
+    "to": "To",
+    "message": "Message",
+    "send": "Send",
+    "cancel": "Cancel",
+    "why": "Why does Messages open?",
+    "whyBody": "iPhone and Google Play do not let apps send SMS without you tapping Send. Varmestart fills in everything; you tap once.",
+    "explain": {
+      "start": "Starts the heater now.",
+      "stop": "Stops the heater and clears any scheduled start.",
+      "startAt": "Starts the heater at {time}. The module keeps the time itself.",
+      "temp": "Asks the module for the temperature.",
+      "status": "Asks the module for status and fault codes."
+    },
+    "sentDirect": "Sent directly",
+    "delivered": "Delivered",
+    "osSent": "Sent from Messages"
+  },
+  "plan": {
+    "title": "Plan a start",
+    "departure": "Departure",
+    "preheat": "Preheat",
+    "minutes": "{count} min",
+    "summary": "The heater starts at {start}; the car is warm by {depart}.",
+    "sends": "Sends {command} now",
+    "sendsLater": "Sends {when}",
+    "cta": "Schedule",
+    "active": "Active scheduled start",
+    "cancel": "Cancel scheduled start",
+    "tomorrow": "tomorrow",
+    "today": "today",
+    "tonight": "tonight at {time}"
+  },
+  "sched": {
+    "title": "Weekly",
+    "new": "New schedule",
+    "empty": {
+      "title": "No weekly schedules yet",
+      "body": "Create one, for example Work Mon–Fri 07:00. The app sends the START command for you."
+    },
+    "sendsEvening": "Sent the evening before at {time}",
+    "sendsAtStart": "Sent at start time",
+    "change": "Change",
+    "skipNext": "Skip next",
+    "pauseUntil": "Pause until date",
+    "name": "Name",
+    "namePlaceholder": "e.g. Work",
+    "days": "Days",
+    "departure": "Departure",
+    "preheat": "Preheat",
+    "save": "Save",
+    "delete": "Delete schedule",
+    "paused": "Paused until {date}",
+    "skipped": "Next one skipped",
+    "covered": "Covered by {name}",
+    "edit": "Edit schedule",
+    "nextRun": "Next: {when}",
+    "heaterStarts": "Heater starts at {time}"
+  },
+  "days": {
+    "mon": "M",
+    "tue": "T",
+    "wed": "W",
+    "thu": "T",
+    "fri": "F",
+    "sat": "S",
+    "sun": "S",
+    "long": {
+      "mon": "Monday",
+      "tue": "Tuesday",
+      "wed": "Wednesday",
+      "thu": "Thursday",
+      "fri": "Friday",
+      "sat": "Saturday",
+      "sun": "Sunday"
+    },
+    "weekdays": "Weekdays",
+    "everyday": "Every day",
+    "weekend": "Weekend"
+  },
+  "settings": {
+    "title": "Settings",
+    "module": "Module",
+    "phone": "Module phone number",
+    "phoneHelp": "The number of the SIM card in the EasyStart GSM module, not your own.",
+    "country": "Country",
+    "test": "Send test SMS (STATUS)",
+    "profile": "Command profile",
+    "profileGsm": "Eberspächer EasyStart GSM 2G/4G",
+    "language": "Language",
+    "languageSystem": "Follow phone",
+    "sending": "Sending",
+    "mode": "Send mode",
+    "modes": {
+      "compose": "Compose",
+      "composeDesc": "Opens the SMS app with everything filled in. You tap Send.",
+      "direct": "Direct",
+      "directDesc": "Sends SMS in the background. Android Pro (APK) only.",
+      "automation": "Automation",
+      "automationDesc": "iOS Shortcuts sends for you on weekly schedules.",
+      "reminder": "Reminder",
+      "reminderDesc": "Notification with “Send now” at send time."
+    },
+    "confirm": "Confirm before sending",
+    "scheduleSend": "Weekly schedules are sent",
+    "eveningBefore": "The evening before at {time}",
+    "atStart": "At start time",
+    "reminders": "Reminders",
+    "exactAlarm": "Allow exact alarms",
+    "exactAlarmHelp": "Android needs this to send on the second.",
+    "heater": "Heater",
+    "defaultPreheat": "Default preheat time",
+    "seasonMode": "Mode",
+    "winter": "Winter (heat)",
+    "summer": "Summer (ventilation)",
+    "advanced": "Advanced",
+    "pin": "Module PIN",
+    "pinHelp": "Used only for configuration commands. Default 1234.",
+    "ack": "Confirmation SMS from module",
+    "numbers": "Authorised numbers",
+    "tempAlarm": "Temperature alarm",
+    "clear": "Clear fault codes",
+    "reset": "Factory reset",
+    "data": "Data",
+    "log": "Log",
+    "export": "Export backup",
+    "import": "Import",
+    "deleteAll": "Delete all data",
+    "about": "About",
+    "version": "Version",
+    "notAffiliated": "Varmestart is not affiliated with Eberspächer. EasyStart is a trademark of Eberspächer.",
+    "privacy": "Everything is stored on your phone. No data is collected.",
+    "vehicle": "Vehicle",
+    "vehicleName": "Name",
+    "eveningTime": "Time the evening before"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "A warm car with one SMS",
+      "body": "Varmestart controls your Eberspächer heater through the EasyStart GSM module. All you need is the module's phone number."
+    },
+    "next": "Next",
+    "back": "Back",
+    "skip": "Skip",
+    "number": {
+      "title": "Module phone number",
+      "body": "The number of the SIM card in the module. Your own number must be registered in the module for it to respond."
+    },
+    "test": {
+      "title": "Test the connection",
+      "body": "Send STATUS to the module. With confirmations on, it replies within a minute.",
+      "cta": "Send STATUS"
+    },
+    "done": {
+      "title": "Ready!",
+      "body": "Tap Start whenever you want heat. Add weekly schedules so you never have to remember.",
+      "cta": "Go to Home"
+    },
+    "step": "Step {n} of {total}"
+  },
+  "log": {
+    "title": "Log",
+    "sent": "Sent",
+    "cancelled": "Cancelled",
+    "unknown": "Handed to messaging app",
+    "delivered": "Delivered",
+    "failed": "Failed",
+    "reply": "Reply",
+    "out": "Out",
+    "in": "In",
+    "empty": "No events yet",
+    "mode": {
+      "compose": "Compose",
+      "direct": "Direct",
+      "automation": "Automation",
+      "reminder": "Reminder"
+    }
+  },
+  "platform": {
+    "label": "Platform",
+    "ios": "iPhone",
+    "android": "Android (Google Play)",
+    "androidPro": "Android Pro (APK)",
+    "note": {
+      "ios": "On iPhone, Messages opens with everything filled in. You tap Send. Weekly: reminder the evening before, or a Shortcuts automation.",
+      "android": "The store version opens the SMS app with everything filled in. You tap Send. Google Play does not allow background sending.",
+      "androidPro": "The Pro version sends SMS directly and in the background on weekly schedules, and reads replies from the module."
+    }
+  },
+  "notif": {
+    "title": "Varmestart",
+    "body": "Send {command} to {vehicle} now?",
+    "action": "Send now",
+    "later": "Not today"
+  },
+  "common": {
+    "on": "On",
+    "off": "Off",
+    "ok": "OK",
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close",
+    "copy": "Copy",
+    "copied": "Copied",
+    "now": "now",
+    "hours": "{count} h",
+    "min": "{count} min",
+    "at": "at"
+  }
+}

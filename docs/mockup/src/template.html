@@ -1,0 +1,641 @@
+<title>Varmestart</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: workbench. Phone on the left runs the app; commentary column on the right explains the screen,
+   shows the exact SMS and the platform rules. Stacks to one column at phone width. */
+:root{
+  --bg:#EDF1F5; --surface:#FFFFFF; --surface-2:#F5F7FA; --fg:#141E28; --muted:#5E6E7E; --line:#D7DEE6;
+  --accent:#E4561B; --accent-ink:#FFFFFF; --accent-soft:#FBE6DB; --accent-text:#B0410F;
+  --good:#1F8A5B; --good-soft:#DDF3E8; --warn:#B8860B; --warn-soft:#FBF0D0; --bad:#C83D3D; --bad-soft:#FADADA; --info:#2E6FD1; --info-soft:#DFEAFB;
+  --phone-bg:#F2F5F8; --phone-surface:#FFFFFF; --phone-line:#E1E7ED; --bezel:#10161C;
+  --display:'Outfit',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --radius:14px; --shadow:0 1px 2px rgba(20,30,40,.06),0 8px 24px rgba(20,30,40,.08);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0C1218; --surface:#151D26; --surface-2:#1B2531; --fg:#E7EDF3; --muted:#9AAAB9; --line:#2A3542;
+  --accent:#FF7A33; --accent-ink:#1A0E06; --accent-soft:#3A2416; --accent-text:#FFA26B;
+  --good:#3FB37C; --good-soft:#163A2B; --warn:#E0B13A; --warn-soft:#3A3014; --bad:#E86262; --bad-soft:#3F1C1C; --info:#6EA2F0; --info-soft:#1A2B45;
+  --phone-bg:#0F161E; --phone-surface:#17212B; --phone-line:#263240; --bezel:#2A333D; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0C1218; --surface:#151D26; --surface-2:#1B2531; --fg:#E7EDF3; --muted:#9AAAB9; --line:#2A3542;
+  --accent:#FF7A33; --accent-ink:#1A0E06; --accent-soft:#3A2416; --accent-text:#FFA26B;
+  --good:#3FB37C; --good-soft:#163A2B; --warn:#E0B13A; --warn-soft:#3A3014; --bad:#E86262; --bad-soft:#3F1C1C; --info:#6EA2F0; --info-soft:#1A2B45;
+  --phone-bg:#0F161E; --phone-surface:#17212B; --phone-line:#263240; --bezel:#2A333D; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 32px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--info);outline-offset:2px}
+code,.mono{font-family:var(--mono)}
+.num{font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+.top{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:16px 24px;align-items:flex-end;justify-content:space-between;padding-block:22px 18px}
+.brand h1{font-size:28px;font-weight:700;letter-spacing:-.01em}
+.brand p{margin:4px 0 0;color:var(--muted);max-width:60ch}
+.controls{display:flex;gap:12px;flex-wrap:wrap}
+.controls label{display:flex;flex-direction:column;gap:4px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.controls select{font:inherit;font-size:14px;letter-spacing:0;text-transform:none;font-weight:500;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:170px}
+
+.stage{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(300px,420px) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:860px){.stage{grid-template-columns:1fr}}
+
+/* ---------- Phone ---------- */
+.phone-wrap{display:flex;justify-content:center}
+.phone{width:min(390px,100%);height:min(820px,calc(100dvh - 40px));min-height:640px;border:9px solid var(--bezel);border-radius:46px;background:var(--phone-bg);overflow:hidden;display:flex;flex-direction:column;position:sticky;top:12px;box-shadow:var(--shadow)}
+@media (max-width:860px){.phone{position:static;height:auto;min-height:0}}
+.statusbar{display:flex;justify-content:space-between;align-items:center;padding:10px 24px 4px;font-size:13px;font-weight:600;color:var(--fg)}
+.statusbar .pill{width:110px;height:28px;border-radius:16px;background:var(--bezel)}
+.screen{flex:1;min-height:0;overflow-y:auto;padding:8px 18px 20px;display:flex;flex-direction:column;gap:14px;scrollbar-width:thin}
+.screen>*{flex-shrink:0}
+@media (max-width:860px){.screen{overflow:visible}}
+.tabbar{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--phone-line);background:var(--phone-surface);padding:8px 6px 18px}
+.tabbar button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:500;color:var(--muted);padding:4px 2px;border-radius:10px}
+.tabbar button[aria-current="page"]{color:var(--accent-text)}
+.tabbar svg{width:24px;height:24px}
+
+.phone-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding-top:6px}
+.phone-head h2{font-size:26px;font-weight:700}
+.phone-head .sub{color:var(--muted);font-size:13px;margin-top:2px}
+.badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.badge::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.badge.unknown{background:var(--surface-2);color:var(--muted)}
+.badge.started{background:var(--good-soft);color:var(--good)}
+.badge.stopped{background:var(--surface-2);color:var(--muted)}
+.badge.scheduled{background:var(--info-soft);color:var(--info)}
+
+.card{background:var(--phone-surface);border:1px solid var(--phone-line);border-radius:var(--radius);padding:14px}
+.card h3{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600;margin-bottom:8px}
+.card .big{font-family:var(--display);font-size:22px;font-weight:600}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.stack{display:flex;flex-direction:column;gap:8px}
+.hint{color:var(--muted);font-size:13px}
+.ghost{background:none;border:1px solid var(--phone-line);border-radius:10px;padding:8px 12px;font-weight:500;font-size:13px}
+.ghost.danger{color:var(--bad);border-color:var(--bad)}
+.primary{background:var(--accent);color:var(--accent-ink);border:0;border-radius:12px;padding:14px 16px;font-weight:600;font-size:16px;width:100%}
+.primary:disabled{opacity:.5;cursor:not-allowed}
+.secondary{background:var(--accent-soft);color:var(--accent-text);border:0;border-radius:12px;padding:12px 16px;font-weight:600;font-size:15px;width:100%}
+.link{background:none;border:0;color:var(--info);font-weight:500;padding:4px 0;font-size:14px;text-align:left}
+
+.bigbtn-wrap{display:flex;justify-content:center;padding:10px 0 4px}
+.bigbtn{width:176px;height:176px;border-radius:50%;border:0;font-family:var(--display);font-size:30px;font-weight:700;color:var(--accent-ink);background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--accent) 80%,white) 0,var(--accent) 60%);box-shadow:0 0 0 12px var(--accent-soft),0 14px 30px rgba(228,86,27,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:transform .12s}
+.bigbtn small{font-family:var(--body);font-size:12px;font-weight:500;opacity:.9}
+.bigbtn:active{transform:scale(.97)}
+.bigbtn.stop{background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--bad) 80%,white) 0,var(--bad) 60%);box-shadow:0 0 0 12px var(--bad-soft),0 14px 30px rgba(200,61,61,.25);color:#fff}
+.bigbtn:disabled{filter:grayscale(1);opacity:.5}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.quick button{background:var(--phone-surface);border:1px solid var(--phone-line);border-radius:12px;padding:10px 6px;font-size:12.5px;font-weight:500;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--fg)}
+.quick svg{width:20px;height:20px;color:var(--accent-text)}
+
+.events{display:flex;flex-direction:column}
+.event{display:grid;grid-template-columns:52px 1fr auto;gap:10px;padding:8px 0;border-top:1px solid var(--phone-line);font-size:13px;align-items:baseline}
+.event:first-of-type{border-top:0}
+.event .t{color:var(--muted)}
+.event code{font-size:12.5px;font-weight:600}
+.event .res{color:var(--muted);font-size:12px;text-align:right}
+.event.in code{color:var(--info)}
+.event.bad .res{color:var(--bad)}
+
+.stepper{display:flex;align-items:center;gap:6px}
+.stepper button{width:40px;height:40px;border-radius:10px;border:1px solid var(--phone-line);background:var(--phone-surface);font-size:18px;font-weight:600}
+.timebig{font-family:var(--display);font-size:46px;font-weight:700;letter-spacing:-.02em;text-align:center;line-height:1}
+.timebig small{font-size:14px;color:var(--muted);font-family:var(--body);font-weight:500;display:block;margin-top:4px;letter-spacing:0}
+input[type=range]{width:100%;accent-color:var(--accent)}
+input[type=text],input[type=tel],input[type=time],select.inphone{font:inherit;color:var(--fg);background:var(--phone-surface);border:1px solid var(--phone-line);border-radius:10px;padding:10px 12px;width:100%}
+.field label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;margin-bottom:6px}
+.chips{display:flex;gap:6px;justify-content:space-between}
+.chip{flex:1;height:38px;border-radius:50%;border:1px solid var(--phone-line);background:var(--phone-surface);font-weight:600;font-size:13px;color:var(--muted);max-width:44px}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.chip.small{height:22px;width:22px;flex:0 0 22px;font-size:10px;max-width:22px}
+.chip.small[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-text);border-color:transparent}
+.cmd{font-family:var(--mono);font-weight:600;background:var(--surface-2);border-radius:8px;padding:2px 8px;font-size:14px;letter-spacing:.04em}
+
+.switch{width:46px;height:28px;border-radius:14px;border:0;background:var(--phone-line);position:relative;flex:0 0 auto;padding:0}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:left .15s}
+.switch[aria-checked="true"]{background:var(--good)}
+.switch[aria-checked="true"]::after{left:21px}
+
+.sched-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px 14px;background:var(--phone-surface);border:1px solid var(--phone-line);border-radius:var(--radius);text-align:left;width:100%}
+.sched-row .time{font-family:var(--display);font-size:34px;font-weight:700;letter-spacing:-.02em;line-height:1}
+.sched-row .meta{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.sched-row.off .time{color:var(--muted)}
+.sched-row .next{font-size:12px;color:var(--muted);margin-top:4px}
+.sched-row .warnline{font-size:12px;color:var(--warn);margin-top:4px;font-weight:500}
+.fab{position:absolute;right:16px;bottom:88px;width:56px;height:56px;border-radius:50%;background:var(--accent);color:var(--accent-ink);border:0;font-size:30px;line-height:1;box-shadow:0 8px 20px rgba(228,86,27,.35)}
+
+.list{background:var(--phone-surface);border:1px solid var(--phone-line);border-radius:var(--radius);overflow:hidden}
+.list .item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-top:1px solid var(--phone-line);width:100%;background:none;border-left:0;border-right:0;border-bottom:0;text-align:left;font-size:15px}
+.list .item:first-child{border-top:0}
+.list .item .lab{display:flex;flex-direction:column;gap:2px;min-width:0}
+.list .item .lab small{color:var(--muted);font-size:12.5px}
+.list .item .lab{flex:1 1 auto}
+.list .item .val{color:var(--muted);font-size:14px;white-space:normal;text-align:right;max-width:58%;display:flex;align-items:center;justify-content:flex-end;gap:6px;flex:0 1 auto}
+.list .item .val.cmd{white-space:nowrap}
+.section-title{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600;margin:6px 0 -6px 4px}
+.radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--phone-line);flex:0 0 auto}
+.radio.on{border-color:var(--accent);background:radial-gradient(circle,var(--accent) 45%,transparent 50%)}
+.seg{display:flex;background:var(--surface-2);border-radius:10px;padding:3px;gap:3px}
+.seg button{flex:1;border:0;background:none;border-radius:8px;padding:8px 6px;font-size:13px;font-weight:500;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--phone-surface);color:var(--fg);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+
+.onb{display:flex;flex-direction:column;gap:18px;flex:1;justify-content:center;padding:8px 4px}
+.onb .step{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.onb h2{font-size:30px;font-weight:700}
+.onb p{color:var(--muted);margin:0;font-size:15px}
+.onb .art{height:150px;border-radius:20px;background:linear-gradient(135deg,var(--accent-soft),var(--phone-surface));display:flex;align-items:center;justify-content:center}
+.onb .art svg{width:120px;height:120px;color:var(--accent)}
+.onb-actions{display:flex;flex-direction:column;gap:8px;margin-top:auto}
+
+/* overlays inside phone */
+.phone{position:relative}
+.sheet-layer{position:absolute;inset:0;display:none;align-items:flex-end;background:rgba(10,16,22,.45);z-index:5}
+.sheet-layer.show{display:flex}
+.sheet{width:100%;background:var(--phone-surface);border-radius:24px 24px 0 0;padding:14px 18px 26px;display:flex;flex-direction:column;gap:12px;animation:up .2s ease-out}
+@keyframes up{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+.sheet .grab{width:40px;height:5px;border-radius:3px;background:var(--phone-line);margin:0 auto 4px}
+.sheet h3{font-size:18px;font-weight:600}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;font-weight:500}
+.sheet .cmdbig{font-family:var(--mono);font-size:26px;font-weight:600;letter-spacing:.06em;background:var(--surface-2);border-radius:12px;padding:14px;text-align:center}
+.sheet .explain{font-size:14px;color:var(--fg)}
+.sheet .btns{display:grid;grid-template-columns:1fr 2fr;gap:8px}
+.progress{display:flex;align-items:center;gap:10px;font-weight:500;color:var(--good)}
+.progress .dot{width:10px;height:10px;border-radius:50%;background:var(--good)}
+
+.os{position:absolute;inset:0;display:none;flex-direction:column;z-index:6}
+.os.show{display:flex}
+.os.ios{background:#fff;color:#000}
+.os.ios .bar{display:flex;justify-content:space-between;align-items:center;padding:52px 14px 10px;border-bottom:1px solid #e3e3e8;font-size:16px}
+.os.ios .bar b{font-weight:600}
+.os.ios .bar button{background:none;border:0;color:#0a84ff;font-size:16px}
+.os.ios .to{padding:10px 14px;border-bottom:1px solid #e3e3e8;font-size:15px;color:#000}
+.os.ios .to span{color:#8e8e93}
+.os.ios .conv{flex:1;background:#fff}
+.os.ios .composer{display:flex;align-items:center;gap:8px;padding:8px 10px 34px;border-top:1px solid #e3e3e8}
+.os.ios .composer .fld{flex:1;border:1px solid #c7c7cc;border-radius:18px;padding:7px 12px;font-size:16px;font-family:var(--mono);font-weight:600;color:#000}
+.os.ios .composer button{width:34px;height:34px;border-radius:50%;background:#34c759;border:0;color:#fff;font-size:18px;font-weight:700}
+.os.android{background:#f7f9fc;color:#1a1c1e}
+.os.android .bar{display:flex;align-items:center;gap:14px;padding:46px 16px 12px;background:#fff;border-bottom:1px solid #e0e3e7;font-size:17px;font-weight:500}
+.os.android .bar button{background:none;border:0;font-size:20px;color:#1a1c1e}
+.os.android .conv{flex:1;padding:16px;display:flex;flex-direction:column;justify-content:flex-end}
+.os.android .composer{display:flex;align-items:center;gap:10px;padding:10px 12px 28px;background:#fff}
+.os.android .composer .fld{flex:1;border-radius:24px;background:#eceff3;padding:12px 16px;font-size:16px;font-family:var(--mono);font-weight:600}
+.os.android .composer button{width:44px;height:44px;border-radius:50%;background:#0b57d0;border:0;color:#fff;font-size:18px}
+
+.notif{position:absolute;left:12px;right:12px;top:52px;background:var(--phone-surface);border:1px solid var(--phone-line);border-radius:18px;padding:12px 14px;box-shadow:0 10px 30px rgba(0,0,0,.25);z-index:7;display:none;gap:8px;flex-direction:column;animation:down .25s ease-out}
+.notif.show{display:flex}
+@keyframes down{from{transform:translateY(-30px);opacity:0}to{transform:none;opacity:1}}
+.notif .nh{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.notif .nh i{width:18px;height:18px;border-radius:5px;background:var(--accent);display:inline-block}
+.notif .nb{font-size:14px}
+.notif .na{display:flex;gap:8px}
+.notif .na button{flex:1;border-radius:10px;border:1px solid var(--phone-line);background:var(--surface-2);padding:8px;font-weight:600;font-size:13px}
+.notif .na button.go{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+
+.toast{position:absolute;left:50%;transform:translateX(-50%);bottom:96px;background:var(--fg);color:var(--bg);padding:9px 14px;border-radius:999px;font-size:13px;font-weight:500;z-index:8;display:none;white-space:nowrap;max-width:90%;overflow:hidden;text-overflow:ellipsis}
+.toast.show{display:block}
+
+/* ---------- Commentary panel ---------- */
+.panel{display:flex;flex-direction:column;gap:16px;min-width:0}
+.panel .box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+.panel h2{font-size:20px;font-weight:600}
+.panel h3{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600;margin-bottom:8px}
+.panel p{margin:6px 0 0;max-width:68ch}
+.panel .smsline{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px;align-items:baseline}
+.panel .smsline dt{color:var(--muted)}
+.panel .smsline dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.panel .smsline code{font-size:18px;font-weight:600;letter-spacing:.06em}
+.note{border-left:4px solid var(--info);background:var(--info-soft);padding:12px 14px;border-radius:10px;font-size:14px}
+.screens{display:flex;flex-wrap:wrap;gap:8px}
+.screens button{background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:500}
+.screens button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-text)}
+.sim{display:flex;flex-wrap:wrap;gap:8px}
+.sim button{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:500}
+table.cmds{width:100%;border-collapse:collapse;font-size:13.5px}
+table.cmds th,table.cmds td{text-align:left;padding:7px 8px;border-top:1px solid var(--line);vertical-align:top}
+table.cmds th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em;border-top:0}
+table.cmds code{font-weight:600}
+.tablewrap{overflow-x:auto}
+details summary{cursor:pointer;font-weight:600;font-family:var(--display);font-size:16px}
+details[open] summary{margin-bottom:8px}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;font-size:13.5px}
+.legend div{background:var(--surface-2);border-radius:10px;padding:10px 12px}
+.legend b{display:block;font-family:var(--display);font-weight:600;margin-bottom:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+
+<header class="top">
+  <div class="brand">
+    <h1>Varmestart</h1>
+    <p>Interaktiv mockup av ny app for Eberspächer EasyStart GSM. Telefonen til venstre er klikkbar. Kolonnen til høyre forklarer skjermen, viser nøyaktig SMS og plattformreglene.</p>
+  </div>
+  <div class="controls">
+    <label>Språk i appen <select id="lang"></select></label>
+    <label>Plattform <select id="platform">
+      <option value="ios">iPhone</option><option value="android">Android (Google Play)</option><option value="androidPro">Android Pro (APK)</option></select></label>
+  </div>
+</header>
+
+<main class="stage">
+  <section class="phone-wrap" aria-label="Telefon">
+    <div class="phone" id="phone">
+      <div class="statusbar"><span id="clock" class="num">09:41</span><span class="pill" aria-hidden="true"></span><span aria-hidden="true">●●● ▮</span></div>
+      <div class="screen" id="screen"></div>
+      <nav class="tabbar" id="tabbar" aria-label="Tabs"></nav>
+      <div class="sheet-layer" id="sheetLayer"></div>
+      <div class="os" id="os"></div>
+      <div class="notif" id="notif"></div>
+      <div class="toast" id="toast" role="status"></div>
+    </div>
+  </section>
+
+  <aside class="panel" aria-label="Forklaring">
+    <div class="box">
+      <h3>Skjerm</h3>
+      <h2 id="pTitle"></h2>
+      <p id="pDesc"></p>
+    </div>
+    <div class="box">
+      <h3>SMS som appen sender</h3>
+      <dl class="smsline">
+        <dt>Til</dt><dd id="pTo" class="num"></dd>
+        <dt>Tekst</dt><dd><code id="pCmd">—</code></dd>
+        <dt>Betyr</dt><dd id="pMeaning"></dd>
+      </dl>
+      <p class="note" id="pNote" style="margin-top:12px"></p>
+    </div>
+    <div class="box">
+      <h3>Gå til skjerm</h3>
+      <div class="screens" id="screens"></div>
+      <h3 style="margin-top:14px">Simuler</h3>
+      <div class="sim">
+        <button id="simNotif">Påminnelse kvelden før</button>
+        <button id="simReply">Svar fra modulen</button>
+        <button id="simReset">Nullstill demo</button>
+      </div>
+    </div>
+    <div class="box">
+      <details>
+        <summary>Kommandoer til EasyStart GSM</summary>
+        <div class="tablewrap"><table class="cmds">
+          <tr><th>SMS</th><th>Effekt</th><th>Brukes av</th></tr>
+          <tr><td><code>START</code></td><td>Starter varmeren nå</td><td>Start-knapp, påminnelse ved starttid</td></tr>
+          <tr><td><code>STOP</code></td><td>Stopper varmeren og sletter planlagt start</td><td>Stopp, Avbryt</td></tr>
+          <tr><td><code>START0630</code></td><td>Starter 06:30 (innen 24 t), modulen holder tiden</td><td>Planlegg, Faste dager kvelden før</td></tr>
+          <tr><td><code>TEMP</code></td><td>Temperatur i modulen + MIN/MAX</td><td>Hurtigknapp Temperatur</td></tr>
+          <tr><td><code>STATUS</code></td><td>Driftsmodus / feilkoder</td><td>Hurtigknapp Status, test i oppsett</td></tr>
+          <tr><td><code>SUMMER</code> / <code>WINTER</code></td><td>Ventilasjon / varme</td><td>Innstillinger → Varmer → Modus</td></tr>
+          <tr><td><code>CLEAR</code></td><td>Sletter feilkoder</td><td>Avansert</td></tr>
+          <tr><td><code>1234ASPONSE:ON</code></td><td>Bekreftelses-SMS på (PIN-prefiks)</td><td>Avansert</td></tr>
+          <tr><td><code>1234ACCLIM:nr:nr</code></td><td>Autoriserte numre, maks 5</td><td>Avansert</td></tr>
+          <tr><td><code>1234LOTEMP:-5</code></td><td>Temperaturalarm</td><td>Avansert</td></tr>
+        </table></div>
+      </details>
+    </div>
+    <div class="box">
+      <details>
+        <summary>Sendemotor per plattform</summary>
+        <div class="legend">
+          <div><b>Komponer</b>expo-sms åpner SMS-appen ferdig utfylt. Standard på iPhone og Android-butikkversjon. Ett trykk.</div>
+          <div><b>Direkte</b>Egen Expo-modul (SmsManager + eksakt alarm). Kun Android Pro-APK. Null trykk, også i bakgrunnen.</div>
+          <div><b>Automasjon</b>iOS Kortkommandoer «Tidspunkt → Send melding, kjør umiddelbart». Appen genererer tekst og guide.</div>
+          <div><b>Påminnelse</b>Lokal varsling med «Send nå» på sendetidspunktet. Alltid aktiv som fallback.</div>
+        </div>
+      </details>
+    </div>
+    <div class="box">
+      <details>
+        <summary>Hva mockupen viser og ikke viser</summary>
+        <p>Viser: alle skjermer i fase 1, alle 8 språk, begge plattformers SMS-flyt, kvelden-før-logikken, kommando-arket og loggen. Svar fra modulen er illustrert med eksempeltekst og må kalibreres mot ekte svar.</p>
+        <p>Viser ikke: ekte tidsvelger-kontroller fra iOS/Android, landvelger med alle land, eksport/import, flere kjøretøy (fase 2).</p>
+      </details>
+    </div>
+  </aside>
+</main>
+
+<script>
+/*__I18N__*/
+(function(){
+'use strict';
+const $=(s,r=document)=>r.querySelector(s);
+const el=(tag,attrs={},...kids)=>{const e=document.createElement(tag);for(const[k,v]of Object.entries(attrs)){if(k==='class')e.className=v;else if(k==='html')e.innerHTML=v;else if(k.startsWith('on'))e.addEventListener(k.slice(2),v);else if(v!==false&&v!=null)e.setAttribute(k,v);}for(const k of kids.flat()){if(k==null||k===false)continue;e.append(k.nodeType?k:document.createTextNode(k));}return e;};
+const LANGS=['nb','en','de','sv','da','fi','es','fr'];
+const SAMPLE={nb:['Jobb','Trening'],en:['Work','Gym'],de:['Arbeit','Training'],sv:['Jobb','Träning'],da:['Arbejde','Træning'],fi:['Työ','Treeni'],es:['Trabajo','Gimnasio'],fr:['Travail','Sport']};
+const ICON={
+ home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
+ plan:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+ sched:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+ settings:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
+ flame:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 22c4.4 0 7-2.9 7-6.6 0-3.3-2.2-5.2-3.6-7.4-.5 1.6-1.4 2.4-2.4 2.4C13.7 8 13 5 10 2c0 4-3 5.4-4.3 8.1A7 7 0 0 0 5 15.4C5 19.1 7.6 22 12 22z"/></svg>',
+ temp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 14.8V5a2 2 0 1 0-4 0v9.8a4 4 0 1 0 4 0z"/></svg>',
+ status:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>',
+ clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+ chev:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>',
+ car:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M10 38l4-12a4 4 0 0 1 4-3h28a4 4 0 0 1 4 3l4 12v10H10z"/><circle cx="20" cy="48" r="4" fill="currentColor"/><circle cx="44" cy="48" r="4" fill="currentColor"/><path d="M16 38h32M30 14c-2 3-2 5 0 8M36 12c-2 3-2 5 0 8M24 16c-2 3-2 5 0 8" /></svg>'
+};
+
+/* ---------- state ---------- */
+const now=()=>new Date();
+const defaults=()=>({
+  lang:'nb', platform:'ios', screen:'home', onboarded:true,
+  vehicle:{name:null, country:'NO', dial:'+47', national:'912 34 567'},
+  status:'unknown', statusAt:null,
+  oneShot:null, lastReply:null,
+  schedules:[
+    {id:1,nameKey:0,name:null,days:[1,1,1,1,1,0,0],depart:'07:00',preheat:30,enabled:true,skipNext:false},
+    {id:2,nameKey:1,name:null,days:[0,0,0,0,0,1,0],depart:'09:30',preheat:45,enabled:false,skipNext:false}],
+  settings:{mode:'compose',confirm:true,scheduleSend:'evening',eveningTime:'21:00',reminders:true,defaultPreheat:30,season:'winter',pin:'1234',ack:true,followPhone:false},
+  log:[], plan:{h:7,m:0,preheat:30}, edit:null, pending:null, lastCmd:null
+});
+let S=defaults();
+try{const saved=JSON.parse(localStorage.getItem('varmestart-mock')||'{}');if(LANGS.includes(saved.lang))S.lang=saved.lang;if(['ios','android','androidPro'].includes(saved.platform)){S.platform=saved.platform;applyPlatformDefaults();}}catch(e){}
+function persist(){try{localStorage.setItem('varmestart-mock',JSON.stringify({lang:S.lang,platform:S.platform}));}catch(e){}}
+function applyPlatformDefaults(){ if(S.platform==='androidPro'){S.settings.mode='direct';S.settings.scheduleSend='atStart';} else {S.settings.mode='compose';S.settings.scheduleSend='evening';} }
+
+/* ---------- i18n ---------- */
+function t(path,vars){let o=I18N[S.lang];for(const k of path.split('.')){o=o&&o[k];}if(typeof o!=='string'){o=path;}return vars?o.replace(/\{(\w+)\}/g,(m,k)=>vars[k]!=null?vars[k]:m):o;}
+const locale=()=>I18N[S.lang].meta.locale;
+const fmtTime=d=>new Intl.DateTimeFormat(locale(),{hour:'2-digit',minute:'2-digit'}).format(d);
+const fmtHM=hm=>{const[h,m]=hm.split(':').map(Number);const d=new Date();d.setHours(h,m,0,0);return fmtTime(d);};
+const fmtDay=d=>new Intl.DateTimeFormat(locale(),{weekday:'long'}).format(d);
+const fmtDate=d=>new Intl.DateTimeFormat(locale(),{day:'numeric',month:'short'}).format(d);
+const pad=n=>String(n).padStart(2,'0');
+const hhmm=d=>pad(d.getHours())+pad(d.getMinutes());
+function fmtDur(ms){const m=Math.max(0,Math.round(ms/60000));const h=Math.floor(m/60),mm=m%60;if(h&&mm)return t('common.hours',{count:h})+' '+t('common.min',{count:mm});if(h)return t('common.hours',{count:h});return t('common.min',{count:mm});}
+function sameDay(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();}
+function describeWhen(d){const n=now();if(d<=n)return t('common.now');const tom=new Date(n);tom.setDate(n.getDate()+1);
+  if(sameDay(d,n))return d.getHours()>=17?t('plan.tonight',{time:fmtTime(d)}):t('plan.today')+' '+fmtTime(d);
+  if(sameDay(d,tom))return t('plan.tomorrow')+' '+fmtTime(d);return fmtDay(d)+' '+fmtTime(d);}
+const vehicleName=()=>S.vehicle.name||t('home.vehicleDefault');
+const phoneDisplay=()=>S.vehicle.dial+' '+S.vehicle.national;
+const phoneE164=()=>S.vehicle.dial+S.vehicle.national.replace(/\s/g,'');
+const schedName=s=>s.name||SAMPLE[S.lang][s.nameKey]||'';
+const dayKeys=['mon','tue','wed','thu','fri','sat','sun'];
+function daysLabel(days){const n=days.reduce((a,b)=>a+b,0);if(n===7)return t('days.everyday');if(n===5&&days.slice(0,5).every(Boolean))return t('days.weekdays');if(n===2&&days[5]&&days[6])return t('days.weekend');return null;}
+
+/* ---------- scheduling engine (mirrors §6 in DESIGN.md) ---------- */
+function startFromDepart(departAt,preheat){return new Date(departAt.getTime()-preheat*60000);}
+function sendTimeFor(startAt){ if(S.settings.scheduleSend==='atStart')return {at:startAt,cmd:'START'};
+  const[eh,em]=S.settings.eveningTime.split(':').map(Number);const ev=new Date(startAt);ev.setDate(ev.getDate()-1);ev.setHours(eh,em,0,0);
+  const cmd='START'+hhmm(startAt);const n=now();
+  if(ev<=n){ // evening already passed: send as soon as within 23h30 window
+    const win=new Date(startAt.getTime()-23.5*3600000);return {at:win>n?win:n,cmd};}
+  return {at:ev,cmd};}
+function nextForSchedule(s){ if(!s.enabled)return null;const n=now();let skip=s.skipNext;
+  for(let i=0;i<9;i++){const d=new Date(n);d.setDate(n.getDate()+i);const idx=(d.getDay()+6)%7;if(!s.days[idx])continue;
+    const[h,m]=s.depart.split(':').map(Number);const dep=new Date(d);dep.setHours(h,m,0,0);const st=startFromDepart(dep,s.preheat);if(st<=n)continue;
+    if(skip){skip=false;continue;}const send=sendTimeFor(st);return {kind:'schedule',id:s.id,name:schedName(s),departAt:dep,startAt:st,sendAt:send.at,command:send.cmd,sent:false};}
+  return null;}
+function computeNext(){const c=[];if(S.oneShot){c.push({kind:'oneShot',name:t('plan.title'),...S.oneShot});}
+  for(const s of S.schedules){const x=nextForSchedule(s);if(x)c.push(x);} c.sort((a,b)=>a.startAt-b.startAt);
+  // conflict: same morning → earliest wins, mark others covered
+  for(let i=1;i<c.length;i++){if(sameDay(c[i].startAt,c[0].startAt))c[i].covered=c[0].name;} return c;}
+
+/* ---------- log ---------- */
+function addLog(e){S.log.unshift({at:now(),...e});if(S.log.length>40)S.log.pop();}
+function seedLog(){const n=now();const y=new Date(n);y.setDate(n.getDate()-1);y.setHours(21,0,0,0);const y2=new Date(y);y2.setMinutes(1);const m=new Date(n);m.setHours(6,30,0,0);
+  S.log=[{at:m,dir:'in',cmd:'Heater start 06:30 Temp 4C',res:'reply'},{at:y2,dir:'in',cmd:'Start 06:30 set, time 21:01, temp 2C',res:'reply'},{at:y,dir:'out',cmd:'START0630',mode:S.platform==='androidPro'?'direct':'reminder',res:S.platform==='androidPro'?'delivered':'sent'}];
+  S.lastReply={temp:4,at:m};}
+seedLog();
+
+/* ---------- rendering ---------- */
+const screenEl=$('#screen'),tabbar=$('#tabbar');
+const TABS=[['home','nav.home','home'],['plan','nav.plan','plan'],['sched','nav.schedules','sched'],['settings','nav.settings','settings']];
+function tabFor(screen){return {home:'home',plan:'plan',sched:'sched',schedEdit:'sched',settings:'settings',language:'settings',log:'settings'}[screen]||null;}
+function go(screen){S.screen=screen;render();}
+function render(){
+  document.documentElement.lang=S.lang;
+  screenEl.innerHTML='';screenEl.scrollTop=0;
+  const R={onb1:rOnb1,onb2:rOnb2,onb3:rOnb3,onb4:rOnb4,home:rHome,plan:rPlan,sched:rSched,schedEdit:rSchedEdit,settings:rSettings,language:rLanguage,log:rLog}[S.screen]||rHome;
+  screenEl.append(...[].concat(R()));
+  tabbar.innerHTML='';const showTabs=!S.screen.startsWith('onb');tabbar.style.display=showTabs?'grid':'none';
+  if(showTabs)for(const[id,key,icon]of TABS){tabbar.append(el('button',{'aria-current':tabFor(S.screen)===id?'page':false,onclick:()=>go(id),html:ICON[icon]+'<span>'+t(key)+'</span>'}));}
+  renderPanel();renderClock();
+}
+function renderClock(){$('#clock').textContent=fmtTime(now());}
+setInterval(renderClock,30000);
+
+/* --- onboarding --- */
+function onbShell(n,title,body,art,actions){return el('div',{class:'onb'},el('div',{class:'step'},t('onboarding.step',{n,total:4})),art,el('h2',{},title),el('p',{},body),el('div',{class:'onb-actions'},...actions));}
+function rOnb1(){return onbShell(1,t('onboarding.welcome.title'),t('onboarding.welcome.body'),el('div',{class:'art',html:ICON.car}),[
+  el('button',{class:'primary',onclick:()=>go('onb2')},t('onboarding.next')),
+  el('div',{class:'field'},el('label',{for:'onbLang'},t('settings.language')),langSelect('onbLang'))]);}
+function rOnb2(){const v=S.vehicle;return onbShell(2,t('onboarding.number.title'),t('onboarding.number.body'),
+  el('div',{class:'stack'},el('div',{class:'field'},el('label',{for:'cc'},t('settings.country')),countrySelect('cc')),
+    el('div',{class:'field'},el('label',{for:'num'},t('settings.phone')),el('div',{class:'row'},el('span',{class:'cmd num'},v.dial),el('input',{type:'tel',id:'num',value:v.national,inputmode:'tel',oninput:e=>{S.vehicle.national=e.target.value;}})),el('p',{class:'hint'},t('settings.phoneHelp')))),
+  [el('button',{class:'primary',onclick:()=>go('onb3')},t('onboarding.next')),el('button',{class:'ghost',onclick:()=>go('onb1')},t('onboarding.back'))]);}
+function rOnb3(){return onbShell(3,t('onboarding.test.title'),t('onboarding.test.body'),el('div',{class:'art',html:ICON.status}),[
+  el('button',{class:'primary',onclick:()=>openSheet('STATUS','status',()=>go('onb4'))},t('onboarding.test.cta')),
+  el('button',{class:'ghost',onclick:()=>go('onb4')},t('onboarding.skip'))]);}
+function rOnb4(){return onbShell(4,t('onboarding.done.title'),t('onboarding.done.body'),el('div',{class:'art',html:ICON.flame}),[
+  el('button',{class:'primary',onclick:()=>{S.onboarded=true;go('home');}},t('onboarding.done.cta'))]);}
+function langSelect(id){const s=el('select',{class:'inphone',id,onchange:e=>setLang(e.target.value)});for(const l of LANGS)s.append(el('option',{value:l,selected:l===S.lang},I18N[l].meta.name));return s;}
+const COUNTRIES=[['NO','+47','🇳🇴 Norge'],['SE','+46','🇸🇪 Sverige'],['DK','+45','🇩🇰 Danmark'],['FI','+358','🇫🇮 Suomi'],['DE','+49','🇩🇪 Deutschland'],['GB','+44','🇬🇧 United Kingdom'],['ES','+34','🇪🇸 España'],['FR','+33','🇫🇷 France'],['CH','+41','🇨🇭 Schweiz'],['AT','+43','🇦🇹 Österreich'],['NL','+31','🇳🇱 Nederland']];
+function countrySelect(id){const s=el('select',{class:'inphone',id,onchange:e=>{const c=COUNTRIES.find(x=>x[0]===e.target.value);S.vehicle.country=c[0];S.vehicle.dial=c[1];render();}});for(const c of COUNTRIES)s.append(el('option',{value:c[0],selected:c[0]===S.vehicle.country},c[2]+' '+c[1]));return s;}
+
+/* --- home --- */
+function rHome(){const out=[];
+  out.push(el('div',{class:'phone-head'},el('div',{},el('h2',{},vehicleName()),el('div',{class:'sub num'},phoneDisplay())),el('span',{class:'badge '+S.status},t('home.status.'+S.status))));
+  const started=S.status==='started';
+  out.push(el('div',{class:'bigbtn-wrap'},el('button',{class:'bigbtn'+(started?' stop':''),'aria-label':started?t('home.stop'):t('home.start'),onclick:()=>started?openSheet('STOP','stop'):openSheet('START','start')},
+    el('span',{html:ICON.flame,style:'width:28px;height:28px;display:block'}),started?t('home.stop'):t('home.start'),el('small',{},started&&S.statusAt?t('home.sentAt',{time:fmtTime(S.statusAt)}):t('sheet.explain.'+(started?'stop':'start')).replace(/\.$/,'')))));
+  // next card
+  const nx=computeNext();const card=el('div',{class:'card'},el('h3',{},t('home.next')));
+  if(!nx.length)card.append(el('div',{class:'hint'},t('home.nextNone')));
+  else{const n=nx[0];card.append(el('div',{class:'big num',style:'font-size:20px'},t('sched.heaterStarts',{time:fmtTime(n.startAt)})),
+      el('div',{class:'hint'},n.name+' · '+fmtDay(n.startAt)+(n.departAt?' · '+t('plan.departure').toLowerCase()+' '+fmtTime(n.departAt):'')),
+      el('div',{style:'margin-top:8px'},el('span',{class:'badge '+(n.sent?'scheduled':'unknown')},n.sent?t('home.startsIn',{duration:fmtDur(n.startAt-now())}):t('home.sendsAt',{when:describeWhen(n.sendAt)}))));
+    card.append(el('div',{class:'row',style:'margin-top:10px'},el('span',{class:'hint'},t('sheet.message')+': ',el('code',{class:'cmd'},n.command)),
+      n.kind==='oneShot'?el('button',{class:'ghost danger',onclick:()=>n.sent?openSheet('STOP','stop',()=>{S.oneShot=null;}):(S.oneShot=null,render())},t('home.cancel'))
+                        :el('button',{class:'ghost',onclick:()=>{const s=S.schedules.find(x=>x.id===n.id);s.skipNext=true;toast(t('sched.skipped'));render();}},t('sched.skipNext'))));
+    if(nx[1]&&nx[1].covered)card.append(el('div',{class:'hint',style:'margin-top:6px'},nx[1].name+': '+t('sched.covered',{name:nx[1].covered})));}
+  out.push(card);
+  out.push(el('div',{class:'quick'},
+    el('button',{onclick:()=>{const st=new Date(now().getTime()+30*60000);openSheet('START'+hhmm(st),'startAt',null,{time:fmtTime(st)});},html:ICON.clock+'<span>'+t('home.quick.start30')+'</span>'}),
+    el('button',{onclick:()=>openSheet('TEMP','temp'),html:ICON.temp+'<span>'+t('home.quick.temp')+'</span>'}),
+    el('button',{onclick:()=>openSheet('STATUS','status'),html:ICON.status+'<span>'+t('home.quick.status')+'</span>'})));
+  if(S.lastReply){out.push(el('div',{class:'card'},el('h3',{},t('home.lastReply')),el('div',{class:'row'},el('div',{class:'big num'},S.lastReply.temp+' °C'),el('div',{class:'hint'},t('home.temperature')+' · '+fmtTime(S.lastReply.at))),
+    S.platform==='ios'||S.platform==='android'?el('button',{class:'link',onclick:()=>toast(t('home.replyInMessages'))},t('home.openMessages')+' ›'):null));}
+  const ev=el('div',{class:'card'},el('h3',{},t('home.recent')),logList(S.log.slice(0,3)),el('button',{class:'link',onclick:()=>go('log')},t('settings.log')+' ›'));out.push(ev);
+  return out;}
+function logList(items){if(!items.length)return el('div',{class:'hint'},t('log.empty'));const w=el('div',{class:'events'});
+  for(const e of items){const bad=e.res==='failed'||/unknown message/i.test(e.cmd);w.append(el('div',{class:'event'+(e.dir==='in'?' in':'')+(bad?' bad':'')},el('span',{class:'t num'},fmtTime(e.at)),el('code',{},(e.dir==='in'?t('log.reply')+': ':'')+e.cmd),el('span',{class:'res'},e.dir==='in'?t('log.in'):t('log.'+e.res)+(e.mode?' · '+t('log.mode.'+e.mode):''))));}return w;}
+
+/* --- plan (one-shot) --- */
+function planDepart(){const n=now();const d=new Date(n);d.setHours(S.plan.h,S.plan.m,0,0);if(d<=n)d.setDate(d.getDate()+1);return d;}
+function rPlan(){const dep=planDepart();const st=startFromDepart(dep,S.plan.preheat);const within=st-now()<=23.5*3600000;const cmd='START'+hhmm(st);const send=within?null:sendTimeFor(st);
+  const out=[el('div',{class:'phone-head'},el('div',{},el('h2',{},t('plan.title')),el('div',{class:'sub'},vehicleName())))];
+  out.push(el('div',{class:'card'},el('h3',{},t('plan.departure')),el('div',{class:'timebig num'},fmtTime(dep),el('small',{},sameDay(dep,now())?t('plan.today'):t('plan.tomorrow')+' · '+fmtDay(dep))),
+    el('div',{class:'row',style:'margin-top:12px;justify-content:center;gap:18px'},
+      el('div',{class:'stepper'},el('button',{'aria-label':'-1 h',onclick:()=>{S.plan.h=(S.plan.h+23)%24;render();}},'−'),el('span',{class:'hint'},t('common.hours',{count:1})),el('button',{'aria-label':'+1 h',onclick:()=>{S.plan.h=(S.plan.h+1)%24;render();}},'+')),
+      el('div',{class:'stepper'},el('button',{'aria-label':'-5 min',onclick:()=>{S.plan.m=(S.plan.m+55)%60;render();}},'−'),el('span',{class:'hint'},t('common.min',{count:5})),el('button',{'aria-label':'+5 min',onclick:()=>{S.plan.m=(S.plan.m+5)%60;render();}},'+')))));
+  out.push(el('div',{class:'card'},el('div',{class:'row'},el('h3',{},t('plan.preheat')),el('span',{class:'big num',style:'font-size:18px'},t('plan.minutes',{count:S.plan.preheat}))),
+    el('input',{type:'range',min:10,max:120,step:5,value:S.plan.preheat,id:'preheat','aria-label':t('plan.preheat'),oninput:e=>{S.plan.preheat=+e.target.value;render();}})));
+  out.push(el('div',{class:'card',style:'background:var(--accent-soft);border-color:transparent'},el('div',{style:'font-weight:500'},t('plan.summary',{start:fmtTime(st),depart:fmtTime(dep)})),
+    el('div',{class:'hint',style:'margin-top:6px;color:var(--accent-text)'},within?t('plan.sends',{command:cmd}):t('plan.sendsLater',{when:describeWhen(send.at)})+' · '+cmd)));
+  out.push(el('button',{class:'primary',onclick:()=>{ if(within){openSheet(cmd,'startAt',()=>{S.oneShot={departAt:dep,startAt:st,sendAt:now(),command:cmd,preheat:S.plan.preheat,sent:true};S.status='scheduled';},{time:fmtTime(st)});}
+      else{S.oneShot={departAt:dep,startAt:st,sendAt:send.at,command:cmd,preheat:S.plan.preheat,sent:false};toast(t('plan.sendsLater',{when:describeWhen(send.at)}));go('home');}}},t('plan.cta')));
+  if(S.oneShot){const o=S.oneShot;out.push(el('div',{class:'card'},el('h3',{},t('plan.active')),el('div',{class:'row'},el('div',{},el('div',{class:'big num'},fmtTime(o.startAt)),el('div',{class:'hint'},o.sent?t('home.startsIn',{duration:fmtDur(o.startAt-now())}):t('home.sendsAt',{when:describeWhen(o.sendAt)})+' · '+o.command)),
+    el('button',{class:'ghost danger',onclick:()=>o.sent?openSheet('STOP','stop',()=>{S.oneShot=null;}):(S.oneShot=null,render())},t('plan.cancel')))));}
+  return out;}
+
+/* --- schedules --- */
+function rSched(){const out=[el('div',{class:'phone-head'},el('div',{},el('h2',{},t('sched.title')),el('div',{class:'sub'},S.settings.scheduleSend==='evening'?t('sched.sendsEvening',{time:fmtHM(S.settings.eveningTime)}):t('sched.sendsAtStart'))),el('button',{class:'ghost',onclick:()=>go('settings')},t('sched.change')))];
+  if(!S.schedules.length)out.push(el('div',{class:'card'},el('div',{class:'big'},t('sched.empty.title')),el('p',{class:'hint'},t('sched.empty.body'))));
+  for(const s of S.schedules){const nx=nextForSchedule(s);const lbl=daysLabel(s.days);
+    const row=el('div',{class:'sched-row'+(s.enabled?'':' off'),role:'button',tabindex:'0',onclick:e=>{if(e.target.closest('.switch'))return;S.edit=JSON.parse(JSON.stringify(s));go('schedEdit');},onkeydown:e=>{if(e.key==='Enter'){S.edit=JSON.parse(JSON.stringify(s));go('schedEdit');}}},
+      el('div',{},el('div',{class:'time num'},fmtHM(s.depart)),el('div',{class:'meta'},lbl?el('span',{},lbl):el('span',{class:'chips',style:'gap:3px'},...dayKeys.map((k,i)=>el('span',{class:'chip small','aria-pressed':s.days[i]?'true':'false'},t('days.'+k)))),el('span',{},'· '+schedName(s)),el('span',{},'· '+t('plan.minutes',{count:s.preheat}))),
+        s.enabled&&nx?el('div',{class:'next num'},t('sched.nextRun',{when:fmtDay(nx.startAt)+' '+fmtTime(nx.startAt)})+' · '+nx.command):null,
+        s.skipNext?el('div',{class:'warnline'},t('sched.skipped')):null),
+      el('button',{class:'switch',role:'switch','aria-checked':s.enabled?'true':'false','aria-label':schedName(s),onclick:()=>{s.enabled=!s.enabled;render();}}));
+    out.push(row);}
+  out.push(el('button',{class:'fab','aria-label':t('sched.new'),onclick:()=>{S.edit={id:null,name:'',days:[1,1,1,1,1,0,0],depart:'07:00',preheat:S.settings.defaultPreheat,enabled:true,skipNext:false};go('schedEdit');}},'+'));
+  return out;}
+function rSchedEdit(){const e=S.edit;const[h,m]=e.depart.split(':').map(Number);const dep=new Date();dep.setHours(h,m,0,0);const st=startFromDepart(dep,e.preheat);
+  const setDep=(hh,mm)=>{e.depart=pad((hh+24)%24)+':'+pad((mm+60)%60);render();};
+  return [el('div',{class:'phone-head'},el('button',{class:'ghost',onclick:()=>go('sched')},'‹ '+t('nav.schedules')),el('h2',{style:'font-size:20px'},e.id?t('sched.edit'):t('sched.new'))),
+    el('div',{class:'card'},el('div',{class:'field'},el('label',{for:'sname'},t('sched.name')),el('input',{type:'text',id:'sname',value:e.name||(e.nameKey!=null?SAMPLE[S.lang][e.nameKey]:''),placeholder:t('sched.namePlaceholder'),oninput:ev=>{e.name=ev.target.value;e.nameKey=null;}}))),
+    el('div',{class:'card'},el('h3',{},t('sched.days')),el('div',{class:'chips'},...dayKeys.map((k,i)=>el('button',{class:'chip','aria-pressed':e.days[i]?'true':'false','aria-label':t('days.long.'+k),onclick:()=>{e.days[i]=e.days[i]?0:1;render();}},t('days.'+k)))),
+      el('div',{class:'seg',style:'margin-top:10px'},el('button',{onclick:()=>{e.days=[1,1,1,1,1,0,0];render();}},t('days.weekdays')),el('button',{onclick:()=>{e.days=[1,1,1,1,1,1,1];render();}},t('days.everyday')),el('button',{onclick:()=>{e.days=[0,0,0,0,0,1,1];render();}},t('days.weekend')))),
+    el('div',{class:'card'},el('h3',{},t('sched.departure')),el('div',{class:'timebig num'},fmtHM(e.depart)),el('div',{class:'row',style:'margin-top:12px;justify-content:center;gap:18px'},
+      el('div',{class:'stepper'},el('button',{'aria-label':'-1 h',onclick:()=>setDep(h-1,m)},'−'),el('span',{class:'hint'},t('common.hours',{count:1})),el('button',{'aria-label':'+1 h',onclick:()=>setDep(h+1,m)},'+')),
+      el('div',{class:'stepper'},el('button',{'aria-label':'-5 min',onclick:()=>setDep(h,m-5)},'−'),el('span',{class:'hint'},t('common.min',{count:5})),el('button',{'aria-label':'+5 min',onclick:()=>setDep(h,m+5)},'+')))),
+    el('div',{class:'card'},el('div',{class:'row'},el('h3',{},t('sched.preheat')),el('span',{class:'big num',style:'font-size:18px'},t('plan.minutes',{count:e.preheat}))),el('input',{type:'range',min:10,max:120,step:5,value:e.preheat,id:'epre','aria-label':t('sched.preheat'),oninput:ev=>{e.preheat=+ev.target.value;render();}}),
+      el('div',{class:'hint',style:'margin-top:6px'},t('sched.heaterStarts',{time:fmtTime(st)})+' · ',el('code',{class:'cmd'},'START'+hhmm(st)))),
+    el('div',{class:'list'},el('div',{class:'item'},el('div',{class:'lab'},t('sched.skipNext')),el('button',{class:'switch',role:'switch','aria-checked':e.skipNext?'true':'false','aria-label':t('sched.skipNext'),onclick:()=>{e.skipNext=!e.skipNext;render();}})),
+      el('button',{class:'item',onclick:()=>toast(t('sched.pauseUntil'))},el('div',{class:'lab'},t('sched.pauseUntil')),el('span',{class:'val',html:'—'+ICON.chev}))),
+    el('button',{class:'primary',disabled:!e.days.some(Boolean),onclick:()=>{if(e.id){const i=S.schedules.findIndex(x=>x.id===e.id);S.schedules[i]=e;}else{e.id=Date.now();S.schedules.push(e);}S.edit=null;toast(t('sched.save'));go('sched');}},t('sched.save')),
+    e.id?el('button',{class:'ghost danger',onclick:()=>{S.schedules=S.schedules.filter(x=>x.id!==e.id);S.edit=null;go('sched');}},t('sched.delete')):null];}
+
+/* --- settings --- */
+function item(label,sub,val,onclick,chev=true){return el(onclick?'button':'div',{class:'item',onclick},el('div',{class:'lab'},label,sub?el('small',{},sub):null),el('span',{class:'val',html:(val||'')+(chev&&onclick?ICON.chev:'')}));}
+function toggle(label,sub,get,set){return el('div',{class:'item'},el('div',{class:'lab'},label,sub?el('small',{},sub):null),el('button',{class:'switch',role:'switch','aria-checked':get()?'true':'false','aria-label':label,onclick:()=>{set(!get());render();}}));}
+function rSettings(){const st=S.settings;const modeKey=st.mode;const canDirect=S.platform==='androidPro';
+  return [el('div',{class:'phone-head'},el('h2',{},t('settings.title'))),
+    el('div',{class:'section-title'},t('settings.module')),
+    el('div',{class:'list'},item(t('settings.phone'),t('settings.phoneHelp'),'<span class="num">'+phoneDisplay()+'</span>',()=>go('onb2')),item(t('settings.vehicleName'),null,vehicleName(),()=>{const n=S.vehicle.name?null:vehicleName();S.vehicle.name=n;render();}),
+      item(t('settings.test'),null,'<code class="cmd">STATUS</code>',()=>openSheet('STATUS','status'),false),item(t('settings.profile'),null,t('settings.profileGsm'),()=>toast(t('settings.profileGsm')))),
+    el('div',{class:'section-title'},t('settings.language')),
+    el('div',{class:'list'},item(t('settings.language'),null,st.followPhone?t('settings.languageSystem'):I18N[S.lang].meta.name,()=>go('language'))),
+    el('div',{class:'section-title'},t('settings.sending')),
+    el('div',{class:'list'},item(t('settings.mode'),t('settings.modes.'+modeKey+'Desc'),t('settings.modes.'+modeKey),()=>{if(canDirect){st.mode=st.mode==='direct'?'compose':'direct';render();}else toast(t('platform.note.'+S.platform));}),
+      toggle(t('settings.confirm'),null,()=>st.confirm,v=>st.confirm=v),
+      el('div',{class:'item'},el('div',{class:'lab',style:'flex:1'},t('settings.scheduleSend'),el('div',{class:'seg',style:'margin-top:8px'},el('button',{'aria-pressed':st.scheduleSend==='evening'?'true':'false',onclick:()=>{st.scheduleSend='evening';render();}},t('settings.eveningBefore',{time:fmtHM(st.eveningTime)})),el('button',{'aria-pressed':st.scheduleSend==='atStart'?'true':'false',onclick:()=>{st.scheduleSend='atStart';render();}},t('settings.atStart'))))),
+      st.scheduleSend==='evening'?el('div',{class:'item'},el('div',{class:'lab'},t('settings.eveningTime')),el('input',{type:'time',value:st.eveningTime,id:'evt',style:'width:auto',onchange:e=>{st.eveningTime=e.target.value||'21:00';render();}})):null,
+      toggle(t('settings.reminders'),t('settings.modes.reminderDesc'),()=>st.reminders,v=>st.reminders=v),
+      canDirect?item(t('settings.exactAlarm'),t('settings.exactAlarmHelp'),t('common.on'),()=>toast(t('common.ok'))):null),
+    el('div',{class:'section-title'},t('settings.heater')),
+    el('div',{class:'list'},item(t('settings.defaultPreheat'),null,t('plan.minutes',{count:st.defaultPreheat}),()=>{st.defaultPreheat=st.defaultPreheat>=60?20:st.defaultPreheat+10;render();}),
+      item(t('settings.seasonMode'),null,st.season==='winter'?t('settings.winter'):t('settings.summer'),()=>{const nxt=st.season==='winter'?'summer':'winter';openSheet(nxt.toUpperCase(),null,()=>{st.season=nxt;},null,nxt==='winter'?t('settings.winter'):t('settings.summer'));})),
+    el('div',{class:'section-title'},t('settings.advanced')),
+    el('div',{class:'list'},item(t('settings.pin'),t('settings.pinHelp'),'••••',()=>toast(t('settings.pin'))),
+      el('div',{class:'item'},el('div',{class:'lab'},t('settings.ack'),el('small',{},el('code',{class:'cmd'},st.pin+'ASPONSE:'+(st.ack?'ON':'OFF')))),el('button',{class:'switch',role:'switch','aria-checked':st.ack?'true':'false','aria-label':t('settings.ack'),onclick:()=>{const v=!st.ack;openSheet(st.pin+'ASPONSE:'+(v?'ON':'OFF'),null,()=>{st.ack=v;},null,t('settings.ack'));}})),
+      item(t('settings.numbers'),null,'<code class="cmd">'+st.pin+'ACCLIM:…</code>',()=>toast(t('settings.numbers')),false),
+      item(t('settings.tempAlarm'),null,'<code class="cmd">'+st.pin+'LOTEMP:-5</code>',()=>openSheet(st.pin+'LOTEMP:-5',null,null,null,t('settings.tempAlarm')),false),
+      item(t('settings.clear'),null,'<code class="cmd">CLEAR</code>',()=>openSheet('CLEAR',null,null,null,t('settings.clear')),false),
+      item(t('settings.reset'),null,'<code class="cmd">'+st.pin+'SETDEFAULT</code>',()=>toast(t('settings.reset')+' · '+t('common.no')),false)),
+    el('div',{class:'section-title'},t('settings.data')),
+    el('div',{class:'list'},item(t('settings.log'),null,String(S.log.length),()=>go('log')),item(t('settings.export'),null,'JSON',()=>toast(t('settings.export'))),item(t('settings.import'),null,'',()=>toast(t('settings.import'))),item(t('settings.deleteAll'),null,'',()=>toast(t('settings.deleteAll')))),
+    el('div',{class:'section-title'},t('settings.about')),
+    el('div',{class:'list'},item(t('settings.version'),null,'1.0 · Expo SDK 58',null),el('div',{class:'item'},el('div',{class:'lab'},el('small',{},t('settings.notAffiliated')),el('small',{},t('settings.privacy'))))),
+    el('p',{class:'hint',style:'text-align:center'},t('platform.note.'+S.platform))];}
+function rLanguage(){const list=el('div',{class:'list'});
+  list.append(el('button',{class:'item',onclick:()=>{S.settings.followPhone=true;render();}},el('div',{class:'lab'},t('settings.languageSystem')),el('span',{class:'radio'+(S.settings.followPhone?' on':'')})));
+  for(const l of LANGS)list.append(el('button',{class:'item',lang:l,onclick:()=>{S.settings.followPhone=false;setLang(l);}},el('div',{class:'lab'},I18N[l].meta.name),el('span',{class:'radio'+(!S.settings.followPhone&&l===S.lang?' on':'')})));
+  return [el('div',{class:'phone-head'},el('button',{class:'ghost',onclick:()=>go('settings')},'‹ '+t('nav.settings')),el('h2',{style:'font-size:20px'},t('settings.language'))),list];}
+function rLog(){return [el('div',{class:'phone-head'},el('button',{class:'ghost',onclick:()=>go('settings')},'‹ '+t('nav.settings')),el('h2',{style:'font-size:20px'},t('log.title'))),el('div',{class:'card'},logList(S.log))];}
+
+/* ---------- command sheet + OS simulation ---------- */
+const sheetLayer=$('#sheetLayer'),os=$('#os');
+function openSheet(cmd,explainKey,onDone,vars,customExplain){
+  S.pending={cmd,explainKey,onDone,vars,customExplain};S.lastCmd=cmd;renderPanel();
+  if(!S.settings.confirm&&S.platform!=='androidPro'){return sendPending();}
+  sheetLayer.innerHTML='';sheetLayer.classList.add('show');
+  const explain=customExplain||(explainKey?t('sheet.explain.'+explainKey,vars):'');
+  const sh=el('div',{class:'sheet',role:'dialog','aria-label':t('sheet.title')},el('div',{class:'grab'}),el('h3',{},t('sheet.title')),
+    el('dl',{class:'kv'},el('dt',{},t('sheet.to')),el('dd',{class:'num'},vehicleName()+' · '+phoneDisplay())),
+    el('div',{class:'cmdbig'},cmd),explain?el('div',{class:'explain'},explain):null,
+    el('div',{class:'btns'},el('button',{class:'ghost',onclick:closeSheet},t('sheet.cancel')),el('button',{class:'primary',style:'padding:12px',onclick:sendPending},t('sheet.send'))),
+    S.platform!=='androidPro'?el('button',{class:'link',onclick:()=>{toast(t('sheet.whyBody'));}},t('sheet.why')):null);
+  sheetLayer.append(sh);}
+function closeSheet(){sheetLayer.classList.remove('show');sheetLayer.innerHTML='';S.pending=null;renderPanel();}
+function sendPending(){const p=S.pending;if(!p)return;
+  if(S.platform==='androidPro'&&S.settings.mode==='direct'){ // direct send simulation
+    sheetLayer.innerHTML='';sheetLayer.classList.add('show');const prog=el('div',{class:'sheet'},el('div',{class:'grab'}),el('div',{class:'cmdbig'},p.cmd),el('div',{class:'progress'},el('span',{class:'dot'}),el('span',{id:'prog'},'…')));sheetLayer.append(prog);
+    setTimeout(()=>{$('#prog').textContent=t('sheet.sentDirect');},500);
+    setTimeout(()=>{$('#prog').textContent=t('sheet.delivered');},1100);
+    setTimeout(()=>{finish(p,'delivered','direct');},1600);return;}
+  // compose: show OS messages app
+  sheetLayer.classList.remove('show');sheetLayer.innerHTML='';os.className='os show '+(S.platform==='ios'?'ios':'android');os.innerHTML='';
+  if(S.platform==='ios'){os.append(el('div',{class:'bar'},el('button',{onclick:()=>{os.className='os';finish(p,'cancelled','compose',true);}},t('sheet.cancel')),el('b',{},t('sheet.title')),el('span',{})),
+      el('div',{class:'to'},el('span',{},t('sheet.to')+': '),phoneDisplay()),el('div',{class:'conv'}),
+      el('div',{class:'composer'},el('div',{class:'fld'},p.cmd),el('button',{'aria-label':t('sheet.send'),onclick:()=>{os.className='os';finish(p,'sent','compose');}},'↑')));}
+  else{os.append(el('div',{class:'bar'},el('button',{onclick:()=>{os.className='os';finish(p,'cancelled','compose',true);},'aria-label':t('sheet.cancel')},'←'),el('span',{class:'num'},phoneDisplay())),el('div',{class:'conv'}),
+      el('div',{class:'composer'},el('div',{class:'fld'},p.cmd),el('button',{'aria-label':t('sheet.send'),onclick:()=>{os.className='os';finish(p,'unknown','compose');}},'➤')));}
+}
+function finish(p,res,mode,cancelled){sheetLayer.classList.remove('show');sheetLayer.innerHTML='';
+  addLog({dir:'out',cmd:p.cmd,mode,res});S.pending=null;
+  if(!cancelled){applyCommand(p.cmd);if(p.onDone)p.onDone();toast(res==='unknown'?t('log.unknown'):res==='delivered'?t('sheet.delivered'):t('sheet.osSent'));
+    if(S.settings.ack)setTimeout(()=>simulateReply(p.cmd),1800);}
+  else toast(t('log.cancelled'));
+  if(S.screen==='onb3'&&!cancelled)go('onb4');else render();}
+function applyCommand(cmd){const n=now();if(cmd==='START'){S.status='started';S.statusAt=n;}else if(cmd==='STOP'){S.status='stopped';S.statusAt=n;S.oneShot=null;}else if(/^START\d{4}$/.test(cmd)){S.status='scheduled';S.statusAt=n;}}
+function simulateReply(cmd){const temp=S.lastReply?S.lastReply.temp:3;let txt;
+  if(cmd==='START')txt='Heater started, temp '+temp+'C';else if(cmd==='STOP')txt='Heater stopped';else if(/^START(\d\d)(\d\d)$/.test(cmd)){const m=cmd.match(/^START(\d\d)(\d\d)$/);txt='Start '+m[1]+':'+m[2]+' set, time '+fmtTime(now())+', temp '+temp+'C';}
+  else if(cmd==='TEMP')txt='Temp '+temp+'C, max 28C, min -12C';else if(cmd==='STATUS')txt='Mode: '+(S.settings.season==='winter'?'heater':'fan')+', no errors';else txt='OK';
+  addLog({dir:'in',cmd:txt,res:'reply'});if(cmd==='TEMP'||cmd==='START')S.lastReply={temp,at:now()};
+  if(S.platform==='androidPro'){toast(t('log.reply')+': '+txt);render();}else{toast(t('home.replyInMessages'));}}
+
+/* ---------- notification simulation ---------- */
+const notif=$('#notif');
+function showNotif(){const nx=computeNext().find(x=>!x.sent);if(!nx){toast(t('home.nextNone'));return;}
+  notif.innerHTML='';notif.classList.add('show');
+  notif.append(el('div',{class:'nh'},el('i',{}),t('notif.title'),el('span',{style:'margin-left:auto;text-transform:none;letter-spacing:0'},fmtTime(nx.sendAt))),
+    el('div',{class:'nb'},t('notif.body',{command:nx.command,vehicle:vehicleName()})+' '+t('sched.heaterStarts',{time:fmtTime(nx.startAt)})+'.'),
+    el('div',{class:'na'},el('button',{onclick:()=>{notif.classList.remove('show');const s=S.schedules.find(x=>x.id===nx.id);if(s)s.skipNext=true;render();}},t('notif.later')),
+      el('button',{class:'go',onclick:()=>{notif.classList.remove('show');go('home');openSheet(nx.command,/^START\d{4}$/.test(nx.command)?'startAt':'start',()=>{if(nx.kind==='oneShot'){S.oneShot.sent=true;}else{S.oneShot={departAt:nx.departAt,startAt:nx.startAt,sendAt:now(),command:nx.command,preheat:0,sent:true,fromSchedule:nx.id};}},{time:fmtTime(nx.startAt)});}},t('notif.action'))));}
+let toastT;function toast(msg){const tt=$('#toast');tt.textContent=msg;tt.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>tt.classList.remove('show'),2600);}
+
+/* ---------- commentary panel ---------- */
+const PANEL={
+ onb1:['Oppsett 1/4 · Velkomst','Språk settes automatisk fra telefonen og kan byttes her. Ingen konto, ingen innlogging.'],
+ onb2:['Oppsett 2/4 · Modulens nummer','Landvelger forhåndsvalgt fra SIM/region. Nummeret valideres med libphonenumber og lagres som E.164. Hjelpeteksten forklarer at det er modulens nummer, ikke brukerens eget.'],
+ onb3:['Oppsett 3/4 · Test','Sender STATUS gjennom det vanlige kommando-arket. Kan hoppes over. Tips om at modulen bare svarer registrerte numre (ACCLIM).'],
+ onb4:['Oppsett 4/4 · Klar','Under ett minutt fra installasjon til første START.'],
+ home:['Hjem','Start og stopp er alltid ett trykk unna. Neste-kortet slår sammen én-gangs-plan og ukeplan, viser når SMS sendes (kvelden før) eller nedtelling når modulen allerede holder tiden. Hurtigrad for Start om 30 min, Temperatur og Status.'],
+ plan:['Planlegg (én gang)','Brukeren velger avreise og forvarming; appen regner ut starttid og kommandoen START+hhmm. Innen 24 timer sendes den nå og modulen holder tiden. Lenger frem lagres planen og sendes kvelden før.'],
+ sched:['Faste dager','Ser ut som vekkerklokke-alarmer: tid stort, dager, navn, bryter. Hver plan viser neste forekomst og kommando. Globalt valg: sendes kvelden før (standard) eller ved starttid.'],
+ schedEdit:['Rediger plan','Dager som chips med snarveier (hverdager, hver dag, helg), avreisetid, forvarming, Hopp over neste, Pause til dato. Oppsummering viser når varmeren starter og hvilken SMS som sendes.'],
+ settings:['Innstillinger','Eneste nødvendige felt er nummer + landkode. Sendemodus forklares per plattform. Avanserte modul-kommandoer (ASPONSE, ACCLIM, LOTEMP, CLEAR, SETDEFAULT) ligger nederst og går via samme kommando-ark.'],
+ language:['Språk','Åtte språk, uavhengig av OS-språket, bytte uten omstart. Kommandoene oversettes aldri, forklaringene gjør det.'],
+ log:['Logg','Alle sendte kommandoer med modus og resultat, og svar fra modulen (Android Pro leser dem automatisk, iOS-brukere ser dem i Meldinger).'],
+};
+function renderPanel(){const[title,desc]=PANEL[S.screen]||PANEL.home;$('#pTitle').textContent=title;$('#pDesc').textContent=desc;$('#pTo').textContent=phoneDisplay();
+  const cmd=S.pending?S.pending.cmd:(S.lastCmd||'—');$('#pCmd').textContent=cmd;
+  const meaning={START:'Starter varmeren nå.',STOP:'Stopper varmeren og sletter planlagt start.',TEMP:'Spør om temperatur.',STATUS:'Spør om status/feilkoder.',SUMMER:'Ventilasjonsmodus.',WINTER:'Varmemodus.',CLEAR:'Sletter feilkoder.'}[cmd]||(/^START\d{4}$/.test(cmd)?'Starter varmeren kl. '+cmd.slice(5,7)+':'+cmd.slice(7)+' (modulen holder tiden, innen 24 t).':/ASPONSE/.test(cmd)?'Slår bekreftelses-SMS på/av (PIN-prefiks).':/LOTEMP|HITEMP/.test(cmd)?'Temperaturalarm fra modulen.':'—');
+  $('#pMeaning').textContent=meaning;
+  const notes={ios:'iPhone: appen kan aldri sende SMS selv. Kommando-arket åpner Meldinger med alt utfylt (expo-sms), brukeren trykker Send. Faste dager: påminnelse kvelden før med «Send nå», eller Kortkommandoer-automasjon satt opp én gang.',
+    android:'Android (Google Play): samme som iPhone, SMS-appen åpnes ferdig utfylt. Google Play godtar ikke SEND_SMS for denne typen app, så butikkversjonen sender aldri i bakgrunnen.',
+    androidPro:'Android Pro (APK utenfor Play): egen Expo-modul sender direkte via SmsManager, planlegger med eksakt alarm og leser svar fra modulens nummer. Null trykk på faste dager.'};
+  $('#pNote').textContent=notes[S.platform];
+  const sc=$('#screens');sc.innerHTML='';const list=[['onb1','Oppsett'],['home','Hjem'],['plan','Planlegg'],['sched','Faste dager'],['schedEdit','Rediger plan'],['settings','Innstillinger'],['language','Språk'],['log','Logg']];
+  for(const[id,lab]of list)sc.append(el('button',{'aria-pressed':S.screen===id||(id==='onb1'&&S.screen.startsWith('onb'))?'true':'false',onclick:()=>{if(id==='schedEdit'){S.edit=JSON.parse(JSON.stringify(S.schedules[0]));}go(id);}},lab));}
+
+/* ---------- top controls ---------- */
+const langSel=$('#lang');for(const l of LANGS)langSel.append(el('option',{value:l},I18N[l].meta.name));langSel.value=S.lang;
+langSel.addEventListener('change',e=>setLang(e.target.value));
+function setLang(l){S.lang=l;langSel.value=l;persist();render();}
+const platSel=$('#platform');platSel.value=S.platform;platSel.addEventListener('change',e=>{S.platform=e.target.value;applyPlatformDefaults();seedLog();persist();render();});
+$('#simNotif').addEventListener('click',showNotif);
+$('#simReply').addEventListener('click',()=>{simulateReply(S.lastCmd||'TEMP');render();});
+$('#simReset').addEventListener('click',()=>{const l=S.lang,p=S.platform;S=defaults();S.lang=l;S.platform=p;applyPlatformDefaults();seedLog();S.screen='onb1';S.onboarded=false;render();});
+render();
+})();
+</script>

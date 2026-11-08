@@ -1,0 +1,261 @@
+{
+  "meta": {
+    "code": "fr",
+    "name": "Français",
+    "locale": "fr-FR"
+  },
+  "app": {
+    "name": "Varmestart",
+    "tagline": "Une voiture chaude en sortant de chez vous"
+  },
+  "nav": {
+    "home": "Accueil",
+    "plan": "Programmer",
+    "schedules": "Jours fixes",
+    "settings": "Réglages"
+  },
+  "home": {
+    "vehicleDefault": "Ma voiture",
+    "status": {
+      "unknown": "État inconnu",
+      "started": "Chauffage allumé",
+      "stopped": "Chauffage éteint",
+      "scheduled": "Démarrage programmé"
+    },
+    "start": "Démarrer",
+    "stop": "Arrêter",
+    "next": "Prochain démarrage",
+    "nextNone": "Aucun démarrage programmé",
+    "startsIn": "Démarre dans {duration}",
+    "sendsAt": "Envoi {when}",
+    "sentAt": "Envoyé à {time}",
+    "cancel": "Annuler",
+    "quick": {
+      "start30": "Démarrer dans 30 min",
+      "temp": "Température",
+      "status": "État"
+    },
+    "recent": "Derniers événements",
+    "noEvents": "Aucun événement pour l’instant",
+    "noNumber": {
+      "title": "Saisissez le numéro du module",
+      "body": "Varmestart n’a besoin que du numéro de téléphone de la carte SIM du module EasyStart GSM.",
+      "cta": "Saisir le numéro"
+    },
+    "askModule": "Interroger le module",
+    "replyInMessages": "La réponse arrive dans Messages",
+    "openMessages": "Ouvrir Messages",
+    "lastReply": "Dernière réponse du module",
+    "temperature": "Température de l’habitacle"
+  },
+  "sheet": {
+    "title": "Envoyer un SMS",
+    "to": "À",
+    "message": "Message",
+    "send": "Envoyer",
+    "cancel": "Annuler",
+    "why": "Pourquoi Messages s’ouvre-t-il ?",
+    "whyBody": "iPhone et Google Play n’autorisent pas les apps à envoyer des SMS sans que vous appuyiez sur Envoyer. Varmestart remplit tout, vous appuyez une fois.",
+    "explain": {
+      "start": "Démarre le chauffage maintenant.",
+      "stop": "Arrête le chauffage et annule tout démarrage programmé.",
+      "startAt": "Démarre le chauffage à {time}. Le module gère l’heure lui-même.",
+      "temp": "Demande la température au module.",
+      "status": "Demande l’état et les codes d’erreur au module."
+    },
+    "sentDirect": "Envoyé directement",
+    "delivered": "Remis",
+    "osSent": "Envoyé depuis Messages"
+  },
+  "plan": {
+    "title": "Programmer un démarrage",
+    "departure": "Départ",
+    "preheat": "Préchauffage",
+    "minutes": "{count} min",
+    "summary": "Le chauffage démarre à {start}, la voiture est chaude pour {depart}.",
+    "sends": "Envoie {command} maintenant",
+    "sendsLater": "Envoi {when}",
+    "cta": "Programmer",
+    "active": "Programmation active",
+    "cancel": "Annuler le démarrage programmé",
+    "tomorrow": "demain",
+    "today": "aujourd’hui",
+    "tonight": "ce soir à {time}"
+  },
+  "sched": {
+    "title": "Jours fixes",
+    "new": "Nouveau programme",
+    "empty": {
+      "title": "Aucun jour fixe pour l’instant",
+      "body": "Créez un programme, par exemple Travail lun–ven 07:00. L’app envoie la commande START pour vous."
+    },
+    "sendsEvening": "Envoi la veille à {time}",
+    "sendsAtStart": "Envoi à l’heure de démarrage",
+    "change": "Modifier",
+    "skipNext": "Ignorer le prochain",
+    "pauseUntil": "Suspendre jusqu’au",
+    "name": "Nom",
+    "namePlaceholder": "p. ex. Travail",
+    "days": "Jours",
+    "departure": "Départ",
+    "preheat": "Préchauffage",
+    "save": "Enregistrer",
+    "delete": "Supprimer le programme",
+    "paused": "Suspendu jusqu’au {date}",
+    "skipped": "Prochaine fois ignorée",
+    "covered": "Couvert par {name}",
+    "edit": "Modifier le programme",
+    "nextRun": "Prochain : {when}",
+    "heaterStarts": "Le chauffage démarre à {time}"
+  },
+  "days": {
+    "mon": "L",
+    "tue": "M",
+    "wed": "M",
+    "thu": "J",
+    "fri": "V",
+    "sat": "S",
+    "sun": "D",
+    "long": {
+      "mon": "Lundi",
+      "tue": "Mardi",
+      "wed": "Mercredi",
+      "thu": "Jeudi",
+      "fri": "Vendredi",
+      "sat": "Samedi",
+      "sun": "Dimanche"
+    },
+    "weekdays": "Jours ouvrés",
+    "everyday": "Tous les jours",
+    "weekend": "Week-end"
+  },
+  "settings": {
+    "title": "Réglages",
+    "module": "Module",
+    "phone": "Numéro de téléphone du module",
+    "phoneHelp": "Le numéro de la carte SIM du module EasyStart GSM, pas le vôtre.",
+    "country": "Pays",
+    "test": "Envoyer un SMS de test (STATUS)",
+    "profile": "Profil de commandes",
+    "profileGsm": "Eberspächer EasyStart GSM 2G/4G",
+    "language": "Langue",
+    "languageSystem": "Comme le téléphone",
+    "sending": "Envoi",
+    "mode": "Mode d’envoi",
+    "modes": {
+      "compose": "Rédiger",
+      "composeDesc": "Ouvre l’app SMS avec tout prérempli. Vous appuyez sur Envoyer.",
+      "direct": "Direct",
+      "directDesc": "Envoie les SMS en arrière-plan. Android Pro (APK) uniquement.",
+      "automation": "Automatisation",
+      "automationDesc": "Raccourcis iOS envoie pour vous les jours fixes.",
+      "reminder": "Rappel",
+      "reminderDesc": "Notification « Envoyer maintenant » à l’heure d’envoi."
+    },
+    "confirm": "Confirmer avant l’envoi",
+    "scheduleSend": "Les jours fixes sont envoyés",
+    "eveningBefore": "La veille à {time}",
+    "atStart": "À l’heure de démarrage",
+    "reminders": "Rappels",
+    "exactAlarm": "Autoriser les alarmes exactes",
+    "exactAlarmHelp": "Android l’exige pour envoyer à la seconde.",
+    "heater": "Chauffage",
+    "defaultPreheat": "Préchauffage par défaut",
+    "seasonMode": "Mode",
+    "winter": "Hiver (chauffage)",
+    "summer": "Été (ventilation)",
+    "advanced": "Avancé",
+    "pin": "PIN du module",
+    "pinHelp": "Utilisé uniquement pour les commandes de configuration. Par défaut 1234.",
+    "ack": "SMS de confirmation du module",
+    "numbers": "Numéros autorisés",
+    "tempAlarm": "Alarme de température",
+    "clear": "Effacer les codes d’erreur",
+    "reset": "Réinitialisation d’usine",
+    "data": "Données",
+    "log": "Journal",
+    "export": "Exporter la sauvegarde",
+    "import": "Importer",
+    "deleteAll": "Supprimer toutes les données",
+    "about": "À propos",
+    "version": "Version",
+    "notAffiliated": "Varmestart n’est pas affiliée à Eberspächer. EasyStart est une marque d’Eberspächer.",
+    "privacy": "Tout est stocké sur le téléphone. Aucune donnée n’est collectée.",
+    "vehicle": "Véhicule",
+    "vehicleName": "Nom",
+    "eveningTime": "Heure la veille"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Une voiture chaude en un SMS",
+      "body": "Varmestart pilote votre chauffage Eberspächer via le module EasyStart GSM. Il vous suffit du numéro de téléphone du module."
+    },
+    "next": "Suivant",
+    "back": "Retour",
+    "skip": "Passer",
+    "number": {
+      "title": "Numéro de téléphone du module",
+      "body": "Le numéro de la carte SIM du module. Votre propre numéro doit être enregistré dans le module pour qu’il réponde."
+    },
+    "test": {
+      "title": "Tester la connexion",
+      "body": "Envoyez STATUS au module. Avec les confirmations activées, il répond en moins d’une minute.",
+      "cta": "Envoyer STATUS"
+    },
+    "done": {
+      "title": "Prêt !",
+      "body": "Appuyez sur Démarrer quand vous voulez de la chaleur. Ajoutez des jours fixes pour ne plus y penser.",
+      "cta": "Aller à l’accueil"
+    },
+    "step": "Étape {n} sur {total}"
+  },
+  "log": {
+    "title": "Journal",
+    "sent": "Envoyé",
+    "cancelled": "Annulé",
+    "unknown": "Transmis à l’app Messages",
+    "delivered": "Remis",
+    "failed": "Échec",
+    "reply": "Réponse",
+    "out": "Sortant",
+    "in": "Entrant",
+    "empty": "Aucun événement pour l’instant",
+    "mode": {
+      "compose": "Rédiger",
+      "direct": "Direct",
+      "automation": "Automatisation",
+      "reminder": "Rappel"
+    }
+  },
+  "platform": {
+    "label": "Plateforme",
+    "ios": "iPhone",
+    "android": "Android (Google Play)",
+    "androidPro": "Android Pro (APK)",
+    "note": {
+      "ios": "Sur iPhone, Messages s’ouvre avec tout prérempli. Vous appuyez sur Envoyer. Jours fixes : rappel la veille ou automatisation Raccourcis.",
+      "android": "La version boutique ouvre l’app SMS avec tout prérempli. Vous appuyez sur Envoyer. Google Play n’autorise pas l’envoi en arrière-plan.",
+      "androidPro": "La version Pro envoie les SMS directement et en arrière-plan les jours fixes, et lit les réponses du module."
+    }
+  },
+  "notif": {
+    "title": "Varmestart",
+    "body": "Envoyer {command} à {vehicle} maintenant ?",
+    "action": "Envoyer maintenant",
+    "later": "Pas aujourd’hui"
+  },
+  "common": {
+    "on": "Oui",
+    "off": "Non",
+    "ok": "OK",
+    "yes": "Oui",
+    "no": "Non",
+    "close": "Fermer",
+    "copy": "Copier",
+    "copied": "Copié",
+    "now": "maintenant",
+    "hours": "{count} h",
+    "min": "{count} min",
+    "at": "à"
+  }
+}
