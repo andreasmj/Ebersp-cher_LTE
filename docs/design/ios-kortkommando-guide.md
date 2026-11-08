@@ -44,9 +44,15 @@ tillegg for en plan hvis iOS-versjonen viser seg å spørre før kjøring.
 ## Hopp over og pause
 
 Automasjonen vet ikke om «Hopp over neste». Appen løser det slik: når brukeren hopper over, viser
-appen en påminnelse kl. 21:05 samme kveld med «Send STOP» (ett trykk) som sletter den
-forhåndsprogrammerte starten i modulen. Ved «Pause til dato» ber appen brukeren slå av
-automasjonen i Kortkommandoer (lenke `shortcuts://`) og minner om å slå den på igjen.
+appen en bekreftelse («Hopp over mandag? Kortkommandoer sender START0630 kl. 21:00 uansett. Appen
+minner deg kl. 21:05 om å sende STOP»), og kl. 21:05 samme kveld en påminnelse med «Send STOP»
+(ett trykk) som sletter den forhåndsprogrammerte starten i modulen. Ingen SMS sendes før
+påminnelsen. Ved «Pause til dato» ber appen brukeren slå av automasjonen i Kortkommandoer (lenke
+`shortcuts://`) og minner om å slå den på igjen.
+
+Oppskriften bruker nøyaktig samme sendetid-regel som planleggingsmotoren (kveldstid = siste
+HH:MM før starttid, aldri mer enn 23 t 30 min før). En plan med starttid 21:00 får derfor
+automasjonstid 21:30 dagen før, ikke 21:00 (som ville vært 24 timer før).
 
 ## Fase 2: svar fra modulen rett i appen (iOS)
 

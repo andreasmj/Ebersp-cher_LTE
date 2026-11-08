@@ -54,7 +54,8 @@
     "neverConfirmed": "Aún sin confirmar",
     "moveStart": "Cambiar hora",
     "stopHint": "Apaga el calefactor y borra el encendido programado",
-    "runsUntil": "Funciona hasta las {time}"
+    "runsUntil": "Funciona hasta las {time}",
+    "rearmPending": "{command} se envía de nuevo {when}"
   },
   "sheet": {
     "title": "Enviar SMS",
@@ -75,7 +76,9 @@
     "delivered": "Entregado",
     "osSent": "Enviado desde Mensajes",
     "stopWarning": "STOP también borra el encendido programado a las {time}.",
-    "rearm": "Enviar {command} de nuevo después"
+    "rearm": "Enviar {command} de nuevo después",
+    "slotWarning": "El módulo solo recuerda un encendido programado. {new} sustituye a {old} ({name}, {when}).",
+    "rearmLater": "Recordarme enviar {old} de nuevo después"
   },
   "plan": {
     "title": "Programar encendido",
@@ -125,7 +128,9 @@
     "byAutomation": "Atajos",
     "clearPause": "Quitar pausa",
     "replaced": "Sustituido por {name}",
-    "skipAutomation": "Atajos enviará {command} a las {time} de todos modos. Envía STOP después. La app te lo recuerda a las {remind}."
+    "skipAutomation": "Atajos enviará {command} a las {time} de todos modos. Envía STOP después. La app te lo recuerda a las {remind}.",
+    "skipConfirm": "¿Omitir el {day}?",
+    "stopReminder": "Recordatorio de STOP a las {time}"
   },
   "days": {
     "mon": "L",
@@ -291,7 +296,8 @@
     "later": "Hoy no",
     "morningReserve": "Ayer no enviaste {command}. ¿Enviar START ahora?",
     "renew": "Abre Varmestart para renovar los horarios de las próximas dos semanas.",
-    "morningReserveDirect": "El envío de {command} falló. ¿Enviar START ahora?"
+    "morningReserveDirect": "El envío de {command} falló. ¿Enviar START ahora?",
+    "stopReminder": "Atajos envió {command} a las {time}. ¿Enviar STOP ahora?"
   },
   "common": {
     "on": "Activado",

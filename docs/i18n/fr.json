@@ -54,7 +54,8 @@
     "neverConfirmed": "Pas encore confirmé",
     "moveStart": "Changer l’heure",
     "stopHint": "Arrête le chauffage et annule le démarrage programmé",
-    "runsUntil": "Fonctionne jusqu’à {time}"
+    "runsUntil": "Fonctionne jusqu’à {time}",
+    "rearmPending": "{command} est renvoyé {when}"
   },
   "sheet": {
     "title": "Envoyer un SMS",
@@ -75,7 +76,9 @@
     "delivered": "Remis",
     "osSent": "Envoyé depuis Messages",
     "stopWarning": "STOP annule aussi le démarrage programmé à {time}.",
-    "rearm": "Renvoyer {command} ensuite"
+    "rearm": "Renvoyer {command} ensuite",
+    "slotWarning": "Le module ne retient qu’un seul démarrage programmé. {new} remplace {old} ({name}, {when}).",
+    "rearmLater": "Me rappeler de renvoyer {old} ensuite"
   },
   "plan": {
     "title": "Programmer un démarrage",
@@ -125,7 +128,9 @@
     "byAutomation": "Raccourcis",
     "clearPause": "Retirer la pause",
     "replaced": "Remplacé par {name}",
-    "skipAutomation": "Raccourcis enverra {command} à {time} quoi qu’il arrive. Envoyez STOP ensuite. L’app vous le rappelle à {remind}."
+    "skipAutomation": "Raccourcis enverra {command} à {time} quoi qu’il arrive. Envoyez STOP ensuite. L’app vous le rappelle à {remind}.",
+    "skipConfirm": "Ignorer {day} ?",
+    "stopReminder": "Rappel STOP à {time}"
   },
   "days": {
     "mon": "L",
@@ -291,7 +296,8 @@
     "later": "Pas aujourd’hui",
     "morningReserve": "Vous n’avez pas envoyé {command} hier. Envoyer START maintenant ?",
     "renew": "Ouvrez Varmestart pour renouveler les programmes des deux prochaines semaines.",
-    "morningReserveDirect": "L’envoi de {command} a échoué. Envoyer START maintenant ?"
+    "morningReserveDirect": "L’envoi de {command} a échoué. Envoyer START maintenant ?",
+    "stopReminder": "Raccourcis a envoyé {command} à {time}. Envoyer STOP maintenant ?"
   },
   "common": {
     "on": "Activé",

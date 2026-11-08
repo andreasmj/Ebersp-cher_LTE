@@ -184,9 +184,59 @@ Snitt 8,0. Første reviews funn: 8 rettet + 6 delvis (tabell), 13 rettet + 3 del
   ikke lenger feilkoder, 20 nye nøkler (271 per språk, full paritet).
 - Research 02: iMessage-forbehold for «Send senere». Research 01: ACCLIM-format og LOTEMP/HITEMP
   på verifiseringslisten.
-- Sjekkskriptene ligger nå i repoet: `docs/mockup/checks/` (round1: 23, round2: 30), kjøres med
+- Sjekkskriptene ligger nå i repoet: `docs/mockup/checks/` (round1: 23, round2: 29), kjøres med
   `node docs/mockup/checks/run.cjs`.
 
-## 7. Re-scoring av versjon 1.2
+## 7. Ekstern review nr. 3 av versjon 1.2 (8. nov 2026)
 
-_(fylles inn fra tredje uavhengige verifisering)_
+Tredje uavhengige reviewer kjørte forfatterens 52 sjekker (alle grønne) pluss 70 egne flyt-sjekker
+(inkl. falsk klokke), layout i 8 språk × 360/390 px × 9 skjermer, og verifiserte at `index.html` og
+`artifact.html` er identiske med en fersk build. Full rapport: `docs/design/review-external-v1.2.md`.
+
+| Punkt | v1.1 | v1.2 | Gjenstående (rettet i v1.3) |
+|---|---|---|---|
+| F1 Start/Stopp | 8 | 9 | – |
+| F2 Forhåndsprogrammering | 8 | 8 | Én-gangs-start overskrev en allerede sendt START0630 i modulens ene slot uten advarsel |
+| F3 Faste dager | 8 | 8 | Sendt forekomst forlot aldri Neste etter starttid; `skip_next` ble aldri nullstilt; hopp over på automasjonsplan sendte STOP med en gang; oppskrift og motor uenige ved starttid 21:00 |
+| F4 Oppsett | 9 | 9 | – |
+| F5 Språk | 8 | 9 | – |
+| F6 SMS-strategi | 8 | 9 | – |
+| F7 Status/temperatur | 8 | 9 | – |
+| F8 Logg | 9 | 9 | – |
+| F9 Avansert | 6 | 8 | ACCLIM-test i §15 kunne låse brukeren ute |
+| Arkitektur | 9 | 9 | – |
+| Personvern | 9 | 9 | – |
+| Kanttilfeller | 7 | 8 | Som F2/F3 |
+| Mockup | 7 | 8 | Reserve-kort viste «Starter om 0 min»; småting (versjon, nøkkeltall, STATUS-tekst) |
+| «Mye bedre» | 8 | 8 | §0 manglet forbehold om at iOS kan spørre og at appen kommer i forgrunnen ved lesing av svar |
+
+Snitt 8,6. 12 av 14 funn fra andre runde rettet, 2 delvis. Reviewerens konklusjon: med restlisten
+gjort, 9 på alle 14 rader.
+
+## 8. Endringslogg v1.2 → v1.3
+
+- **Modulens ene slot**: én-gangs-start mens en start for en annen dag er sendt gir arket
+  «Modulen husker bare én planlagt start. START1235 erstatter START0630 (Jobb, i morgen kl. 06:30)»
+  med «Minn meg på å sende START0630 på nytt etterpå». Påminnelsen og «Send nå» kommer først
+  ett minutt etter at den nye starten har gått (verifisert med falsk klokke). DESIGN §3.3, §12.
+- **sendt → utført**: forekomster forlater Neste-kortet når starttiden er passert; sendte poster
+  slettes etter starttid + kjøretid. Verifisert: mandag 08:00 viser tirsdag, ingen «Starter om 0 min»,
+  status «Varmer av · antatt 07:00». Gjelder også morgen-reserve og «Start om 30 min». §6.3, §7.
+- **Hopp over = dato** (`skip_date`), nullstilles automatisk når dagen er passert. Verifisert:
+  onsdag 08:00 etter hopp over tirsdag viser «Neste: torsdag» uten hopp-over-linje. §6.5, §7.
+- **Hopp over på Kortkommando-plan** er en bekreftelse uten SMS; STOP-påminnelsen kl. 21:05
+  simuleres med «Påminnelse kvelden før» og åpner STOP-arket. Hjem viser «STOP-påminnelse kl. 21:05».
+  Samme historie i DESIGN §5/§6.5, guiden og mockupen.
+- **Oppskriften bruker motorens sendetid-regel**: starttid 21:00 gir automasjonstid 21:30 dagen før
+  (vindu), ikke 21:00 (24 t). Verifisert.
+- **Konfliktregel på avreisedag** (§6.5, mockup).
+- **ACCLIM-test låsesikker** (§15 pkt. 7, research 01). Verifiseringsliste: «Kjør umiddelbart» for
+  Melding-utløser og URL-koding i Kortkommandoer (research 02).
+- **§0 forbehold**: iOS kan be om bekreftelse i automasjon; lesing av svar tar appen i forgrunnen.
+- Småting: versjon 1.3 i Om, 277 nøkler i §9, §15 nummerert riktig, STATUS-tekst i panelet,
+  sjekk-tall 23 + 29 + 17. 6 nye nøkler i alle 8 språk (277, full paritet).
+- `docs/mockup/checks/round3.cjs` (17 sjekker med falsk klokke) lagt til i `run.cjs`.
+
+## 9. Sluttscore versjon 1.3
+
+_(fylles inn fra sluttverifisering)_

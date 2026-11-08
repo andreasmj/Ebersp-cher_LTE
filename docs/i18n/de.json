@@ -54,7 +54,8 @@
     "neverConfirmed": "Noch nicht bestätigt",
     "moveStart": "Zeit ändern",
     "stopHint": "Stoppt die Heizung und löscht einen geplanten Start",
-    "runsUntil": "Läuft bis {time}"
+    "runsUntil": "Läuft bis {time}",
+    "rearmPending": "{command} wird {when} erneut gesendet"
   },
   "sheet": {
     "title": "SMS senden",
@@ -75,7 +76,9 @@
     "delivered": "Zugestellt",
     "osSent": "Aus Nachrichten gesendet",
     "stopWarning": "STOP löscht auch den geplanten Start um {time}.",
-    "rearm": "{command} danach erneut senden"
+    "rearm": "{command} danach erneut senden",
+    "slotWarning": "Das Modul merkt sich nur einen geplanten Start. {new} ersetzt {old} ({name}, {when}).",
+    "rearmLater": "Mich danach erinnern, {old} erneut zu senden"
   },
   "plan": {
     "title": "Start planen",
@@ -125,7 +128,9 @@
     "byAutomation": "Kurzbefehle",
     "clearPause": "Pause aufheben",
     "replaced": "Ersetzt durch {name}",
-    "skipAutomation": "Kurzbefehle sendet {command} um {time} trotzdem. Sende danach STOP. Die App erinnert dich um {remind}."
+    "skipAutomation": "Kurzbefehle sendet {command} um {time} trotzdem. Sende danach STOP. Die App erinnert dich um {remind}.",
+    "skipConfirm": "{day} überspringen?",
+    "stopReminder": "STOP-Erinnerung um {time}"
   },
   "days": {
     "mon": "Mo",
@@ -291,7 +296,8 @@
     "later": "Heute nicht",
     "morningReserve": "Du hast gestern {command} nicht gesendet. Jetzt START senden?",
     "renew": "Öffne Varmestart, um die Pläne für die nächsten zwei Wochen zu erneuern.",
-    "morningReserveDirect": "Senden von {command} fehlgeschlagen. Jetzt START senden?"
+    "morningReserveDirect": "Senden von {command} fehlgeschlagen. Jetzt START senden?",
+    "stopReminder": "Kurzbefehle hat {command} um {time} gesendet. Jetzt STOP senden?"
   },
   "common": {
     "on": "An",

@@ -54,7 +54,8 @@
     "neverConfirmed": "Not confirmed yet",
     "moveStart": "Change time",
     "stopHint": "Stops the heater and clears any scheduled start",
-    "runsUntil": "Runs until {time}"
+    "runsUntil": "Runs until {time}",
+    "rearmPending": "{command} is sent again {when}"
   },
   "sheet": {
     "title": "Send SMS",
@@ -75,7 +76,9 @@
     "delivered": "Delivered",
     "osSent": "Sent from Messages",
     "stopWarning": "STOP also clears the scheduled start at {time}.",
-    "rearm": "Send {command} again afterwards"
+    "rearm": "Send {command} again afterwards",
+    "slotWarning": "The module remembers only one scheduled start. {new} replaces {old} ({name}, {when}).",
+    "rearmLater": "Remind me to send {old} again afterwards"
   },
   "plan": {
     "title": "Plan a start",
@@ -125,7 +128,9 @@
     "byAutomation": "Shortcuts",
     "clearPause": "Remove pause",
     "replaced": "Replaced by {name}",
-    "skipAutomation": "Shortcuts will send {command} at {time} regardless. Send STOP afterwards. The app reminds you at {remind}."
+    "skipAutomation": "Shortcuts will send {command} at {time} regardless. Send STOP afterwards. The app reminds you at {remind}.",
+    "skipConfirm": "Skip {day}?",
+    "stopReminder": "STOP reminder at {time}"
   },
   "days": {
     "mon": "M",
@@ -291,7 +296,8 @@
     "later": "Not today",
     "morningReserve": "You did not send {command} yesterday. Send START now?",
     "renew": "Open Varmestart to renew the schedules for the next two weeks.",
-    "morningReserveDirect": "Sending {command} failed. Send START now?"
+    "morningReserveDirect": "Sending {command} failed. Send START now?",
+    "stopReminder": "Shortcuts sent {command} at {time}. Send STOP now?"
   },
   "common": {
     "on": "On",

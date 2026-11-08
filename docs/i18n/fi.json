@@ -54,7 +54,8 @@
     "neverConfirmed": "Ei vielä vahvistettu",
     "moveStart": "Muuta aikaa",
     "stopHint": "Pysäyttää lämmittimen ja poistaa ajastetun käynnistyksen",
-    "runsUntil": "Käy klo {time} asti"
+    "runsUntil": "Käy klo {time} asti",
+    "rearmPending": "{command} lähetetään uudelleen {when}"
   },
   "sheet": {
     "title": "Lähetä tekstiviesti",
@@ -75,7 +76,9 @@
     "delivered": "Toimitettu",
     "osSent": "Lähetetty Viesteistä",
     "stopWarning": "STOP poistaa myös ajastetun käynnistyksen klo {time}.",
-    "rearm": "Lähetä {command} uudelleen jälkeenpäin"
+    "rearm": "Lähetä {command} uudelleen jälkeenpäin",
+    "slotWarning": "Moduuli muistaa vain yhden ajastetun käynnistyksen. {new} korvaa komennon {old} ({name}, {when}).",
+    "rearmLater": "Muistuta lähettämään {old} uudelleen jälkeenpäin"
   },
   "plan": {
     "title": "Ajasta käynnistys",
@@ -125,7 +128,9 @@
     "byAutomation": "Pikakomennot",
     "clearPause": "Poista tauko",
     "replaced": "Korvattu: {name}",
-    "skipAutomation": "Pikakomennot lähettää {command} klo {time} joka tapauksessa. Lähetä STOP sen jälkeen. Sovellus muistuttaa klo {remind}."
+    "skipAutomation": "Pikakomennot lähettää {command} klo {time} joka tapauksessa. Lähetä STOP sen jälkeen. Sovellus muistuttaa klo {remind}.",
+    "skipConfirm": "Ohitetaanko {day}?",
+    "stopReminder": "STOP-muistutus klo {time}"
   },
   "days": {
     "mon": "Ma",
@@ -291,7 +296,8 @@
     "later": "Ei tänään",
     "morningReserve": "Et lähettänyt {command} eilen. Lähetetäänkö START nyt?",
     "renew": "Avaa Varmestart uusiaksesi ohjelmat seuraaville kahdelle viikolle.",
-    "morningReserveDirect": "Komennon {command} lähetys epäonnistui. Lähetetäänkö START nyt?"
+    "morningReserveDirect": "Komennon {command} lähetys epäonnistui. Lähetetäänkö START nyt?",
+    "stopReminder": "Pikakomennot lähetti komennon {command} klo {time}. Lähetetäänkö STOP nyt?"
   },
   "common": {
     "on": "Päällä",

@@ -54,7 +54,8 @@
     "neverConfirmed": "Ikke bekræftet endnu",
     "moveStart": "Ændr tid",
     "stopHint": "Stopper varmeren og sletter planlagt start",
-    "runsUntil": "Kører til {time}"
+    "runsUntil": "Kører til {time}",
+    "rearmPending": "{command} sendes igen {when}"
   },
   "sheet": {
     "title": "Send SMS",
@@ -75,7 +76,9 @@
     "delivered": "Leveret",
     "osSent": "Sendt fra Beskeder",
     "stopWarning": "STOP sletter også planlagt start {time}.",
-    "rearm": "Send {command} igen bagefter"
+    "rearm": "Send {command} igen bagefter",
+    "slotWarning": "Modulet husker kun én planlagt start. {new} erstatter {old} ({name}, {when}).",
+    "rearmLater": "Mind mig om at sende {old} igen bagefter"
   },
   "plan": {
     "title": "Planlæg start",
@@ -125,7 +128,9 @@
     "byAutomation": "Kortkommandoer",
     "clearPause": "Fjern pause",
     "replaced": "Erstattet af {name}",
-    "skipAutomation": "Kortkommandoer sender {command} kl. {time} alligevel. Send STOP bagefter. Appen minder dig kl. {remind}."
+    "skipAutomation": "Kortkommandoer sender {command} kl. {time} alligevel. Send STOP bagefter. Appen minder dig kl. {remind}.",
+    "skipConfirm": "Spring {day} over?",
+    "stopReminder": "STOP-påmindelse kl. {time}"
   },
   "days": {
     "mon": "M",
@@ -291,7 +296,8 @@
     "later": "Ikke i dag",
     "morningReserve": "Du sendte ikke {command} i går. Send START nu?",
     "renew": "Åbn Varmestart for at forny planerne for de næste to uger.",
-    "morningReserveDirect": "Afsendelse af {command} mislykkedes. Send START nu?"
+    "morningReserveDirect": "Afsendelse af {command} mislykkedes. Send START nu?",
+    "stopReminder": "Kortkommandoer sendte {command} kl. {time}. Send STOP nu?"
   },
   "common": {
     "on": "Til",

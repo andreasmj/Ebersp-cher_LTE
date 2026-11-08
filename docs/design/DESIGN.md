@@ -3,8 +3,8 @@
 Arbeidstittel: **Varmestart** (engelsk: WarmStart). «Eberspächer» og «EasyStart» er varemerker
 og brukes ikke i appnavn eller ikon, bare i beskrivende tekst («Fungerer med EasyStart GSM»).
 
-Versjon 1.2 · 8. november 2026 · Expo SDK 58 · Kun lokal lagring · 8 språk
-Endringer fra 1.0 er merket **[1.1]**, fra 1.1 **[1.2]**; begge er oppsummert i `REVIEW.md`.
+Versjon 1.3 · 8. november 2026 · Expo SDK 58 · Kun lokal lagring · 8 språk
+Endringer fra 1.0 er merket **[1.1]**, fra 1.1 **[1.2]**, fra 1.2 **[1.3]**; alle er oppsummert i `REVIEW.md`.
 
 ---
 
@@ -28,6 +28,10 @@ til modulen med landkode. Ingen konto, ingen server, ingen abonnement; alt lagre
 | Språk | Engelsk/svensk | 8 språk | 8 språk |
 | Oppsett | Nummer | Nummer med landvelger, test-SMS | Samme |
 | Stabilitet | Se kilder under | Expo SDK 58, React Native 0.88, EAS Build, EAS Update for tekstfikser | Samme |
+
+Forbehold **[1.3]**: Kortkommando-automasjon på iPhone kan på enkelte iOS-versjoner likevel be om
+bekreftelse før «Send melding»; appen beholder derfor påminnelsen som valg per plan. Lesing av svar
+via Kortkommandoer tar appen kort i forgrunnen. Begge er beskrevet i appen før brukeren slår dem på.
 
 Kilder for påstandene om Eberspächer-appen (hentet 8. nov 2026): App Store-oppføring id476315065
 (funksjonsliste «Start heater, Stop heater, Start heater at a given time, Get current temperature»;
@@ -121,6 +125,12 @@ starter 06:30, bilen er varm til 07:00. Sender START0630 nå.» → **Planlegg**
   forekomsten med den nye, og STOP-arket tilbyr re-sending av den nye kommandoen.
 - **Start om 30 min** er en én-gangs-plan med forvarming 0 **[1.2]**: den vises i Neste-kortet med
   nedtelling, og STOP advarer om at den slettes.
+- **Modulens ene slot [1.3]**: sendes en én-gangs-start (Start om 30 min, Planlegg i dag) mens en
+  start for en annen dag allerede er sendt (f.eks. `START0630` for i morgen), viser arket
+  «Modulen husker bare én planlagt start. START1235 erstatter START0630 (Jobb, i morgen kl. 06:30)»
+  og en forhåndsvalgt boks «Minn meg på å sende START0630 på nytt etterpå». Påminnelsen (og
+  «Send nå»-knappen på Hjem) kommer først ett minutt etter at den nye starten har gått, slik at
+  re-sendingen ikke overskriver den. Ligger den gamle starten før den nye, vises bare advarselen.
 
 ### 3.4 Faste dager (ukeplan)
 Faste dager → **Ny plan** → dager (chips + snarveier hverdager/hver dag/helg), avreisetid,
@@ -280,13 +290,16 @@ avreisedagen; Faste dager-listen viser «Neste: tirsdag 00:15 · START2345».
 ### 6.3 Tilstandsmaskin per forekomst
 ```
 planlagt ──(sendetid: varsling vist)──▶ påminnet ──(bruker sender)──▶ sendt ──(svar fra modul)──▶ bekreftet
-   │                                        │                            │
-   │ (Android Pro / automasjon)             │ (ikke sendt før starttid)  │ (STOP / hopp over)
-   └──────────────▶ sendt                   └──▶ ubesvart ──▶ morgen-reserve  └──▶ avbrutt
+   │                                        │                            │          │
+   │ (Android Pro / automasjon)             │ (ikke sendt før starttid)  │ (STOP)   │ (starttid passert)
+   └──────────────▶ sendt                   └──▶ ubesvart ──▶ morgen-reserve  └─▶ avbrutt └─▶ utført
 ```
 - **planlagt**: forekomst regnet ut, varsling planlagt for sendetid.
 - **påminnet**: varsling vist (kvelden før). Handlinger: «Send nå», «Ikke i dag» (= hopp over).
 - **sendt**: `STARThhmm` levert til meldingsapp/modul. Modulen holder tiden. Neste-kort viser nedtelling.
+- **utført [1.3]**: når starttiden er passert, forlater forekomsten Neste-kortet (status viser
+  «Varmer på · antatt» til kjøretiden er over). Sendte forekomster slettes fra tabellen etter
+  starttid + kjøretid. Dette gjelder også morgen-reserven og «Start om 30 min».
 - **bekreftet**: svar matchet (Android Pro, iPhone med Kortkommando). Status-pille blir «bekreftet».
 - **ubesvart → morgen-reserve**: hvis forekomsten fortsatt er «planlagt/påminnet» ved starttid,
   vises en tidssensitiv varsling «Du sendte ikke START0630 i går. Send START nå?» → `START`.
@@ -306,9 +319,14 @@ for de neste to ukene»), godt under iOS-grensen på 64 ventende. **[1.2]** Andr
 omstart (`BOOT_COMPLETED`). Ingen bakgrunnsprosess er nødvendig i MVP.
 
 ### 6.5 Konflikter
-Én-gangs-plan samme dato erstatter ukeplanens forekomst («Jobb: Erstattet av Planlegg start»).
-Ellers vinner tidligste starttid, de andre vises som «Dekket av Jobb». Hopp over og pause fjerner
-forekomster uten å endre planen; pause vises med dato på planen.
+Konflikter grupperes på **avreisedag** (ikke startdag, siden en avreise 00:15 har starttid dagen
+før) **[1.3]**. Én-gangs-plan samme avreisedag erstatter ukeplanens forekomst («Jobb: Erstattet av
+Planlegg start»). Ellers vinner tidligste starttid, de andre vises som «Dekket av Jobb».
+**Hopp over** lagres som datoen til den ene forekomsten som hoppes over (`skip_date`) og nullstilles
+automatisk når datoen er passert, så neste forekomst aldri hoppes over ved et uhell **[1.3]**.
+På en Kortkommando-plan er hopp over en bekreftelse («Hopp over mandag? Kortkommandoer sender
+START0630 kl. 21:00 uansett. Appen minner deg kl. 21:05 om å sende STOP»); ingen SMS sendes før
+påminnelsen **[1.3]**. Pause fjerner forekomster uten å endre planen og vises med dato på planen.
 
 ### 6.6 Status-utløp
 `START` sendt kl. 07:12 gir «Varmer på · antatt 07:12», «Går til 07:42» (kjøretid). Etter
@@ -339,14 +357,14 @@ CREATE TABLE plan (                -- én-gangs og ukeplan i samme tabell
   days_mask INTEGER,               -- bit 0 = mandag … bit 6 = søndag (ukeplan)
   date TEXT,                       -- YYYY-MM-DD (én gang)
   depart_hhmm TEXT NOT NULL, preheat_min INTEGER NOT NULL,
-  enabled INTEGER NOT NULL DEFAULT 1, skip_next INTEGER DEFAULT 0, paused_until TEXT,
+  enabled INTEGER NOT NULL DEFAULT 1, skip_date TEXT, paused_until TEXT,   -- skip_date: én forekomst (YYYY-MM-DD)
   automation INTEGER DEFAULT 0,    -- iPhone: sendes av Kortkommandoer
   created_at TEXT NOT NULL);
 
 CREATE TABLE occurrence (          -- utregnede forekomster neste 14 dager
   id TEXT PRIMARY KEY, plan_id TEXT NOT NULL, date TEXT NOT NULL,
   start_at TEXT NOT NULL, send_at TEXT NOT NULL, command TEXT NOT NULL,
-  state TEXT NOT NULL,             -- planned|reminded|sent|confirmed|cancelled|missed
+  state TEXT NOT NULL,             -- planned|reminded|sent|confirmed|cancelled|missed|done
   notification_id TEXT, alarm_id TEXT, sent_at TEXT, confirmed_at TEXT);
 
 CREATE TABLE log (
@@ -392,7 +410,7 @@ Andre profiler: `easystart_call` (PIN-basert, 3 timere i enheten, ukedager) og `
 
 - Språk: **nb, en, de, sv, da, fi, es, fr**. `i18next` + `react-i18next`, ICU-flertall,
   `expo-localization` for startspråk. Språkvalg i Innstillinger overstyrer OS. Bytte uten omstart.
-- Alle tekster ligger i `docs/i18n/` (251 nøkler per språk, lik struktur, verifisert med skript)
+- Alle tekster ligger i `docs/i18n/` (277 nøkler per språk, lik struktur, verifisert med skript)
   og brukes av mockupen, så lengde og layout er sjekket per språk.
 - Sammensatte dato/tid-fraser har egne nøkler per språk (`common.dayAt`: «am {day} um {time}»,
   «{day}na klo {time}», «{day} à {time}»), slik at grammatikken blir riktig i tysk og finsk.
@@ -495,6 +513,10 @@ export default ({ config }) => ({
 | Dual-SIM på iPhone | Onboarding-hint: Meldinger må sende fra registrert nummer |
 | Sen avreise (starttid etter kveldstiden) | kveldstid = siste 21:00 før starttid, sendetid = max(kveldstid, start − 23 t 30) |
 | «Start om 30 min» og så Stopp | Er en én-gangs-plan; STOP advarer og tilbyr re-sending |
+| Én-gangs-start mens START0630 for i morgen er sendt | Arket advarer om modulens ene slot og minner om re-sending etter at den nye starten har gått |
+| Forekomst sendt, starttid passert | Går til «utført», forlater Neste-kortet; status «Varmer på · antatt» til kjøretid er over |
+| Hopp over, dagen passert | `skip_date` nullstilles automatisk; neste forekomst hoppes ikke over |
+| Hopp over på Kortkommando-plan | Bekreftelse + STOP-påminnelse kl. 21:05 etter at automasjonen har sendt |
 | Endre tid etter at START0630 er sendt | Ny STARThhmm sendes straks og overskriver modulens slot |
 | Starttid passert i Planlegg | START i stedet for STARThhmm |
 | To planer samme morgen | Én-gangs erstatter ukeplan; ellers tidligste vinner, andre «dekket» |
@@ -514,16 +536,18 @@ export default ({ config }) => ({
 ## 13. Testplan **[1.1]**
 
 - Enhetstester (Jest): kommandoprofiler; `sendTimeFor` (kveldstid = siste HH:MM før start, 23 t 30-vindu,
-  avreise 23:00 og 00:15, fortid); tilstandsmaskin (alle overganger i §6.3, inkl. ubesvart → morgen-reserve); konflikter
-  (én-gangs erstatter ukeplan, tidligste vinner); skip/pause; DST-overganger; status-utløp;
+  avreise 23:00 og 00:15, fortid); tilstandsmaskin (alle overganger i §6.3, inkl. ubesvart → morgen-reserve
+  og sendt → utført); konflikter på avreisedag (én-gangs erstatter ukeplan, tidligste vinner);
+  `skip_date` nullstilles; modulens ene slot (advarsel + re-sending); pause; DST-overganger; status-utløp;
   nummer-validering for alle 8 land; eksport uten/med PIN.
 - Komponenttester: kommando-ark i alle 8 språk (snapshot), STOP-ark med advarsel og re-sending,
   Planlegg med begge vakter.
 - Svar-parsing med ekte svar-SMS fra brukerens modul (samles i §15 pkt. 1).
 - E2E (Maestro): onboarding, start, planlegg, ukeplan, påminnelse → send, morgen-reserve,
   hopp over etter sending, Endre tid etter sending, Start om 30 min + Stopp, bytt språk, eksporter.
-- Mockup-sjekker (Playwright, `docs/mockup/checks/`): 23 + 30 automatiserte sjekker av logikken over
-  og av layout i 8 språk × 360/390/1280 px; kjøres med `node docs/mockup/checks/run.cjs`.
+- Mockup-sjekker (Playwright, `docs/mockup/checks/`): 23 + 29 + 17 automatiserte sjekker av logikken over
+  (runde 3 bruker falsk klokke for sendt → utført og `skip_date`) og av layout i 8 språk ×
+  360/390/1280 px; kjøres med `node docs/mockup/checks/run.cjs`.
 - Fysisk enhetsmatrise: iPhone (siste iOS og iOS 16.4), Pixel (Android 14/15/16), Samsung dual-SIM
   for Direkte-modus; Kortkommando-automasjon testes på brukerens iOS-versjon.
 - Feltprøve: én uke med ukeplan man–fre mot ekte EasyStart GSM, logg sammenlignes med
@@ -552,7 +576,9 @@ export default ({ config }) => ({
 4. Har du dual-SIM på Android-telefonen?
 5. Skal appen publiseres i butikkene, eller bare brukes av deg og kjente? (Avgjør om Android Pro
    er hovedbygget.)
-8. Hvilket nummerformat forventer `ACCLIM` (nasjonalt `91234567`, `4791234567` eller
-   `+4791234567`)? Send ett og se hvilket som gir svar. **[1.2]**
 6. Hvilken kjøretid er satt på varmerens styreenhet? (Standardverdi i appen.)
-7. Appnavn: Varmestart er arbeidstittel.
+7. Hvilket nummerformat forventer `ACCLIM` (nasjonalt `91234567`, `4791234567` eller
+   `+4791234567`)? Test låsesikkert: send alle tre formatene av ditt eget nummer i én kommando
+   (`1234ACCLIM:91234567:4791234567:+4791234567`) eller test fra et annet allerede registrert
+   nummer, siden ACCLIM erstatter hele listen. **[1.2]** **[1.3]**
+8. Appnavn: Varmestart er arbeidstittel.
