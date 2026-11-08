@@ -69,7 +69,7 @@
       "stop": "Stoppt die Heizung und löscht einen geplanten Start.",
       "startAt": "Startet die Heizung um {time}. Das Modul hält die Zeit selbst ein.",
       "temp": "Fragt das Modul nach der Temperatur.",
-      "status": "Fragt das Modul nach Status und Fehlercodes."
+      "status": "Fragt das Modul nach seinem Status."
     },
     "sentDirect": "Direkt gesendet",
     "delivered": "Zugestellt",
@@ -121,10 +121,11 @@
     "heaterStarts": "Heizung startet um {time}",
     "skipSendsStop": "Der Start wurde bereits an das Modul gesendet. Überspringen sendet STOP.",
     "automation": "Wird von Kurzbefehlen gesendet",
-    "automationHelp": "Die App sendet für diesen Plan keine Erinnerung. Überspringen und Pausieren erfolgen in Kurzbefehlen; die App zeigt wie.",
+    "automationHelp": "Die App sendet für diesen Plan keine Erinnerung. Überspringen: die App erinnert dich um {remind}, STOP zu senden. Pausieren: Automation in Kurzbefehlen ausschalten (die App zeigt wie).",
     "byAutomation": "Kurzbefehle",
     "clearPause": "Pause aufheben",
-    "replaced": "Ersetzt durch {name}"
+    "replaced": "Ersetzt durch {name}",
+    "skipAutomation": "Kurzbefehle sendet {command} um {time} trotzdem. Sende danach STOP. Die App erinnert dich um {remind}."
   },
   "days": {
     "mon": "Mo",
@@ -207,7 +208,7 @@
     "simValidUntil": "SIM-Karte gültig bis",
     "simHelp": "Erinnerung 7 Tage vorher.",
     "readReplies": "Antworten des Moduls lesen",
-    "readRepliesHelpIos": "Braucht eine Kurzbefehle-Automation: „Wenn ich eine Nachricht vom Modul erhalte → Varmestart öffnen“. Die App zeigt die Anleitung.",
+    "readRepliesHelpIos": "Braucht eine Kurzbefehle-Automation: „Wenn ich eine Nachricht vom Modul erhalte → URL öffnen varmestart://reply“. Die App zeigt die Anleitung.",
     "readRepliesHelpPro": "Die Pro-Version liest Antworten von der Nummer des Moduls automatisch.",
     "pinChange": "PIN ändern",
     "numbersHelp": "Deine eigene Nummer ist immer dabei. Bei jeder Änderung werden alle Nummern neu gesendet. Maximal 5.",
@@ -218,7 +219,12 @@
     "includePin": "PIN einschließen",
     "deleteConfirm": "Alle Daten auf diesem Telefon löschen? Das kann nicht rückgängig gemacht werden.",
     "resetConfirm": "Das Modul verliert alle Einstellungen, auch die berechtigten Nummern. Bist du sicher?",
-    "automationGuide": "Anleitung für Kurzbefehle"
+    "automationGuide": "Anleitung für Kurzbefehle",
+    "ownNumber": "Deine Nummer",
+    "ownNumberHelp": "Deine im Modul registrierte Nummer. Wird bei den berechtigten Nummern verwendet.",
+    "profileCall": "Eberspächer EasyStart Call (PIN-basiert)",
+    "profileCustom": "Benutzerdefiniert",
+    "importHelp": "Wähle eine JSON-Sicherung aus Dateien. Kommt in Phase 2."
   },
   "onboarding": {
     "welcome": {
@@ -259,7 +265,7 @@
     "in": "Empfangen",
     "empty": "Noch keine Ereignisse",
     "mode": {
-      "compose": "Verfassen",
+      "compose": "Über Nachrichten",
       "direct": "Direkt",
       "automation": "Automation",
       "reminder": "Erinnerung"
@@ -284,7 +290,8 @@
     "action": "Jetzt senden",
     "later": "Heute nicht",
     "morningReserve": "Du hast gestern {command} nicht gesendet. Jetzt START senden?",
-    "renew": "Öffne Varmestart, um die Pläne für die nächsten zwei Wochen zu erneuern."
+    "renew": "Öffne Varmestart, um die Pläne für die nächsten zwei Wochen zu erneuern.",
+    "morningReserveDirect": "Senden von {command} fehlgeschlagen. Jetzt START senden?"
   },
   "common": {
     "on": "An",
@@ -303,5 +310,20 @@
     "todayAt": "heute um {time}",
     "tomorrowAt": "morgen um {time}",
     "number": "Nummer"
+  },
+  "recipe": {
+    "title": "Anleitung für Kurzbefehle",
+    "intro": "Lege in Kurzbefehlen auf dem iPhone eine persönliche Automation an:",
+    "step1": "Automation → + → Tageszeit",
+    "step2": "Uhrzeit {time}. Wöchentlich wiederholen: {days}",
+    "step3": "„Sofort ausführen“ wählen (nicht „Vor Ausführung fragen“)",
+    "step4": "Aktion „Nachricht senden“: Text {command} an {number}",
+    "step5": "„Bei Ausführung anzeigen“ ausschalten. Auf Fertig tippen.",
+    "replyIntro": "Um Antworten des Moduls in der App zu lesen:",
+    "reply1": "Automation → + → Nachricht → von {number}",
+    "reply2": "Aktion „URL öffnen“: varmestart://reply?text=[Nachrichteninhalt]",
+    "reply3": "„Sofort ausführen“ wählen",
+    "done": "Ich habe die Automation angelegt",
+    "note": "Wenn sich der Plan ändert, zeigt die App eine neue Anleitung."
   }
 }

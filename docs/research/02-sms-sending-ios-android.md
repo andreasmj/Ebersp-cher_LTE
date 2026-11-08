@@ -41,7 +41,7 @@ vår type app. Designet må derfor ha tre sendemoduser og velge riktig per platt
   brukere rapporterer at iOS fortsatt spør. Må verifiseres på brukerens iOS-versjon.
 - Appens rolle: regner ut nøyaktig tekst (`START0630`) og nummer, og viser en
   «Lag automasjon i Kortkommandoer»-guide med kopier-knapper. Én automasjon per unikt
-  (dager, tidspunkt). iOS 18 «Send senere» i Meldinger støtter ikke gjentakelse.
+  (dager, tidspunkt). iOS 18 «Send senere» i Meldinger gjelder bare iMessage (ikke SMS) og støtter ikke gjentakelse, og er derfor uaktuell.
 - Fase 2: `expo-app-intents` (0.5.x, alpha, krever iOS 16.4+) gjør at Siri/Kortkommandoer kan
   spørre appen «hva skal sendes nå?» slik at én automasjon dekker alle planer.
 

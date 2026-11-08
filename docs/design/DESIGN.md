@@ -3,8 +3,8 @@
 Arbeidstittel: **Varmestart** (engelsk: WarmStart). «Eberspächer» og «EasyStart» er varemerker
 og brukes ikke i appnavn eller ikon, bare i beskrivende tekst («Fungerer med EasyStart GSM»).
 
-Versjon 1.1 · 8. november 2026 · Expo SDK 58 · Kun lokal lagring · 8 språk
-Endringer fra 1.0 er merket **[1.1]** og er oppsummert i `REVIEW.md`.
+Versjon 1.2 · 8. november 2026 · Expo SDK 58 · Kun lokal lagring · 8 språk
+Endringer fra 1.0 er merket **[1.1]**, fra 1.1 **[1.2]**; begge er oppsummert i `REVIEW.md`.
 
 ---
 
@@ -116,6 +116,11 @@ starter 06:30, bilen er varm til 07:00. Sender START0630 nå.» → **Planlegg**
 - Utenfor vinduet: planen lagres som en én-gangs-plan (samme motor som faste dager, §6) og
   sendes på sendetidspunktet.
 - Én-gangs-plan samme dato erstatter ukeplanens forekomst (brukeren har valgt bevisst).
+- **Endre tid** når en start allerede er sendt til modulen **[1.2]**: modulen har ett slot, så ny
+  `STARThhmm` sendes med en gang (innen vinduet) og overskriver. Appen erstatter den sendte
+  forekomsten med den nye, og STOP-arket tilbyr re-sending av den nye kommandoen.
+- **Start om 30 min** er en én-gangs-plan med forvarming 0 **[1.2]**: den vises i Neste-kortet med
+  nedtelling, og STOP advarer om at den slettes.
 
 ### 3.4 Faste dager (ukeplan)
 Faste dager → **Ny plan** → dager (chips + snarveier hverdager/hver dag/helg), avreisetid,
@@ -135,7 +140,9 @@ Hjem → **Temperatur** / **Status** → `TEMP` / `STATUS`.
 - iPhone: standard er «Svaret kommer i Meldinger» med knapp som åpner tråden. Med innstillingen
   **Les svar fra modulen** på, viser appen oppskriften for én Kortkommando-automasjon: utløser
   «Melding fra +47 …» → handling «Åpne URL `varmestart://reply?text=[Meldingstekst]`» (Kjør
-  umiddelbart). Appen mottar lenken (expo-linking), parser svaret, oppdaterer status og logg.
+  umiddelbart). Kortkommandoer URL-koder teksten; appen dekoder den (expo-linking), parser
+  svaret, oppdaterer status og logg. Innstillingen «Les svar fra modulen» slås først på etter at
+  brukeren har bekreftet «Jeg har laget automasjonen» på oppskriftsskjermen. **[1.2]**
   Begrensning: appen kommer i forgrunnen i et øyeblikk, og ved låst skjerm kjøres det ved neste
   opplåsing. Fase 2 bytter til `expo-app-intents` som kan ta imot teksten i bakgrunnen.
 - Android (Play): som iPhone uten lese-mulighet (RECEIVE_SMS er ikke tillatt i butikk-bygget).
@@ -152,7 +159,10 @@ Navigasjon: fire tabs i bunn (native tabs i Expo Router 58): **Hjem**, **Planleg
 
 ### 4.1 Hjem
 - Topp: kjøretøynavn, nummer, status-pille: «Status ukjent» / «Varmer på · antatt 07:12» /
-  «Varmer på · bekreftet 07:13» / «Start planlagt · antatt 21:00» / «Varmer av». **[1.1]**
+  «Varmer på · bekreftet 07:13» / «Start planlagt · 06:30» (starttiden, ikke sendetiden) /
+  «Varmer av». **[1.1]** **[1.2]**
+- På iPhone/Play: lenke «Hvorfor åpnes Meldinger?» under Stopp-knappen, siden arket hoppes over
+  som standard. **[1.2]**
 - Stor rund **Start**-knapp (176 pt). Under: «Går til 07:42» når varmeren antas å være på,
   ellers «Starter varmeren nå». Deretter **Stopp** (full bredde, rød tone). **[1.1]**
 - **Neste**-kort: neste forekomst fra én-gangs-plan eller ukeplan, med «Sendes {når}» eller
@@ -173,7 +183,9 @@ START0630», bryter). Linjer for «Neste gang hoppes over», «Pauset til 15. de
 «Kortkommandoer». Global linje: «Sendes kvelden før kl. 21:00 · Endre». «+» for ny.
 
 ### 4.4 Innstillinger
-1. **Modul**: Telefonnummer (landvelger + nummer), Kjøretøynavn, Test-SMS, Kommandoprofil.
+1. **Modul**: Telefonnummer (landvelger + nummer), Kjøretøynavn, **Ditt nummer** (det som er
+   registrert i modulen; brukes først i Autoriserte numre) **[1.2]**, Test-SMS, Kommandoprofil
+   (valgark: EasyStart GSM / EasyStart Call / Egendefinert).
 2. **Språk**: 8 språk + «Følg telefonen».
 3. **Sending**: Sendemodus (forklart per plattform), Bekreft før sending, Faste dager sendes
    «Kvelden før kl. HH:MM» / «Ved starttid», Klokkeslett kvelden før, Påminnelser, Les svar fra
@@ -183,7 +195,9 @@ START0630», bryter). Linjer for «Neste gang hoppes over», «Pauset til 15. de
    status-utløp) **[1.1]**, Standard forvarmingstid, Sommer/vinter-modus.
 5. **Avansert**: PIN (vis/endre), Bekreftelses-SMS (ASPONSE), **Autoriserte numre** (egen skjerm:
    eget nummer alltid først og låst, maks 5, advarsel om at alle numre sendes på nytt, én
-   ACCLIM-kommando) **[1.1]**, Temperaturalarm (tallfelt under/over → LOTEMP/HITEMP),
+   ACCLIM-kommando; Send er deaktivert til Ditt nummer er fylt ut) **[1.1]**, Temperaturalarm
+   (tallfelt under/over, **to separate SMS** `1234LOTEMP:-5` og `1234HITEMP:35`, fordi én
+   sammenslått tekst er tvetydig for modulen) **[1.2]**,
    Slett feilkoder (CLEAR), Fabrikkinnstilling (SETDEFAULT, bekreftelsesark med advarsel om at
    autoriserte numre forsvinner, deretter kommando-ark).
 6. **Data**: Logg, Eksporter sikkerhetskopi (advarsel: inneholder telefonnumre; PIN bare med
@@ -211,10 +225,14 @@ utvidbar «Hvorfor åpnes Meldinger?» med forklaringen inne i arket. **[1.1]**
 - **Automasjon er «eneste sender» for en plan. [1.1]** Når en plan er merket «Sendes av
   Kortkommandoer», planlegger appen ingen påminnelse for den (ingen dobbeltsending), viser
   «Kortkommandoer» på planen og i Neste-kortet, og registrerer forekomsten som «sendt av
-  automasjon (ubekreftet)» ved automasjonstidspunktet. Hopp over → appen viser arket for `STOP`
-  kl. 21:05 (etter automasjonen). Pause → appen ber brukeren slå av automasjonen (lenke
-  `shortcuts://`) og minner om å slå den på igjen når pausen er over. Endres planen, viser appen
-  «Automasjonen på iPhone må oppdateres» med ny oppskrift (se `ios-kortkommando-guide.md`).
+  automasjon (ubekreftet)» ved automasjonstidspunktet. Samme historie overalt **[1.2]**
+  (dokument, hjelpetekst i appen, mockup): **Hopp over** → automasjonen sender likevel, så appen
+  viser arket for `STOP` med forklaring og minner kl. 21:05 (kveldstid + 5 min). **Pause** →
+  appen ber brukeren slå av automasjonen (lenke `shortcuts://`) og minner om å slå den på igjen.
+  Endres planen, viser appen «Automasjonen på iPhone må oppdateres» med ny oppskrift.
+  Oppskriften er en egen skjerm med trinn, utregnede dager (forskjøvet én dag bakover når
+  sendingen skjer kvelden før og kveldstiden ligger før starttiden), klokkeslett, tekst og nummer
+  med kopier-knapper, og knappen «Jeg har laget automasjonen» som setter flagget.
 - Direkte-modus bruker `SmsManager.createForSubscriptionId` på dual-SIM og spør hvilket SIM
   som skal brukes første gang.
 - Direkte-modus krever «Alarmer og påminnelser» (Android 14+). Appen sjekker
@@ -246,15 +264,18 @@ lager ukeplaner. Hjem viser den første forekomsten uansett type.
 ```
 starttid  = avreise − forvarming
 vindu     = starttid − 23 t 30 min            // modulen godtar STARThhmm innen 24 t
-kveldstid = dagen før starttid kl. HH:MM      // standard 21:00
+kveldstid = siste forekomst av HH:MM før starttid   // standard 21:00 [1.2]
 sendetid  = max(kveldstid, vindu)             // aldri mer enn 23 t 30 før start
             hvis sendetid < nå: nå
 kommando  = "START" + hhmm(starttid)          // modus «kvelden før»
 ```
 Modus «ved starttid»: `sendetid = starttid`, `kommando = START`.
 Starttid i fortiden (én-gangs): kommando `START`, arket forklarer.
-Eksempel: avreise 23:00 med 30 min forvarming gir starttid 22:30; kveldstid 21:00 dagen før
-ligger 25,5 t før, så sendetid blir 23:00 dagen før (vindu). Hjem viser «Sendes i kveld kl. 23:00».
+Eksempler **[1.2]**: avreise 07:00 mandag, 30 min forvarming → starttid 06:30 mandag → kveldstid
+søndag 21:00 → `START0630` sendes søndag 21:00. Avreise 23:00 mandag → starttid 22:30 mandag →
+kveldstid **mandag** 21:00 (siste 21:00 før starttid) → sendes mandag 21:00, 1,5 t før start.
+Avreise 00:15 tirsdag → starttid 23:45 mandag → sendes mandag 21:00. Planens ukedag er
+avreisedagen; Faste dager-listen viser «Neste: tirsdag 00:15 · START2345».
 
 ### 6.3 Tilstandsmaskin per forekomst
 ```
@@ -269,15 +290,19 @@ planlagt ──(sendetid: varsling vist)──▶ påminnet ──(bruker sender
 - **bekreftet**: svar matchet (Android Pro, iPhone med Kortkommando). Status-pille blir «bekreftet».
 - **ubesvart → morgen-reserve**: hvis forekomsten fortsatt er «planlagt/påminnet» ved starttid,
   vises en tidssensitiv varsling «Du sendte ikke START0630 i går. Send START nå?» → `START`.
-  Dette er sikkerhetsnettet for en oversett kveldspåminnelse.
+  Dette er sikkerhetsnettet for en oversett kveldspåminnelse. I Direkte-modus og «ved starttid»
+  brukes reserven bare når sendingen feilet, med teksten «Sending av START feilet. Send START
+  nå?». Etter reserven går forekomsten til **sendt** med kommando `START`, og status blir
+  «Varmer på · antatt». **[1.2]**
 - **avbrutt**: `STOP` sendt (Avbryt, Hopp over etter sending, Stopp-knappen). STOP med sendt
   forekomst tilbyr alltid re-sending av `STARThhmm`.
 
 ### 6.4 Horisont og fornyelse
-Forekomster regnes ut 14 dager frem ved hver endring og hver app-start. Påminnelser planlegges
-for alle forekomster i horisonten (iOS-grense 64 ventende; appen bruker inntil 40). I tillegg
-planlegges én «fornyelsesvarsling» dag 13: «Åpne Varmestart for å fornye planene for de neste
-to ukene.» Android Pro planlegger eksakte alarmer for samme horisont og re-planlegger etter
+Forekomster regnes ut 14 dager frem ved hver endring og hver app-start. Hver forekomst trenger
+inntil **to** varslinger: kveldspåminnelse og morgen-reserve; reserven avbestilles når
+forekomsten blir «sendt». Bare den vinnende forekomsten per dag får varslinger, så budsjettet
+er maks 2 × 14 = 28 pluss én «fornyelsesvarsling» dag 13 («Åpne Varmestart for å fornye planene
+for de neste to ukene»), godt under iOS-grensen på 64 ventende. **[1.2]** Android Pro planlegger eksakte alarmer for samme horisont og re-planlegger etter
 omstart (`BOOT_COMPLETED`). Ingen bakgrunnsprosess er nødvendig i MVP.
 
 ### 6.5 Konflikter
@@ -468,7 +493,9 @@ export default ({ config }) => ({
 | Modulen svarer ikke (utløpt SIM, saldo, nytt nummer ikke i ACCLIM, ingen dekning) | «Sist bekreftet for N dager siden», SIM-gyldighet med påminnelse, hjelpetekst om ACCLIM |
 | Automasjon på iPhone og hopp over/pause | Automasjon er eneste sender for planen; hopp over = STOP-ark kl. 21:05, pause = slå av automasjonen med lenke |
 | Dual-SIM på iPhone | Onboarding-hint: Meldinger må sende fra registrert nummer |
-| Sen avreise (etter ca. 21:30) | sendetid = max(kveldstid, start − 23 t 30) |
+| Sen avreise (starttid etter kveldstiden) | kveldstid = siste 21:00 før starttid, sendetid = max(kveldstid, start − 23 t 30) |
+| «Start om 30 min» og så Stopp | Er en én-gangs-plan; STOP advarer og tilbyr re-sending |
+| Endre tid etter at START0630 er sendt | Ny STARThhmm sendes straks og overskriver modulens slot |
 | Starttid passert i Planlegg | START i stedet for STARThhmm |
 | To planer samme morgen | Én-gangs erstatter ukeplan; ellers tidligste vinner, andre «dekket» |
 | Nummer mangler | Tom tilstand, sendeknapper deaktivert |
@@ -486,15 +513,17 @@ export default ({ config }) => ({
 
 ## 13. Testplan **[1.1]**
 
-- Enhetstester (Jest): kommandoprofiler; `sendTimeFor` (kveldstid vs 23 t 30-vindu, sen avreise,
-  fortid); tilstandsmaskin (alle overganger i §6.3, inkl. ubesvart → morgen-reserve); konflikter
+- Enhetstester (Jest): kommandoprofiler; `sendTimeFor` (kveldstid = siste HH:MM før start, 23 t 30-vindu,
+  avreise 23:00 og 00:15, fortid); tilstandsmaskin (alle overganger i §6.3, inkl. ubesvart → morgen-reserve); konflikter
   (én-gangs erstatter ukeplan, tidligste vinner); skip/pause; DST-overganger; status-utløp;
   nummer-validering for alle 8 land; eksport uten/med PIN.
 - Komponenttester: kommando-ark i alle 8 språk (snapshot), STOP-ark med advarsel og re-sending,
   Planlegg med begge vakter.
 - Svar-parsing med ekte svar-SMS fra brukerens modul (samles i §15 pkt. 1).
 - E2E (Maestro): onboarding, start, planlegg, ukeplan, påminnelse → send, morgen-reserve,
-  hopp over etter sending, bytt språk, eksporter.
+  hopp over etter sending, Endre tid etter sending, Start om 30 min + Stopp, bytt språk, eksporter.
+- Mockup-sjekker (Playwright, `docs/mockup/checks/`): 23 + 30 automatiserte sjekker av logikken over
+  og av layout i 8 språk × 360/390/1280 px; kjøres med `node docs/mockup/checks/run.cjs`.
 - Fysisk enhetsmatrise: iPhone (siste iOS og iOS 16.4), Pixel (Android 14/15/16), Samsung dual-SIM
   for Direkte-modus; Kortkommando-automasjon testes på brukerens iOS-versjon.
 - Feltprøve: én uke med ukeplan man–fre mot ekte EasyStart GSM, logg sammenlignes med
@@ -523,5 +552,7 @@ export default ({ config }) => ({
 4. Har du dual-SIM på Android-telefonen?
 5. Skal appen publiseres i butikkene, eller bare brukes av deg og kjente? (Avgjør om Android Pro
    er hovedbygget.)
+8. Hvilket nummerformat forventer `ACCLIM` (nasjonalt `91234567`, `4791234567` eller
+   `+4791234567`)? Send ett og se hvilket som gir svar. **[1.2]**
 6. Hvilken kjøretid er satt på varmerens styreenhet? (Standardverdi i appen.)
 7. Appnavn: Varmestart er arbeidstittel.

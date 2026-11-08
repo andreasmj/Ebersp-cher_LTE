@@ -21,7 +21,7 @@
       "started": "Calefactor encendido",
       "stopped": "Calefactor apagado",
       "scheduled": "Encendido programado",
-      "assumed": "supuesto {time}",
+      "assumed": "estimado {time}",
       "confirmed": "confirmado {time}"
     },
     "start": "Encender",
@@ -69,7 +69,7 @@
       "stop": "Apaga el calefactor y borra cualquier arranque programado.",
       "startAt": "Enciende el calefactor a las {time}. El módulo controla la hora por sí mismo.",
       "temp": "Pide la temperatura al módulo.",
-      "status": "Pide al módulo el estado y los códigos de error."
+      "status": "Pide al módulo su estado."
     },
     "sentDirect": "Enviado directamente",
     "delivered": "Entregado",
@@ -121,10 +121,11 @@
     "heaterStarts": "El calefactor se enciende a las {time}",
     "skipSendsStop": "El encendido ya se ha enviado al módulo. Omitir envía STOP.",
     "automation": "Lo envía Atajos",
-    "automationHelp": "La app no envía recordatorios para este horario. Omitir y pausar se hacen en Atajos; la app muestra cómo.",
+    "automationHelp": "La app no envía recordatorios para este horario. Omitir: la app te recuerda a las {remind} que envíes STOP. Pausar: desactiva la automatización en Atajos (la app muestra cómo).",
     "byAutomation": "Atajos",
     "clearPause": "Quitar pausa",
-    "replaced": "Sustituido por {name}"
+    "replaced": "Sustituido por {name}",
+    "skipAutomation": "Atajos enviará {command} a las {time} de todos modos. Envía STOP después. La app te lo recuerda a las {remind}."
   },
   "days": {
     "mon": "L",
@@ -207,7 +208,7 @@
     "simValidUntil": "Tarjeta SIM válida hasta",
     "simHelp": "Recordatorio 7 días antes.",
     "readReplies": "Leer respuestas del módulo",
-    "readRepliesHelpIos": "Requiere una automatización de Atajos: «Cuando reciba un mensaje del módulo → Abrir Varmestart». La app muestra los pasos.",
+    "readRepliesHelpIos": "Requiere una automatización de Atajos: «Cuando reciba un mensaje del módulo → Abrir URL varmestart://reply». La app muestra los pasos.",
     "readRepliesHelpPro": "La versión Pro lee automáticamente las respuestas del número del módulo.",
     "pinChange": "Cambiar PIN",
     "numbersHelp": "Tu propio número siempre se incluye. Todos los números se reenvían en cada cambio. Máximo 5.",
@@ -218,7 +219,12 @@
     "includePin": "Incluir PIN",
     "deleteConfirm": "¿Borrar todos los datos de este teléfono? No se puede deshacer.",
     "resetConfirm": "El módulo pierde todos los ajustes, incluidos los números autorizados. ¿Seguro?",
-    "automationGuide": "Pasos para Atajos"
+    "automationGuide": "Pasos para Atajos",
+    "ownNumber": "Tu número",
+    "ownNumberHelp": "Tu número registrado en el módulo. Se usa en Números autorizados.",
+    "profileCall": "Eberspächer EasyStart Call (con PIN)",
+    "profileCustom": "Personalizado",
+    "importHelp": "Elige una copia JSON en Archivos. Llegará en la fase 2."
   },
   "onboarding": {
     "welcome": {
@@ -259,7 +265,7 @@
     "in": "Entrada",
     "empty": "Aún no hay eventos",
     "mode": {
-      "compose": "Redactar",
+      "compose": "Vía Mensajes",
       "direct": "Directo",
       "automation": "Automatización",
       "reminder": "Recordatorio"
@@ -284,7 +290,8 @@
     "action": "Enviar ahora",
     "later": "Hoy no",
     "morningReserve": "Ayer no enviaste {command}. ¿Enviar START ahora?",
-    "renew": "Abre Varmestart para renovar los horarios de las próximas dos semanas."
+    "renew": "Abre Varmestart para renovar los horarios de las próximas dos semanas.",
+    "morningReserveDirect": "El envío de {command} falló. ¿Enviar START ahora?"
   },
   "common": {
     "on": "Activado",
@@ -299,9 +306,24 @@
     "hours": "{count} h",
     "min": "{count} min",
     "at": "a las",
-    "dayAt": "{day} a las {time}",
+    "dayAt": "el {day} a las {time}",
     "todayAt": "hoy a las {time}",
     "tomorrowAt": "mañana a las {time}",
     "number": "Número"
+  },
+  "recipe": {
+    "title": "Pasos para Atajos",
+    "intro": "Crea una automatización personal en Atajos en el iPhone:",
+    "step1": "Automatización → + → Hora del día",
+    "step2": "Hora {time}. Repetir semanalmente: {days}",
+    "step3": "Elige «Ejecutar inmediatamente» (no «Preguntar antes de ejecutar»)",
+    "step4": "Acción «Enviar mensaje»: texto {command} a {number}",
+    "step5": "Desactiva «Mostrar al ejecutar». Pulsa OK.",
+    "replyIntro": "Para leer las respuestas del módulo en la app:",
+    "reply1": "Automatización → + → Mensaje → de {number}",
+    "reply2": "Acción «Abrir URL»: varmestart://reply?text=[Contenido del mensaje]",
+    "reply3": "Elige «Ejecutar inmediatamente»",
+    "done": "He creado la automatización",
+    "note": "Cuando cambie el horario, la app mostrará nuevos pasos."
   }
 }

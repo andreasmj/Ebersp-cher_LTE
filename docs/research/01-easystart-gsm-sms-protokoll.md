@@ -75,6 +75,8 @@ kommandoprofil, men EasyStart GSM er standard.
       sendt kvelden før et sommertidsskifte
 - [ ] Eksakt feilmelding ved ukjent kommando i 2G/4G-versjonen («Unknown Message!» er fra TC202)
 - [ ] Om `START` under en aktiv `STARThhmm` sletter forhåndsprogrammeringen (antatt: nei)
+- [ ] Nummerformat i `ACCLIM` (nasjonalt, med landkode uten +, eller E.164 med +)
+- [ ] Om `LOTEMP` og `HITEMP` kan stå i samme SMS (appen sender dem alltid hver for seg)
 
 ## Kilder
 

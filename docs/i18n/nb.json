@@ -69,7 +69,7 @@
       "stop": "Stopper varmeren og sletter eventuell planlagt start.",
       "startAt": "Starter varmeren kl. {time}. Modulen holder tiden selv.",
       "temp": "Spør modulen om temperaturen.",
-      "status": "Spør modulen om status og feilkoder."
+      "status": "Spør modulen om status."
     },
     "sentDirect": "Sendt direkte",
     "delivered": "Levert",
@@ -121,10 +121,11 @@
     "heaterStarts": "Varmeren starter {time}",
     "skipSendsStop": "Starten er allerede sendt til modulen. Hopp over sender STOP.",
     "automation": "Sendes av Kortkommandoer",
-    "automationHelp": "Appen sender ingen påminnelse for denne planen. Hopp over og pause må gjøres i Kortkommandoer; appen viser hvordan.",
+    "automationHelp": "Appen sender ingen påminnelse for denne planen. Hopp over: appen minner deg kl. {remind} om å sende STOP. Pause: slå av automasjonen i Kortkommandoer (appen viser hvordan).",
     "byAutomation": "Kortkommandoer",
     "clearPause": "Fjern pause",
-    "replaced": "Erstattet av {name}"
+    "replaced": "Erstattet av {name}",
+    "skipAutomation": "Kortkommandoer sender {command} kl. {time} uansett. Send STOP etterpå. Appen minner deg kl. {remind}."
   },
   "days": {
     "mon": "M",
@@ -207,7 +208,7 @@
     "simValidUntil": "SIM-kortet gyldig til",
     "simHelp": "Påminnelse 7 dager før.",
     "readReplies": "Les svar fra modulen",
-    "readRepliesHelpIos": "Krever én Kortkommando-automasjon: «Når jeg mottar melding fra modulen → Åpne Varmestart». Appen viser oppskriften.",
+    "readRepliesHelpIos": "Krever én Kortkommando-automasjon: «Når jeg mottar melding fra modulen → Åpne URL varmestart://reply». Appen viser oppskriften.",
     "readRepliesHelpPro": "Pro-versjonen leser svar fra modulens nummer automatisk.",
     "pinChange": "Endre PIN",
     "numbersHelp": "Ditt eget nummer er alltid med. Alle numre sendes på nytt ved endring. Maks 5.",
@@ -218,7 +219,12 @@
     "includePin": "Ta med PIN",
     "deleteConfirm": "Slett alle data på denne telefonen? Dette kan ikke angres.",
     "resetConfirm": "Modulen mister alle innstillinger, også autoriserte numre. Er du sikker?",
-    "automationGuide": "Oppskrift for Kortkommandoer"
+    "automationGuide": "Oppskrift for Kortkommandoer",
+    "ownNumber": "Ditt nummer",
+    "ownNumberHelp": "Nummeret ditt som er registrert i modulen. Brukes i Autoriserte numre.",
+    "profileCall": "Eberspächer EasyStart Call (PIN-basert)",
+    "profileCustom": "Egendefinert",
+    "importHelp": "Velg en JSON-sikkerhetskopi fra Filer. Kommer i fase 2."
   },
   "onboarding": {
     "welcome": {
@@ -259,7 +265,7 @@
     "in": "Inn",
     "empty": "Ingen hendelser enda",
     "mode": {
-      "compose": "Komponer",
+      "compose": "Via Meldinger",
       "direct": "Direkte",
       "automation": "Automasjon",
       "reminder": "Påminnelse"
@@ -284,7 +290,8 @@
     "action": "Send nå",
     "later": "Ikke i dag",
     "morningReserve": "Du sendte ikke {command} i går. Send START nå?",
-    "renew": "Åpne Varmestart for å fornye planene for de neste to ukene."
+    "renew": "Åpne Varmestart for å fornye planene for de neste to ukene.",
+    "morningReserveDirect": "Sending av {command} feilet. Send START nå?"
   },
   "common": {
     "on": "På",
@@ -303,5 +310,20 @@
     "todayAt": "i dag kl. {time}",
     "tomorrowAt": "i morgen kl. {time}",
     "number": "Nummer"
+  },
+  "recipe": {
+    "title": "Oppskrift for Kortkommandoer",
+    "intro": "Lag én personlig automasjon i Kortkommandoer på iPhone:",
+    "step1": "Automatisering → + → Tidspunkt",
+    "step2": "Tid {time}. Gjenta ukentlig: {days}",
+    "step3": "Velg «Kjør umiddelbart» (ikke «Spør før kjøring»)",
+    "step4": "Handling «Send melding»: tekst {command} til {number}",
+    "step5": "Slå av «Vis når den kjøres». Trykk Ferdig.",
+    "replyIntro": "For å lese svar fra modulen i appen:",
+    "reply1": "Automatisering → + → Melding → fra {number}",
+    "reply2": "Handling «Åpne URL»: varmestart://reply?text=[Meldingstekst]",
+    "reply3": "Velg «Kjør umiddelbart»",
+    "done": "Jeg har laget automasjonen",
+    "note": "Når planen endres, viser appen en ny oppskrift."
   }
 }

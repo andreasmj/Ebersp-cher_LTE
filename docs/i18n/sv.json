@@ -69,7 +69,7 @@
       "stop": "Stoppar värmaren och raderar eventuell planerad start.",
       "startAt": "Startar värmaren kl. {time}. Modulen håller tiden själv.",
       "temp": "Frågar modulen om temperaturen.",
-      "status": "Frågar modulen om status och felkoder."
+      "status": "Frågar modulen om status."
     },
     "sentDirect": "Skickat direkt",
     "delivered": "Levererat",
@@ -121,10 +121,11 @@
     "heaterStarts": "Värmaren startar {time}",
     "skipSendsStop": "Starten är redan skickad till modulen. Hoppa över skickar STOP.",
     "automation": "Skickas av Kortkommandon",
-    "automationHelp": "Appen skickar ingen påminnelse för den här planen. Hoppa över och paus görs i Kortkommandon; appen visar hur.",
+    "automationHelp": "Appen skickar ingen påminnelse för den här planen. Hoppa över: appen påminner dig kl. {remind} om att skicka STOP. Paus: stäng av automationen i Kortkommandon (appen visar hur).",
     "byAutomation": "Kortkommandon",
     "clearPause": "Ta bort paus",
-    "replaced": "Ersatt av {name}"
+    "replaced": "Ersatt av {name}",
+    "skipAutomation": "Kortkommandon skickar {command} kl. {time} ändå. Skicka STOP efteråt. Appen påminner dig kl. {remind}."
   },
   "days": {
     "mon": "M",
@@ -207,7 +208,7 @@
     "simValidUntil": "SIM-kortet giltigt till",
     "simHelp": "Påminnelse 7 dagar före.",
     "readReplies": "Läs svar från modulen",
-    "readRepliesHelpIos": "Kräver en Kortkommandon-automation: ”När jag får ett meddelande från modulen → Öppna Varmestart”. Appen visar receptet.",
+    "readRepliesHelpIos": "Kräver en Kortkommandon-automation: ”När jag får ett meddelande från modulen → Öppna URL varmestart://reply”. Appen visar receptet.",
     "readRepliesHelpPro": "Pro-versionen läser svar från modulens nummer automatiskt.",
     "pinChange": "Ändra PIN",
     "numbersHelp": "Ditt eget nummer är alltid med. Alla nummer skickas på nytt vid ändring. Max 5.",
@@ -218,7 +219,12 @@
     "includePin": "Ta med PIN",
     "deleteConfirm": "Radera all data på den här telefonen? Det går inte att ångra.",
     "resetConfirm": "Modulen förlorar alla inställningar, även behöriga nummer. Är du säker?",
-    "automationGuide": "Recept för Kortkommandon"
+    "automationGuide": "Recept för Kortkommandon",
+    "ownNumber": "Ditt nummer",
+    "ownNumberHelp": "Ditt nummer som är registrerat i modulen. Används i Behöriga nummer.",
+    "profileCall": "Eberspächer EasyStart Call (PIN-baserad)",
+    "profileCustom": "Egen",
+    "importHelp": "Välj en JSON-säkerhetskopia från Filer. Kommer i fas 2."
   },
   "onboarding": {
     "welcome": {
@@ -259,7 +265,7 @@
     "in": "In",
     "empty": "Inga händelser ännu",
     "mode": {
-      "compose": "Skriv",
+      "compose": "Via Meddelanden",
       "direct": "Direkt",
       "automation": "Automation",
       "reminder": "Påminnelse"
@@ -284,7 +290,8 @@
     "action": "Skicka nu",
     "later": "Inte i dag",
     "morningReserve": "Du skickade inte {command} i går. Skicka START nu?",
-    "renew": "Öppna Varmestart för att förnya planerna för de kommande två veckorna."
+    "renew": "Öppna Varmestart för att förnya planerna för de kommande två veckorna.",
+    "morningReserveDirect": "Sändning av {command} misslyckades. Skicka START nu?"
   },
   "common": {
     "on": "På",
@@ -303,5 +310,20 @@
     "todayAt": "i dag kl. {time}",
     "tomorrowAt": "i morgon kl. {time}",
     "number": "Nummer"
+  },
+  "recipe": {
+    "title": "Recept för Kortkommandon",
+    "intro": "Skapa en personlig automation i Kortkommandon på iPhone:",
+    "step1": "Automation → + → Tid på dagen",
+    "step2": "Tid {time}. Upprepa varje vecka: {days}",
+    "step3": "Välj ”Kör direkt” (inte ”Fråga innan körning”)",
+    "step4": "Åtgärd ”Skicka meddelande”: text {command} till {number}",
+    "step5": "Stäng av ”Visa när det körs”. Tryck Klar.",
+    "replyIntro": "För att läsa svar från modulen i appen:",
+    "reply1": "Automation → + → Meddelande → från {number}",
+    "reply2": "Åtgärd ”Öppna URL”: varmestart://reply?text=[Meddelandeinnehåll]",
+    "reply3": "Välj ”Kör direkt”",
+    "done": "Jag har skapat automationen",
+    "note": "När planen ändras visar appen ett nytt recept."
   }
 }

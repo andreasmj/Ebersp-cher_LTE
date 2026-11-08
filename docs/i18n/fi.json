@@ -69,7 +69,7 @@
       "stop": "Pysäyttää lämmittimen ja poistaa mahdollisen ajastetun käynnistyksen.",
       "startAt": "Käynnistää lämmittimen klo {time}. Moduuli pitää ajan itse.",
       "temp": "Kysyy moduulilta lämpötilan.",
-      "status": "Kysyy moduulilta tilan ja vikakoodit."
+      "status": "Kysyy moduulin tilan."
     },
     "sentDirect": "Lähetetty suoraan",
     "delivered": "Toimitettu",
@@ -120,11 +120,12 @@
     "nextRun": "Seuraava: {when}",
     "heaterStarts": "Lämmitin käynnistyy klo {time}",
     "skipSendsStop": "Käynnistys on jo lähetetty moduulille. Ohittaminen lähettää STOP.",
-    "automation": "Pikakomennot lähettää",
-    "automationHelp": "Sovellus ei lähetä muistutusta tästä ohjelmasta. Ohitus ja tauko tehdään Pikakomennoissa; sovellus näyttää miten.",
+    "automation": "Lähetetään Pikakomennoilla",
+    "automationHelp": "Sovellus ei lähetä muistutusta tästä ohjelmasta. Ohitus: sovellus muistuttaa klo {remind} lähettämään STOP. Tauko: poista automaatio käytöstä Pikakomennoissa (sovellus näyttää miten).",
     "byAutomation": "Pikakomennot",
     "clearPause": "Poista tauko",
-    "replaced": "Korvattu: {name}"
+    "replaced": "Korvattu: {name}",
+    "skipAutomation": "Pikakomennot lähettää {command} klo {time} joka tapauksessa. Lähetä STOP sen jälkeen. Sovellus muistuttaa klo {remind}."
   },
   "days": {
     "mon": "Ma",
@@ -207,7 +208,7 @@
     "simValidUntil": "SIM-kortti voimassa",
     "simHelp": "Muistutus 7 päivää ennen.",
     "readReplies": "Lue moduulin vastaukset",
-    "readRepliesHelpIos": "Vaatii yhden Pikakomennot-automaation: ”Kun saan viestin moduulilta → Avaa Varmestart”. Sovellus näyttää ohjeen.",
+    "readRepliesHelpIos": "Vaatii yhden Pikakomennot-automaation: ”Kun saan viestin moduulilta → Avaa URL varmestart://reply”. Sovellus näyttää ohjeen.",
     "readRepliesHelpPro": "Pro-versio lukee moduulin numerosta tulevat vastaukset automaattisesti.",
     "pinChange": "Vaihda PIN",
     "numbersHelp": "Oma numerosi on aina mukana. Kaikki numerot lähetetään uudelleen jokaisessa muutoksessa. Enintään 5.",
@@ -218,7 +219,12 @@
     "includePin": "Sisällytä PIN",
     "deleteConfirm": "Poistetaanko kaikki tiedot tästä puhelimesta? Tätä ei voi kumota.",
     "resetConfirm": "Moduuli menettää kaikki asetukset, myös valtuutetut numerot. Oletko varma?",
-    "automationGuide": "Ohje Pikakomennoille"
+    "automationGuide": "Ohje Pikakomennoille",
+    "ownNumber": "Oma numerosi",
+    "ownNumberHelp": "Numerosi, joka on rekisteröity moduuliin. Käytetään valtuutetuissa numeroissa.",
+    "profileCall": "Eberspächer EasyStart Call (PIN-pohjainen)",
+    "profileCustom": "Mukautettu",
+    "importHelp": "Valitse JSON-varmuuskopio Tiedostot-sovelluksesta. Tulossa vaiheessa 2."
   },
   "onboarding": {
     "welcome": {
@@ -259,7 +265,7 @@
     "in": "Saapuva",
     "empty": "Ei tapahtumia vielä",
     "mode": {
-      "compose": "Viestisovellus",
+      "compose": "Viestit-sovelluksen kautta",
       "direct": "Suora",
       "automation": "Automaatio",
       "reminder": "Muistutus"
@@ -284,7 +290,8 @@
     "action": "Lähetä nyt",
     "later": "Ei tänään",
     "morningReserve": "Et lähettänyt {command} eilen. Lähetetäänkö START nyt?",
-    "renew": "Avaa Varmestart uusiaksesi ohjelmat seuraaville kahdelle viikolle."
+    "renew": "Avaa Varmestart uusiaksesi ohjelmat seuraaville kahdelle viikolle.",
+    "morningReserveDirect": "Komennon {command} lähetys epäonnistui. Lähetetäänkö START nyt?"
   },
   "common": {
     "on": "Päällä",
@@ -303,5 +310,20 @@
     "todayAt": "tänään klo {time}",
     "tomorrowAt": "huomenna klo {time}",
     "number": "Numero"
+  },
+  "recipe": {
+    "title": "Ohje Pikakomennoille",
+    "intro": "Luo yksi henkilökohtainen automaatio iPhonen Pikakomennot-sovelluksessa:",
+    "step1": "Automaatio → + → Kellonaika",
+    "step2": "Aika {time}. Toista viikoittain: {days}",
+    "step3": "Valitse ”Suorita heti” (ei ”Kysy ennen suorittamista”)",
+    "step4": "Toiminto ”Lähetä viesti”: teksti {command} numeroon {number}",
+    "step5": "Poista käytöstä ”Näytä suoritettaessa”. Napauta Valmis.",
+    "replyIntro": "Moduulin vastausten lukemiseksi sovelluksessa:",
+    "reply1": "Automaatio → + → Viesti → lähettäjältä {number}",
+    "reply2": "Toiminto ”Avaa URL”: varmestart://reply?text=[Viestin sisältö]",
+    "reply3": "Valitse ”Suorita heti”",
+    "done": "Olen luonut automaation",
+    "note": "Kun ohjelma muuttuu, sovellus näyttää uuden ohjeen."
   }
 }

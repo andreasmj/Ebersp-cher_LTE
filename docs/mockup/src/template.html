@@ -45,7 +45,8 @@ code,.mono{font-family:var(--mono)}
 .controls select{font:inherit;font-size:14px;letter-spacing:0;text-transform:none;font-weight:500;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:170px}
 
 .stage{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(300px,420px) minmax(0,1fr);gap:28px;align-items:start}
-@media (max-width:860px){.stage{grid-template-columns:1fr}}
+@media (max-width:860px){.stage{grid-template-columns:minmax(0,1fr)}}
+.phone-wrap{min-width:0}
 
 /* ---------- Phone ---------- */
 .phone-wrap{display:flex;justify-content:center}
@@ -54,7 +55,7 @@ code,.mono{font-family:var(--mono)}
 .statusbar{display:flex;justify-content:space-between;align-items:center;padding:10px 24px 4px;font-size:13px;font-weight:600;color:var(--fg)}
 .statusbar .pill{width:110px;height:28px;border-radius:16px;background:var(--bezel)}
 .screen{flex:1;min-height:0;overflow-y:auto;padding:8px 18px 20px;display:flex;flex-direction:column;gap:14px;scrollbar-width:thin}
-.screen>*{flex-shrink:0}
+.screen>*{flex-shrink:0;min-width:0}
 .tabbar{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--phone-line);background:var(--phone-surface);padding:8px 6px 18px}
 .tabbar button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:500;color:var(--muted);padding:4px 2px;border-radius:10px}
 .tabbar button[aria-current="page"]{color:var(--accent-text)}
@@ -111,7 +112,15 @@ code,.mono{font-family:var(--mono)}
 .timebig{font-family:var(--display);font-size:46px;font-weight:700;letter-spacing:-.02em;text-align:center;line-height:1}
 .timebig small{font-size:14px;color:var(--muted);font-family:var(--body);font-weight:500;display:block;margin-top:4px;letter-spacing:0}
 input[type=range]{width:100%;accent-color:var(--accent)}
-input[type=text],input[type=tel],input[type=time],input[type=date],input[type=number],input[type=password],select.inphone{font:inherit;color:var(--fg);background:var(--phone-surface);border:1px solid var(--phone-line);border-radius:10px;padding:10px 12px;width:100%;min-height:44px}
+input[type=text],input[type=tel],input[type=time],input[type=date],input[type=number],input[type=password],select.inphone{font:inherit;color:var(--fg);background:var(--phone-surface);border:1px solid var(--phone-line);border-radius:10px;padding:10px 12px;width:100%;min-width:0;min-height:44px}
+.alarmgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.alarmgrid>div{display:flex;flex-direction:column;gap:6px;min-width:0}
+.steps{display:flex;flex-direction:column;gap:10px;counter-reset:st}
+.steps>div{display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:start}
+.steps>div::before{counter-increment:st;content:counter(st);width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent-text);font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center}
+.copyrow{display:flex;align-items:center;gap:8px;margin-top:4px;flex-wrap:wrap}
+.bubble{align-self:flex-end;background:#34c759;color:#fff;border-radius:18px;padding:8px 12px;font-family:var(--mono);font-weight:600;max-width:75%;margin:6px 12px}
+.bubble.in{align-self:flex-start;background:#e9e9eb;color:#000}
 .field label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;margin-bottom:6px}
 .chips{display:flex;gap:6px;justify-content:space-between}
 .chip{flex:1;height:40px;border-radius:50%;border:1px solid var(--phone-line);background:var(--phone-surface);font-weight:600;font-size:13px;color:var(--muted);max-width:44px}
@@ -121,9 +130,9 @@ input[type=text],input[type=tel],input[type=time],input[type=date],input[type=nu
 .dot-day.on{background:var(--accent-soft);color:var(--accent-text);border-color:transparent}
 .cmd{font-family:var(--mono);font-weight:600;background:var(--surface-2);border-radius:8px;padding:2px 8px;font-size:14px;letter-spacing:.04em}
 
-.switch{width:48px;height:30px;border-radius:15px;border:0;background:var(--phone-line);position:relative;flex:0 0 auto;padding:0}
+.switch{width:48px;height:30px;border-radius:15px;border:0;background:var(--phone-line);box-shadow:inset 0 0 0 2px var(--muted);position:relative;flex:0 0 auto;padding:0}
 .switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:left .15s}
-.switch[aria-checked="true"]{background:var(--good)}
+.switch[aria-checked="true"]{background:var(--good);box-shadow:none}
 .switch[aria-checked="true"]::after{left:21px}
 
 .sched-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:4px 14px 4px 0;background:var(--phone-surface);border:1px solid var(--phone-line);border-radius:var(--radius)}
@@ -207,7 +216,7 @@ input[type=text],input[type=tel],input[type=time],input[type=date],input[type=nu
 .notif .na button{flex:1;border-radius:10px;border:1px solid var(--phone-line);background:var(--surface-2);padding:9px;font-weight:600;font-size:13px;min-height:40px}
 .notif .na button.go{background:var(--accent);color:var(--accent-ink);border-color:transparent}
 
-.toast{position:absolute;left:50%;transform:translateX(-50%);bottom:96px;background:var(--fg);color:var(--bg);padding:9px 14px;border-radius:14px;font-size:13px;font-weight:500;z-index:8;display:none;width:max-content;max-width:88%;text-align:center}
+.toast{position:absolute;left:50%;transform:translateX(-50%);bottom:96px;background:var(--fg);color:var(--bg);padding:9px 14px;border-radius:14px;font-size:13px;font-weight:500;z-index:4;display:none;width:max-content;max-width:88%;text-align:center}
 .toast.show{display:block}
 
 /* ---------- Commentary panel ---------- */
@@ -325,7 +334,7 @@ details[open] summary{margin-bottom:8px}
       <details>
         <summary>Hva mockupen viser og ikke viser</summary>
         <p>Viser: alle skjermer i fase 1, alle 8 språk, begge plattformers SMS-flyt, kvelden-før-logikken med 23 t 30-vindu, STOP-advarsel med re-sending, hopp over etter sending, morgen-reserve, status som utløper etter kjøretid, ACCLIM-editor, eksport/slett med bekreftelse, tom tilstand.</p>
-        <p>Viser ikke: ekte tidsvelgere fra iOS/Android, landvelger med alle land, filvelger ved import, flere kjøretøy (fase 2). Svar fra modulen er eksempeltekster og må kalibreres mot ekte svar fra brukerens enhet.</p>
+        <p>Viser ikke: ekte tidsvelgere fra iOS/Android, landvelger med alle land, filvelger ved import (fase 2), flere kjøretøy (fase 2), selve Kortkommandoer-appen (oppskriften vises, automasjonen simuleres ikke). Svar fra modulen er eksempeltekster og må kalibreres mot ekte svar fra brukerens enhet. Påminnelsen kl. 21:05 om STOP ved hopp over på en automasjonsplan vises som ark med en gang.</p>
       </details>
     </div>
   </aside>
@@ -358,14 +367,14 @@ const pad=n=>String(n).padStart(2,'0');
 const dateKey=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 const defaults=()=>({
   lang:'nb', platform:'ios', screen:'home', onboarded:true,
-  vehicle:{name:null, country:'NO', dial:'+47', national:'912 34 567'},
+  vehicle:{name:null, country:'NO', dial:'+47', national:'912 34 567', own:''},
   status:{kind:'unknown',at:null,confirmed:false,until:null}, lastReply:null, lastSentAt:null, lastConfirmedAt:null,
   schedules:[
     {id:1,nameKey:0,name:null,repeat:true,date:null,days:[1,1,1,1,1,0,0],depart:'07:00',preheat:30,enabled:true,skipNext:false,pausedUntil:null,automation:false},
     {id:2,nameKey:1,name:null,repeat:true,date:null,days:[0,0,0,0,0,1,0],depart:'09:30',preheat:45,enabled:false,skipNext:false,pausedUntil:null,automation:false}],
   sent:[], // armed occurrences: {scheduleId, dateKey, startAt, command, sentAt}
-  settings:{mode:'compose',confirm:false,scheduleSend:'evening',eveningTime:'21:00',reminders:true,defaultPreheat:30,runtime:30,season:'winter',pin:'1234',ack:true,followPhone:false,readReplies:false,simValidUntil:null,numbers:['+47 400 00 000'],loTemp:-5,hiTemp:35},
-  log:[], plan:{h:7,m:0,preheat:30,date:null}, edit:null, pending:null, lastCmd:null, pinEdit:false
+  settings:{mode:'compose',confirm:false,scheduleSend:'evening',eveningTime:'21:00',reminders:true,defaultPreheat:30,runtime:30,season:'winter',pin:'1234',ack:true,followPhone:false,readReplies:false,simValidUntil:null,numbers:[],loTemp:-5,hiTemp:35,profile:'easystart_gsm',exactAlarm:true},
+  log:[], plan:{h:7,m:0,preheat:30,date:null}, edit:null, pending:null, lastCmd:null, pinEdit:false, recipe:null
 });
 let S=defaults();
 try{const saved=JSON.parse(localStorage.getItem('varmestart-mock')||'{}');if(LANGS.includes(saved.lang))S.lang=saved.lang;if(['ios','android','androidPro'].includes(saved.platform)){S.platform=saved.platform;}}catch(e){}
@@ -400,7 +409,7 @@ const WINDOW_MS=23.5*3600000;
 function startFromDepart(departAt,preheat){return new Date(departAt.getTime()-preheat*60000);}
 function sendTimeFor(startAt){const n=now();
   if(S.settings.scheduleSend==='atStart')return {at:startAt>n?startAt:n,cmd:'START'};
-  const[eh,em]=S.settings.eveningTime.split(':').map(Number);const ev=new Date(startAt);ev.setDate(ev.getDate()-1);ev.setHours(eh,em,0,0);
+  const[eh,em]=S.settings.eveningTime.split(':').map(Number);const ev=new Date(startAt);ev.setHours(eh,em,0,0);if(ev>=startAt)ev.setDate(ev.getDate()-1); // siste HH:MM før starttid
   const win=new Date(startAt.getTime()-WINDOW_MS);
   let at=ev>win?ev:win; if(at<=n)at=n;   // sendetid = max(kveldstid, start − 23 t 30), aldri i fortiden
   return {at,cmd:'START'+hhmm(startAt)};}
@@ -427,7 +436,7 @@ function effectiveStatus(){const st=S.status,n=now();if(!st.at)return {kind:'unk
 
 /* ---------- log ---------- */
 function addLog(e){S.log.unshift({at:now(),...e});if(S.log.length>40)S.log.pop();}
-function seedLog(){const n=now();const y=new Date(n);y.setDate(n.getDate()-1);y.setHours(21,0,0,0);const y2=new Date(y);y2.setMinutes(1);const m=new Date(n);m.setHours(6,30,0,0);
+function seedLog(){const n=now();const y=new Date(n);y.setDate(n.getDate()-1);while([0,6].includes((y.getDay()+1)%7))y.setDate(y.getDate()-1);y.setHours(21,0,0,0);const y2=new Date(y);y2.setMinutes(1);const m=new Date(n);m.setHours(6,30,0,0);
   S.log=[{at:y,dir:'out',cmd:'START0630',mode:S.platform==='androidPro'?'direct':'reminder',res:S.platform==='androidPro'?'delivered':(S.platform==='ios'?'sent':'unknown'),confirmed:canReadReplies()}];
   S.lastSentAt=y;S.lastReply=null;S.lastConfirmedAt=null;
   if(canReadReplies()){S.log.unshift({at:y2,dir:'in',cmd:'Start 06:30 set, time 21:01, temp 2C',res:'reply'});S.log.unshift({at:m,dir:'in',cmd:'Heater started, temp 4C',res:'reply'});S.lastReply={temp:4,at:m};S.lastConfirmedAt=m;}}
@@ -436,12 +445,12 @@ seedLog();
 /* ---------- rendering ---------- */
 const screenEl=$('#screen'),tabbar=$('#tabbar');
 const TABS=[['home','nav.home','home'],['plan','nav.plan','plan'],['sched','nav.schedules','sched'],['settings','nav.settings','settings']];
-function tabFor(screen){return {home:'home',plan:'plan',sched:'sched',schedEdit:'sched',settings:'settings',language:'settings',log:'settings',numbers:'settings'}[screen]||null;}
+function tabFor(screen){return {home:'home',plan:'plan',sched:'sched',schedEdit:'sched',settings:'settings',language:'settings',log:'settings',numbers:'settings',recipe:'settings'}[screen]||null;}
 function go(screen){S.screen=screen;render();}
 function render(){
   document.documentElement.lang=S.lang;
   screenEl.innerHTML='';screenEl.scrollTop=0;
-  const R={onb1:rOnb1,onb2:rOnb2,onb3:rOnb3,onb4:rOnb4,home:rHome,plan:rPlan,sched:rSched,schedEdit:rSchedEdit,settings:rSettings,language:rLanguage,log:rLog,numbers:rNumbers}[S.screen]||rHome;
+  const R={onb1:rOnb1,onb2:rOnb2,onb3:rOnb3,onb4:rOnb4,home:rHome,plan:rPlan,sched:rSched,schedEdit:rSchedEdit,settings:rSettings,language:rLanguage,log:rLog,numbers:rNumbers,recipe:rRecipe}[S.screen]||rHome;
   screenEl.append(...[].concat(R()));
   tabbar.innerHTML='';const showTabs=!S.screen.startsWith('onb');tabbar.style.display=showTabs?'grid':'none';
   if(showTabs)for(const[id,key,icon]of TABS){tabbar.append(el('button',{'aria-current':tabFor(S.screen)===id?'page':false,onclick:()=>go(id),html:ICON[icon]+'<span>'+t(key)+'</span>'}));}
@@ -471,7 +480,7 @@ const COUNTRIES=[['NO','+47','🇳🇴 Norge'],['SE','+46','🇸🇪 Sverige'],[
 function countrySelect(id){const s=el('select',{class:'inphone',id,onchange:e=>{const c=COUNTRIES.find(x=>x[0]===e.target.value);S.vehicle.country=c[0];S.vehicle.dial=c[1];render();}});for(const c of COUNTRIES)s.append(el('option',{value:c[0],selected:c[0]===S.vehicle.country},c[2]+' '+c[1]));return s;}
 
 /* --- home --- */
-function statusBadge(){const st=effectiveStatus();const txt=t('home.status.'+st.kind)+(st.at?' · '+(st.confirmed?t('home.status.confirmed',{time:fmtTime(st.at)}):t('home.status.assumed',{time:fmtTime(st.at)})):'');return el('span',{class:'badge '+st.kind},txt);}
+function statusBadge(){const st=effectiveStatus();let txt=t('home.status.'+st.kind);if(st.kind==='scheduled'&&st.until)txt+=' · '+fmtTime(st.until);else if(st.at)txt+=' · '+(st.confirmed?t('home.status.confirmed',{time:fmtTime(st.at)}):t('home.status.assumed',{time:fmtTime(st.at)}));return el('span',{class:'badge '+st.kind},txt);}
 function rHome(){const out=[];
   if(!hasNumber()){out.push(el('div',{class:'phone-head'},el('div',{},el('h2',{},vehicleName()))));
     out.push(el('div',{class:'card'},el('div',{class:'big'},t('home.noNumber.title')),el('p',{class:'hint'},t('home.noNumber.body')),el('button',{class:'primary',style:'margin-top:10px',onclick:()=>go('onb2')},t('home.noNumber.cta'))));
@@ -480,12 +489,13 @@ function rHome(){const out=[];
   out.push(el('div',{class:'phone-head'},el('div',{style:'min-width:0'},el('h2',{},vehicleName()),el('div',{class:'sub num'},phoneDisplay())),statusBadge()));
   out.push(el('div',{class:'bigbtn-wrap'},el('button',{class:'bigbtn','aria-label':t('home.start'),onclick:()=>openSheet({cmd:'START',explainKey:'start'})},el('span',{html:ICON.flame,style:'width:30px;height:30px;display:block'}),t('home.start')),
     el('div',{class:'hint'},st.kind==='started'&&st.until?t('home.runsUntil',{time:fmtTime(st.until)}):t('sheet.explain.start')),
-    el('button',{class:'stopbtn',onclick:()=>openStop()},t('home.stop'))));
+    el('button',{class:'stopbtn',onclick:()=>openStop()},t('home.stop')),
+    S.settings.mode==='compose'?el('button',{class:'link',onclick:()=>confirmModal(t('sheet.why'),t('sheet.whyBody'),t('common.ok'),()=>{})},t('sheet.why')):null));
   // next card
   const nx=computeNext();const card=el('div',{class:'card'},el('h3',{},t('home.next')));
   if(!nx.length)card.append(el('div',{class:'hint'},t('home.nextNone')));
   else{const n=nx[0];card.append(el('div',{class:'big num',style:'font-size:20px'},t('sched.heaterStarts',{time:fmtTime(n.startAt)})),
-      el('div',{class:'hint'},n.name+' · '+fmtDay(n.startAt)+' · '+t('plan.departure').toLowerCase()+' '+fmtTime(n.departAt)),
+      el('div',{class:'hint'},[n.name,fmtDay(n.startAt),t('plan.departure')+' '+fmtTime(n.departAt)].filter(Boolean).join(' · ')),
       el('div',{style:'margin-top:8px'},el('span',{class:'badge '+(n.sent?'scheduled':(n.automation?'warn':'unknown'))},n.sent?t('home.startsIn',{duration:fmtDur(n.startAt-now())}):(n.automation?t('sched.byAutomation')+' · ':'')+t('home.sendsAt',{when:describeWhen(n.sendAt)}))));
     card.append(el('div',{class:'row wrap',style:'margin-top:10px'},el('span',{class:'hint'},t('sheet.message')+': ',el('code',{class:'cmd'},n.command)),
       el('div',{style:'display:flex;gap:6px'},el('button',{class:'ghost',onclick:()=>{S.plan={h:n.departAt.getHours(),m:n.departAt.getMinutes(),preheat:Math.round((n.departAt-n.startAt)/60000),date:dateKey(n.departAt)};go('plan');}},t('home.moveStart')),
@@ -495,14 +505,14 @@ function rHome(){const out=[];
     if(nx[1]&&nx[1].covered)card.append(el('div',{class:'hint',style:'margin-top:6px'},nx[1].name+': '+t('sched.covered',{name:nx[1].covered})));}
   out.push(card);
   out.push(el('div',{class:'quick'},
-    el('button',{onclick:()=>{const st=new Date(now().getTime()+30*60000);openSheet({cmd:'START'+hhmm(st),explainKey:'startAt',vars:{time:fmtTime(st)},onDone:()=>{S.status={kind:'scheduled',at:now(),confirmed:false,until:st};}});},html:ICON.clock+'<span>'+t('home.quick.start30')+'</span>'}),
+    el('button',{onclick:()=>{const st=new Date(now().getTime()+30*60000);armOneOff(st,0,st);},html:ICON.clock+'<span>'+t('home.quick.start30')+'</span>'}),
     el('button',{onclick:()=>openSheet({cmd:'TEMP',explainKey:'temp'}),html:ICON.temp+'<span>'+t('home.quick.temp')+'</span>'}),
     el('button',{onclick:()=>openSheet({cmd:'STATUS',explainKey:'status'}),html:ICON.status+'<span>'+t('home.quick.status')+'</span>'})));
   // module card
   const mc=el('div',{class:'card'},el('h3',{},t('home.lastReply')));
   if(canReadReplies()&&S.lastReply){mc.append(el('div',{class:'row'},el('div',{class:'big num'},S.lastReply.temp+' °C'),el('div',{class:'hint'},t('home.temperature')+' · '+fmtTime(S.lastReply.at))));}
   mc.append(el('div',{class:'hint',style:'margin-top:6px'},canReadReplies()?(S.lastConfirmedAt?t('home.lastConfirmed',{when:describeAgo(S.lastConfirmedAt)}):t('home.neverConfirmed')):(S.lastSentAt?t('home.lastSent',{when:describeAgo(S.lastSentAt)}):'')));
-  if(!canReadReplies())mc.append(el('button',{class:'link',onclick:()=>toast(t('home.replyInMessages'))},t('home.openMessages')+' ›'));
+  if(!canReadReplies())mc.append(el('button',{class:'link',onclick:openThread},t('home.openMessages')+' ›'));
   if(S.settings.simValidUntil){const d=new Date(S.settings.simValidUntil);const days=Math.round((d-now())/86400000);if(days<=7)mc.append(el('div',{class:'warnline'},t('settings.simValidUntil')+' '+fmtDate(d)));}
   out.push(mc);
   out.push(el('div',{class:'card'},el('h3',{},t('home.recent')),logList(S.log.slice(0,3)),el('button',{class:'link',onclick:()=>go('log')},t('settings.log')+' ›')));
@@ -513,7 +523,9 @@ function logList(items){if(!items.length)return el('div',{class:'hint'},t('log.e
       el('span',{class:'res'},e.dir==='in'?t('log.in'):t('log.'+e.res)+(e.mode?' · '+t('log.mode.'+e.mode):'')+(e.dir==='out'&&e.confirmed?' · ':''),e.dir==='out'&&e.confirmed?el('span',{class:'ok'},t('log.confirmed')):null)));}return w;}
 
 /* --- actions on occurrences --- */
+function remindTime(){const[h,m]=S.settings.eveningTime.split(':').map(Number);return pad(h)+':'+pad((m+5)%60);}
 function skipOccurrence(n){const s=S.schedules.find(x=>x.id===n.id);
+  if(n.automation&&!n.sent){openSheet({cmd:'STOP',custom:t('sched.skipAutomation',{command:n.command,time:fmtTime(n.sendAt),remind:fmtHM(remindTime())}),force:true,onDone:()=>{s.skipNext=true;}});return;}
   if(n.sent){openSheet({cmd:'STOP',custom:t('sched.skipSendsStop'),force:true,onDone:()=>{S.sent=S.sent.filter(x=>!(x.scheduleId===n.id&&x.dateKey===dateKey(n.startAt)));s.skipNext=true;}});}
   else{s.skipNext=true;toast(t('sched.skipped'));render();}}
 function cancelOccurrence(n){ if(n.sent){openSheet({cmd:'STOP',explainKey:'stop',force:true,onDone:()=>{S.sent=S.sent.filter(x=>x.scheduleId!==n.id);S.schedules=S.schedules.filter(x=>x.id!==n.id);}});}
@@ -525,12 +537,16 @@ function openStop(){const a=armed();
       if(opts&&opts.rearm&&a){setTimeout(()=>openSheet({cmd:a.command,explainKey:'startAt',force:true,vars:{time:fmtTime(a.startAt)},onDone:()=>{S.sent.push(a);S.status={kind:'scheduled',at:now(),confirmed:false,until:a.startAt};}}),900);}}});}
 
 /* --- plan (one-off) --- */
+// Lager/erstatter én-gangs-plan for datoen og sender STARThhmm nå (modulen har ett slot; ny overskriver).
+function armOneOff(dep,preheat,st,onCancel){const cmd='START'+hhmm(st);const s={id:Date.now(),name:null,nameKey:null,repeat:false,date:dateKey(dep),days:[0,0,0,0,0,0,0],depart:pad(dep.getHours())+':'+pad(dep.getMinutes()),preheat,enabled:true,skipNext:false,pausedUntil:null,automation:false};
+  S.schedules=S.schedules.filter(x=>x.repeat||x.date!==s.date);S.schedules.push(s);
+  openSheet({cmd,explainKey:'startAt',vars:{time:fmtTime(st)},onDone:()=>{S.sent=[{scheduleId:s.id,dateKey:s.date,startAt:st,command:cmd,sentAt:now()}];S.status={kind:'scheduled',at:now(),confirmed:false,until:st};S.plan.date=null;go('home');},onCancel:()=>{S.schedules=S.schedules.filter(x=>x.id!==s.id);if(onCancel)onCancel();}});}
 function planDepart(){const n=now();const d=S.plan.date?new Date(S.plan.date+'T00:00:00'):new Date(n);d.setHours(S.plan.h,S.plan.m,0,0);if(!S.plan.date&&d<=n)d.setDate(d.getDate()+1);return d;}
 function runtimeWarning(dep,preheat){if(preheat<=S.settings.runtime)return null;const st=startFromDepart(dep,preheat);const stop=new Date(st.getTime()+S.settings.runtime*60000);return el('div',{class:'warnline'},t('plan.runtimeWarning',{stop:fmtTime(stop),depart:fmtTime(dep),count:S.settings.runtime}));}
-function rPlan(){const dep=planDepart();const st=startFromDepart(dep,S.plan.preheat);const past=st<=now();const send=sendTimeFor(st);const within=send.at<=now();const cmd=past?'START':send.cmd;
+function rPlan(){const dep=planDepart();const st=startFromDepart(dep,S.plan.preheat);const past=st<=now();const send=sendTimeFor(st);const within=send.at<=now()||(!!armed()&&(st-now())<=WINDOW_MS);const cmd=past?'START':'START'+hhmm(st);
   const out=[el('div',{class:'phone-head'},el('div',{},el('h2',{},t('plan.title')),el('div',{class:'sub'},vehicleName())))];
   out.push(el('div',{class:'card'},el('h3',{},t('plan.departure')),el('div',{class:'timebig num'},fmtTime(dep),el('small',{},(sameDay(dep,now())?t('plan.today'):t('plan.tomorrow'))+' · '+fmtDay(dep))),
-    el('div',{class:'row',style:'margin-top:12px;justify-content:center;gap:18px'},
+    el('div',{class:'row wrap',style:'margin-top:12px;justify-content:center;gap:12px 18px'},
       el('div',{class:'stepper'},el('button',{'aria-label':'-1 h',onclick:()=>{S.plan.h=(S.plan.h+23)%24;render();}},'−'),el('span',{class:'hint'},t('common.hours',{count:1})),el('button',{'aria-label':'+1 h',onclick:()=>{S.plan.h=(S.plan.h+1)%24;render();}},'+')),
       el('div',{class:'stepper'},el('button',{'aria-label':'-5 min',onclick:()=>{S.plan.m=(S.plan.m+55)%60;render();}},'−'),el('span',{class:'hint'},t('common.min',{count:5})),el('button',{'aria-label':'+5 min',onclick:()=>{S.plan.m=(S.plan.m+5)%60;render();}},'+')))));
   out.push(el('div',{class:'card'},el('div',{class:'row'},el('h3',{},t('plan.preheat')),el('span',{class:'big num',style:'font-size:18px'},t('plan.minutes',{count:S.plan.preheat}))),
@@ -538,11 +554,11 @@ function rPlan(){const dep=planDepart();const st=startFromDepart(dep,S.plan.preh
   out.push(el('div',{class:'card',style:'background:var(--accent-soft);border-color:transparent'},el('div',{style:'font-weight:500'},t('plan.summary',{start:fmtTime(st),depart:fmtTime(dep)})),
     past?el('div',{class:'warnline',style:'margin-top:6px'},t('plan.pastWarning')):null,
     el('div',{class:'hint',style:'margin-top:6px;color:var(--accent-text)'},within||past?t('plan.sends',{command:cmd}):t('plan.sendsLater',{when:describeWhen(send.at)})+' · '+cmd)));
-  out.push(el('button',{class:'primary',onclick:()=>{const s={id:Date.now(),name:null,nameKey:null,repeat:false,date:dateKey(dep),days:[0,0,0,0,0,0,0],depart:pad(dep.getHours())+':'+pad(dep.getMinutes()),preheat:S.plan.preheat,enabled:true,skipNext:false,pausedUntil:null,automation:false};
+  out.push(el('button',{class:'primary',onclick:()=>{
       if(past){openSheet({cmd:'START',explainKey:'start'});return;}
-      S.schedules=S.schedules.filter(x=>x.repeat||x.date!==s.date);S.schedules.push(s);
-      if(within){openSheet({cmd,explainKey:'startAt',vars:{time:fmtTime(st)},onDone:()=>{S.sent.push({scheduleId:s.id,dateKey:s.date,startAt:st,command:cmd,sentAt:now()});S.status={kind:'scheduled',at:now(),confirmed:false,until:st};S.plan.date=null;go('home');},onCancel:()=>{S.schedules=S.schedules.filter(x=>x.id!==s.id);}});}
-      else{S.plan.date=null;toast(t('plan.sendsLater',{when:describeWhen(send.at)}));go('home');}}},t('plan.cta')));
+      if(within){armOneOff(dep,S.plan.preheat,st);return;}
+      const s={id:Date.now(),name:null,nameKey:null,repeat:false,date:dateKey(dep),days:[0,0,0,0,0,0,0],depart:pad(dep.getHours())+':'+pad(dep.getMinutes()),preheat:S.plan.preheat,enabled:true,skipNext:false,pausedUntil:null,automation:false};
+      S.schedules=S.schedules.filter(x=>x.repeat||x.date!==s.date);S.schedules.push(s);S.plan.date=null;toast(t('plan.sendsLater',{when:describeWhen(send.at)}));go('home');}},t('plan.cta')));
   const act=computeNext().filter(o=>o.kind==='oneShot');
   for(const o of act){out.push(el('div',{class:'card'},el('h3',{},t('plan.active')),el('div',{class:'row wrap'},el('div',{},el('div',{class:'big num'},fmtTime(o.startAt)),el('div',{class:'hint'},fmtDay(o.startAt)+' · '+(o.sent?t('home.startsIn',{duration:fmtDur(o.startAt-now())}):t('home.sendsAt',{when:describeWhen(o.sendAt)}))+' · '+o.command)),
     el('button',{class:'ghost danger',onclick:()=>cancelOccurrence(o)},t('plan.cancel')))));}
@@ -556,9 +572,9 @@ function rSched(){const out=[el('div',{class:'phone-head'},el('div',{style:'min-
     const row=el('div',{class:'sched-row'+(s.enabled?'':' off')},
       el('button',{class:'rowbtn','aria-label':t('sched.edit')+' '+schedName(s),onclick:()=>{S.edit=JSON.parse(JSON.stringify(s));go('schedEdit');}},
         el('div',{class:'time num'},fmtHM(s.depart)),
-        el('div',{class:'meta'},lbl?el('span',{},lbl):el('span',{class:'dots'},...dayKeys.map((k,i)=>el('span',{class:'dot-day'+(s.days[i]?' on':'')},t('days.'+k)))),el('span',{},'· '+schedName(s)),el('span',{},'· '+t('plan.minutes',{count:s.preheat})),s.automation?el('span',{class:'badge warn'},t('sched.byAutomation')):null),
-        s.enabled&&nx?el('div',{class:'next num'},t('sched.nextRun',{when:t('common.dayAt',{day:fmtDay(nx.startAt),time:fmtTime(nx.startAt)})})+' · '+nx.command+(nx.sent?' · '+t('log.sent'):'')):null,
-        s.skipNext?el('div',{class:'warnline'},t('sched.skipped')):null,
+        el('div',{class:'meta'},lbl?el('span',{},lbl):el('span',{class:'dots'},...dayKeys.map((k,i)=>el('span',{class:'dot-day'+(s.days[i]?' on':'')},t('days.'+k)))),schedName(s)?el('span',{},'· '+schedName(s)):null,el('span',{},'· '+t('plan.minutes',{count:s.preheat})),s.automation?el('span',{class:'badge warn'},t('sched.byAutomation')):null),
+        s.enabled&&nx?el('div',{class:'next num'},t('sched.nextRun',{when:t('common.dayAt',{day:fmtDay(nx.departAt),time:fmtTime(nx.departAt)})})+' · '+nx.command+(nx.sent?' · '+t('log.sent'):'')):null,
+        s.skipNext?el('div',{class:'warnline'},t('sched.skipped')+(s.automation?' · STOP '+fmtHM(remindTime()):'')):null,
         s.pausedUntil?el('div',{class:'warnline'},t('sched.paused',{date:fmtDate(new Date(s.pausedUntil))})):null),
       el('button',{class:'switch',role:'switch','aria-checked':s.enabled?'true':'false','aria-label':schedName(s),onclick:()=>{s.enabled=!s.enabled;render();}}));
     out.push(row);}
@@ -570,15 +586,15 @@ function rSchedEdit(){const e=S.edit;const[h,m]=e.depart.split(':').map(Number);
     el('div',{class:'card'},el('div',{class:'field'},el('label',{for:'sname'},t('sched.name')),el('input',{type:'text',id:'sname',value:e.name||(e.nameKey!=null?SAMPLE[S.lang][e.nameKey]:''),placeholder:t('sched.namePlaceholder'),oninput:ev=>{e.name=ev.target.value;e.nameKey=null;}}))),
     el('div',{class:'card'},el('h3',{},t('sched.days')),el('div',{class:'chips'},...dayKeys.map((k,i)=>el('button',{class:'chip','aria-pressed':e.days[i]?'true':'false','aria-label':t('days.long.'+k),onclick:()=>{e.days[i]=e.days[i]?0:1;render();}},t('days.'+k)))),
       el('div',{class:'seg',style:'margin-top:10px'},el('button',{onclick:()=>{e.days=[1,1,1,1,1,0,0];render();}},t('days.weekdays')),el('button',{onclick:()=>{e.days=[1,1,1,1,1,1,1];render();}},t('days.everyday')),el('button',{onclick:()=>{e.days=[0,0,0,0,0,1,1];render();}},t('days.weekend')))),
-    el('div',{class:'card'},el('h3',{},t('sched.departure')),el('div',{class:'timebig num'},fmtHM(e.depart)),el('div',{class:'row',style:'margin-top:12px;justify-content:center;gap:18px'},
+    el('div',{class:'card'},el('h3',{},t('sched.departure')),el('div',{class:'timebig num'},fmtHM(e.depart)),el('div',{class:'row wrap',style:'margin-top:12px;justify-content:center;gap:12px 18px'},
       el('div',{class:'stepper'},el('button',{'aria-label':'-1 h',onclick:()=>setDep(h-1,m)},'−'),el('span',{class:'hint'},t('common.hours',{count:1})),el('button',{'aria-label':'+1 h',onclick:()=>setDep(h+1,m)},'+')),
       el('div',{class:'stepper'},el('button',{'aria-label':'-5 min',onclick:()=>setDep(h,m-5)},'−'),el('span',{class:'hint'},t('common.min',{count:5})),el('button',{'aria-label':'+5 min',onclick:()=>setDep(h,m+5)},'+')))),
     el('div',{class:'card'},el('div',{class:'row'},el('h3',{},t('sched.preheat')),el('span',{class:'big num',style:'font-size:18px'},t('plan.minutes',{count:e.preheat}))),el('input',{type:'range',min:10,max:120,step:5,value:e.preheat,id:'epre','aria-label':t('sched.preheat'),oninput:ev=>{e.preheat=+ev.target.value;render();}}),
       el('div',{class:'hint',style:'margin-top:6px'},t('sched.heaterStarts',{time:fmtTime(st)})+' · ',el('code',{class:'cmd'},'START'+hhmm(st))),runtimeWarning(dep,e.preheat)),
     el('div',{class:'list'},el('div',{class:'item'},el('div',{class:'lab'},t('sched.skipNext')),el('button',{class:'switch',role:'switch','aria-checked':e.skipNext?'true':'false','aria-label':t('sched.skipNext'),onclick:()=>{e.skipNext=!e.skipNext;render();}})),
       el('div',{class:'item'},el('div',{class:'lab'},t('sched.pauseUntil'),e.pausedUntil?el('small',{},t('sched.paused',{date:fmtDate(new Date(e.pausedUntil))})):null),el('div',{class:'val'},el('input',{type:'date',id:'pause',value:e.pausedUntil||'',min:dateKey(now()),onchange:ev=>{e.pausedUntil=ev.target.value||null;render();}}),e.pausedUntil?el('button',{class:'ghost',onclick:()=>{e.pausedUntil=null;render();}},t('sched.clearPause')):null)),
-      S.platform==='ios'?el('div',{class:'item'},el('div',{class:'lab'},t('sched.automation'),el('small',{},t('sched.automationHelp'))),el('button',{class:'switch',role:'switch','aria-checked':e.automation?'true':'false','aria-label':t('sched.automation'),onclick:()=>{e.automation=!e.automation;render();}})):null,
-      S.platform==='ios'&&e.automation?el('button',{class:'item',onclick:()=>toast(t('settings.automationGuide')+': '+t('common.dayAt',{day:'søn–tor',time:fmtHM(S.settings.eveningTime)})+' → START'+hhmm(st))},el('div',{class:'lab'},t('settings.automationGuide')),el('span',{class:'val',html:ICON.chev})):null),
+      S.platform==='ios'?el('div',{class:'item'},el('div',{class:'lab'},t('sched.automation'),el('small',{},t('sched.automationHelp',{remind:fmtHM(remindTime())}))),el('button',{class:'switch',role:'switch','aria-checked':e.automation?'true':'false','aria-label':t('sched.automation'),onclick:()=>{e.automation=!e.automation;render();}})):null,
+      S.platform==='ios'&&e.automation?el('button',{class:'item',onclick:()=>{S.recipe={mode:'plan',plan:JSON.parse(JSON.stringify(e)),back:'schedEdit'};go('recipe');}},el('div',{class:'lab'},t('settings.automationGuide')),el('span',{class:'val',html:ICON.chev})):null),
     el('button',{class:'primary',disabled:!e.days.some(Boolean),onclick:()=>{if(e.id){const i=S.schedules.findIndex(x=>x.id===e.id);S.schedules[i]=e;}else{e.id=Date.now();S.schedules.push(e);}S.edit=null;toast(t('sched.save'));go('sched');}},t('sched.save')),
     e.id?el('button',{class:'ghost danger',onclick:()=>{S.schedules=S.schedules.filter(x=>x.id!==e.id);S.sent=S.sent.filter(x=>x.scheduleId!==e.id);S.edit=null;go('sched');}},t('sched.delete')):null];}
 
@@ -593,7 +609,8 @@ function rSettings(){const st=S.settings;const canDirect=S.platform==='androidPr
     el('div',{class:'section-title'},t('settings.module')),
     el('div',{class:'list'},item(t('settings.phone'),t('settings.phoneHelp'),'<span class="num">'+(hasNumber()?phoneDisplay():'—')+'</span>',()=>go('onb2')),
       el('div',{class:'item'},el('div',{class:'lab'},t('settings.vehicleName')),el('input',{type:'text',id:'vname',value:S.vehicle.name||'',placeholder:t('home.vehicleDefault'),oninput:e=>{S.vehicle.name=e.target.value||null;}})),
-      item(t('settings.test'),null,'<code class="cmd">STATUS</code>',()=>openSheet({cmd:'STATUS',explainKey:'status'}),false),item(t('settings.profile'),null,t('settings.profileGsm'),()=>toast(t('settings.profileGsm')))),
+      el('div',{class:'item'},el('div',{class:'lab'},t('settings.ownNumber'),el('small',{},t('settings.ownNumberHelp'))),el('input',{type:'tel',id:'own',value:S.vehicle.own,placeholder:S.vehicle.dial+' …',oninput:e=>{S.vehicle.own=e.target.value;}})),
+      item(t('settings.test'),null,'<code class="cmd">STATUS</code>',()=>openSheet({cmd:'STATUS',explainKey:'status'}),false),item(t('settings.profile'),null,profileName(),()=>profileSheet())),
     el('div',{class:'section-title'},t('settings.language')),
     el('div',{class:'list'},item(t('settings.language'),null,st.followPhone?t('settings.languageSystem'):I18N[S.lang].meta.name,()=>go('language'))),
     el('div',{class:'section-title'},t('settings.sending')),
@@ -602,43 +619,67 @@ function rSettings(){const st=S.settings;const canDirect=S.platform==='androidPr
       el('div',{class:'item'},el('div',{class:'lab',style:'flex:1'},t('settings.scheduleSend'),el('div',{class:'seg',style:'margin-top:8px'},el('button',{'aria-pressed':st.scheduleSend==='evening'?'true':'false',onclick:()=>{st.scheduleSend='evening';render();}},t('settings.eveningBefore',{time:fmtHM(st.eveningTime)})),el('button',{'aria-pressed':st.scheduleSend==='atStart'?'true':'false',onclick:()=>{st.scheduleSend='atStart';render();}},t('settings.atStart'))))),
       st.scheduleSend==='evening'?el('div',{class:'item'},el('div',{class:'lab'},t('settings.eveningTime')),el('input',{type:'time',value:st.eveningTime,id:'evt',onchange:e=>{st.eveningTime=e.target.value||'21:00';render();}})):null,
       toggle(t('settings.reminders'),t('settings.modes.reminderDesc'),()=>st.reminders,v=>st.reminders=v),
-      S.platform!=='android'?toggle(t('settings.readReplies'),S.platform==='ios'?t('settings.readRepliesHelpIos'):t('settings.readRepliesHelpPro'),()=>st.readReplies,v=>{st.readReplies=v;seedLog();}):null,
-      S.platform!=='ios'?item(t('settings.exactAlarm'),t('settings.exactAlarmHelp'),t('common.on'),()=>toast(t('common.ok'))):null,
+      S.platform!=='android'?toggle(t('settings.readReplies'),S.platform==='ios'?t('settings.readRepliesHelpIos'):t('settings.readRepliesHelpPro'),()=>st.readReplies,v=>{if(v&&S.platform==='ios'){S.recipe={mode:'reply',back:'settings'};go('recipe');}else{st.readReplies=v;seedLog();}}):null,
+      S.platform!=='ios'?toggle(t('settings.exactAlarm'),t('settings.exactAlarmHelp'),()=>st.exactAlarm,v=>st.exactAlarm=v):null,
       el('div',{class:'item'},el('div',{class:'lab'},t('settings.simValidUntil'),el('small',{},t('settings.simHelp'))),el('input',{type:'date',id:'sim',value:st.simValidUntil||'',onchange:e=>{st.simValidUntil=e.target.value||null;render();}}))),
     el('div',{class:'section-title'},t('settings.heater')),
     el('div',{class:'list'},el('div',{class:'item'},el('div',{class:'lab'},t('settings.heaterRuntime'),el('small',{},t('settings.heaterRuntimeHelp'))),el('div',{class:'stepper'},el('button',{'aria-label':'-',onclick:()=>{st.runtime=Math.max(10,st.runtime-10);render();}},'−'),el('span',{class:'num',style:'min-width:56px;text-align:center'},t('plan.minutes',{count:st.runtime})),el('button',{'aria-label':'+',onclick:()=>{st.runtime=Math.min(120,st.runtime+10);render();}},'+'))),
       el('div',{class:'item'},el('div',{class:'lab'},t('settings.defaultPreheat')),el('div',{class:'stepper'},el('button',{'aria-label':'-',onclick:()=>{st.defaultPreheat=Math.max(10,st.defaultPreheat-5);render();}},'−'),el('span',{class:'num',style:'min-width:56px;text-align:center'},t('plan.minutes',{count:st.defaultPreheat})),el('button',{'aria-label':'+',onclick:()=>{st.defaultPreheat=Math.min(120,st.defaultPreheat+5);render();}},'+'))),
       item(t('settings.seasonMode'),null,st.season==='winter'?t('settings.winter'):t('settings.summer'),()=>{const nxt=st.season==='winter'?'summer':'winter';openSheet({cmd:nxt.toUpperCase(),custom:nxt==='winter'?t('settings.winter'):t('settings.summer'),force:true,onDone:()=>{st.season=nxt;}});})),
     el('div',{class:'section-title'},t('settings.advanced')),
-    el('div',{class:'list'},el('div',{class:'item'},el('div',{class:'lab'},t('settings.pin'),el('small',{},t('settings.pinHelp'))),S.pinEdit?el('input',{type:'text',id:'pin',value:st.pin,inputmode:'numeric',maxlength:'4',onchange:e=>{st.pin=(e.target.value||'1234').replace(/\D/g,'').slice(0,4)||'1234';S.pinEdit=false;render();}}):el('button',{class:'ghost',onclick:()=>{S.pinEdit=true;render();}},t('settings.pinChange'))),
+    el('div',{class:'list'},el('div',{class:'item'},el('div',{class:'lab'},t('settings.pin'),el('small',{},t('settings.pinHelp'))),S.pinEdit?el('input',{type:'password',id:'pin',value:st.pin,inputmode:'numeric',maxlength:'4',autocomplete:'off',onchange:e=>{st.pin=(e.target.value||'1234').replace(/\D/g,'').slice(0,4)||'1234';S.pinEdit=false;render();}}):el('button',{class:'ghost',onclick:()=>{S.pinEdit=true;render();}},t('settings.pinChange'))),
       el('div',{class:'item'},el('div',{class:'lab'},t('settings.ack'),el('small',{},el('code',{class:'cmd'},st.pin+'ASPONSE:'+(st.ack?'ON':'OFF')))),el('button',{class:'switch',role:'switch','aria-checked':st.ack?'true':'false','aria-label':t('settings.ack'),onclick:()=>{const v=!st.ack;openSheet({cmd:st.pin+'ASPONSE:'+(v?'ON':'OFF'),custom:t('settings.ack'),force:true,onDone:()=>{st.ack=v;}});}})),
       item(t('settings.numbers'),st.numbers.length+' / 5','<code class="cmd">'+st.pin+'ACCLIM:…</code>',()=>go('numbers')),
-      el('div',{class:'item'},el('div',{class:'lab',style:'flex:1'},t('settings.tempAlarm'),el('div',{class:'row',style:'margin-top:8px;gap:8px'},
-        el('label',{class:'hint',style:'flex:1'},t('settings.tempAlarmLow'),el('input',{type:'number',value:st.loTemp,id:'lo',onchange:e=>{st.loTemp=+e.target.value;}})),
-        el('label',{class:'hint',style:'flex:1'},t('settings.tempAlarmHigh'),el('input',{type:'number',value:st.hiTemp,id:'hi',onchange:e=>{st.hiTemp=+e.target.value;}})),
-        el('button',{class:'ghost',style:'align-self:flex-end',onclick:()=>openSheet({cmd:st.pin+'LOTEMP:'+st.loTemp+st.pin+'HITEMP:'+st.hiTemp,custom:t('settings.tempAlarm'),force:true})},t('sheet.send'))))),
+      el('div',{class:'item'},el('div',{class:'lab',style:'flex:1'},t('settings.tempAlarm'),el('div',{class:'alarmgrid'},
+        el('div',{},el('label',{class:'hint',for:'lo'},t('settings.tempAlarmLow')+' °C'),el('input',{type:'number',value:st.loTemp,id:'lo',onchange:e=>{st.loTemp=+e.target.value;}}),el('button',{class:'ghost',onclick:()=>openSheet({cmd:st.pin+'LOTEMP:'+st.loTemp,custom:t('settings.tempAlarmLow')+' '+st.loTemp+' °C',force:true})},t('sheet.send')+' LOTEMP')),
+        el('div',{},el('label',{class:'hint',for:'hi'},t('settings.tempAlarmHigh')+' °C'),el('input',{type:'number',value:st.hiTemp,id:'hi',onchange:e=>{st.hiTemp=+e.target.value;}}),el('button',{class:'ghost',onclick:()=>openSheet({cmd:st.pin+'HITEMP:'+st.hiTemp,custom:t('settings.tempAlarmHigh')+' '+st.hiTemp+' °C',force:true})},t('sheet.send')+' HITEMP'))))),
       item(t('settings.clear'),null,'<code class="cmd">CLEAR</code>',()=>openSheet({cmd:'CLEAR',custom:t('settings.clear'),force:true}),false),
       item(t('settings.reset'),null,'<code class="cmd">'+st.pin+'SETDEFAULT</code>',()=>confirmModal(t('settings.reset'),t('settings.resetConfirm'),t('common.yes'),()=>openSheet({cmd:st.pin+'SETDEFAULT',custom:t('settings.reset'),force:true}),true),false)),
     el('div',{class:'section-title'},t('settings.data')),
     el('div',{class:'list'},item(t('settings.log'),null,String(S.log.length),()=>go('log')),
-      item(t('settings.export'),null,'JSON',()=>exportModal()),item(t('settings.import'),null,'',()=>toast(t('settings.import')+' · JSON')),
+      item(t('settings.export'),null,'JSON',()=>exportModal()),item(t('settings.import'),null,'JSON',()=>confirmModal(t('settings.import'),t('settings.importHelp'),t('common.ok'),()=>{})),
       item(t('settings.deleteAll'),null,'',()=>confirmModal(t('settings.deleteAll'),t('settings.deleteConfirm'),t('settings.deleteAll'),()=>{const l=S.lang,p=S.platform;S=defaults();S.lang=l;S.platform=p;applyPlatformDefaults();S.vehicle.national='';S.schedules=[];S.log=[];S.lastSentAt=null;S.screen='onb1';render();},true))),
     el('div',{class:'section-title'},t('settings.about')),
     el('div',{class:'list'},item(t('settings.version'),null,'1.1 · Expo SDK 58',null),el('div',{class:'item'},el('div',{class:'lab'},el('small',{},t('settings.notAffiliated')),el('small',{},t('settings.privacy'))))),
     el('p',{class:'hint',style:'text-align:center'},t('platform.note.'+S.platform))];}
+function profileName(){return {easystart_gsm:t('settings.profileGsm'),easystart_call:t('settings.profileCall'),custom:t('settings.profileCustom')}[S.settings.profile];}
+function profileSheet(){ensurePhoneVisible();sheetLayer.innerHTML='';sheetLayer.classList.add('show');const list=el('div',{class:'list'});
+  for(const id of ['easystart_gsm','easystart_call','custom'])list.append(el('button',{class:'item',onclick:()=>{S.settings.profile=id;closeSheet();render();}},el('div',{class:'lab'},{easystart_gsm:t('settings.profileGsm'),easystart_call:t('settings.profileCall'),custom:t('settings.profileCustom')}[id]),el('span',{class:'radio'+(S.settings.profile===id?' on':'')})));
+  sheetLayer.append(el('div',{class:'sheet',role:'dialog','aria-label':t('settings.profile')},el('div',{class:'grab'}),el('h3',{},t('settings.profile')),list,el('button',{class:'link',style:'text-align:center',onclick:closeSheet},t('common.close'))));}
+function openThread(){ensurePhoneVisible();os.className='os show ios';os.innerHTML='';const conv=el('div',{class:'conv',style:'display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:8px'});
+  for(const e of S.log.filter(x=>x.dir==='out').slice(0,3).reverse())conv.append(el('div',{class:'bubble'},e.cmd));
+  os.append(el('div',{class:'bar'},el('button',{onclick:()=>{os.className='os';}},t('common.close')),el('b',{},phoneDisplay()),el('span',{})),conv,el('div',{class:'composer'},el('div',{class:'fld',style:'color:#8e8e93;font-family:var(--body);font-weight:400'},t('sheet.message')),el('button',{'aria-label':t('sheet.send'),disabled:true,style:'opacity:.4'},'↑')));}
+function copyBtn(text){return el('button',{class:'ghost',onclick:e=>{const b=e.currentTarget;const done=()=>{b.textContent=t('common.copied');setTimeout(()=>{b.textContent=t('common.copy');},1500);};try{navigator.clipboard.writeText(text).then(done,done);}catch(err){done();}}},t('common.copy'));}
+function rRecipe(){const r=S.recipe||{mode:'reply',back:'settings'};const out=[el('div',{class:'phone-head'},el('button',{class:'ghost',onclick:()=>go(r.back)},'‹ '+t(r.back==='settings'?'nav.settings':'nav.schedules')),el('h2',{style:'font-size:20px'},t('recipe.title')))];
+  if(r.mode==='plan'){const pl=r.plan;const[h,m]=pl.depart.split(':').map(Number);const dep=new Date();dep.setHours(h,m,0,0);const st=startFromDepart(dep,pl.preheat);const evening=S.settings.scheduleSend==='evening';
+    const[eh,em]=S.settings.eveningTime.split(':').map(Number);const evSameDay=eh*60+em<st.getHours()*60+st.getMinutes();
+    const shift=evening&&!evSameDay?-1:0;const days=dayKeys.map((k,i)=>pl.days[(i-shift+7)%7]?t('days.long.'+k):null).filter(Boolean).join(', ');
+    const time=evening?fmtHM(S.settings.eveningTime):fmtTime(st);const cmd=evening?'START'+hhmm(st):'START';
+    out.push(el('div',{class:'card'},el('p',{class:'hint',style:'margin:0 0 10px'},t('recipe.intro')),el('div',{class:'steps'},
+      el('div',{},el('span',{},t('recipe.step1'))),el('div',{},el('span',{},t('recipe.step2',{time,days}))),el('div',{},el('span',{},t('recipe.step3'))),
+      el('div',{},el('div',{},t('recipe.step4',{command:cmd,number:phoneDisplay()}),el('div',{class:'copyrow'},el('code',{class:'cmd'},cmd),copyBtn(cmd),el('code',{class:'cmd num'},phoneDisplay()),copyBtn(S.vehicle.dial+S.vehicle.national.replace(/\s/g,''))))),
+      el('div',{},el('span',{},t('recipe.step5')))),el('p',{class:'hint',style:'margin:10px 0 0'},t('recipe.note'))));
+    out.push(el('button',{class:'primary',onclick:()=>{if(S.edit)S.edit.automation=true;const sch=S.schedules.find(x=>x.id===pl.id);if(sch)sch.automation=true;toast(t('sched.byAutomation')+' ✓');go(r.back);}},t('recipe.done')));}
+  else{const url='varmestart://reply?text=';out.push(el('div',{class:'card'},el('p',{class:'hint',style:'margin:0 0 10px'},t('recipe.replyIntro')),el('div',{class:'steps'},
+      el('div',{},el('div',{},t('recipe.reply1',{number:phoneDisplay()}),el('div',{class:'copyrow'},el('code',{class:'cmd num'},phoneDisplay()),copyBtn(S.vehicle.dial+S.vehicle.national.replace(/\s/g,''))))),
+      el('div',{},el('div',{},t('recipe.reply2'),el('div',{class:'copyrow'},el('code',{class:'cmd',style:'font-size:12px'},url),copyBtn(url)))),
+      el('div',{},el('span',{},t('recipe.reply3'))))));
+    out.push(el('button',{class:'primary',onclick:()=>{S.settings.readReplies=true;seedLog();toast(t('settings.readReplies')+' ✓');go('settings');}},t('recipe.done')));}
+  return out;}
 function exportModal(){let incl=false;ensurePhoneVisible();sheetLayer.innerHTML='';sheetLayer.classList.add('show');
   const prev=()=>JSON.stringify({vehicle:{name:S.vehicle.name,phone:S.vehicle.dial+S.vehicle.national.replace(/\s/g,'')},schedules:S.schedules.length,settings:{runtime:S.settings.runtime,eveningTime:S.settings.eveningTime,numbers:S.settings.numbers,pin:incl?S.settings.pin:undefined}},null,1);
   const pre=el('pre',{class:'cmd',style:'font-size:11px;white-space:pre-wrap;padding:8px;margin:0'},prev());
   sheetLayer.append(el('div',{class:'sheet',role:'dialog','aria-label':t('settings.export')},el('div',{class:'grab'}),el('h3',{},t('settings.export')),el('div',{class:'warnline'},t('settings.exportWarning')),
     el('label',{class:'check'},el('input',{type:'checkbox',id:'inclpin',onchange:e=>{incl=e.target.checked;pre.textContent=prev();}}),t('settings.includePin')),pre,
     el('button',{class:'primary',onclick:()=>{closeSheet();toast(t('settings.export')+' ✓');}},t('settings.export')),el('button',{class:'link',style:'text-align:center',onclick:closeSheet},t('sheet.cancel'))));}
-function rNumbers(){const st=S.settings;const own=S.vehicle.dial+' 400 00 000';
+function rNumbers(){const st=S.settings;const own=S.vehicle.own.trim();const all=(own?[own]:[]).concat(st.numbers);
   const list=el('div',{class:'list'});
-  st.numbers.forEach((n,i)=>list.append(el('div',{class:'item'},el('div',{class:'lab num'},n,i===0?el('small',{},t('settings.numbersHelp').split('.')[0]+'.'):null),i>0?el('button',{class:'ghost danger',onclick:()=>{st.numbers.splice(i,1);render();}},'✕'):null)));
+  list.append(el('div',{class:'item'},el('div',{class:'lab'},t('settings.ownNumber'),el('small',{},t('settings.ownNumberHelp'))),el('input',{type:'tel',id:'own2',value:S.vehicle.own,placeholder:S.vehicle.dial+' …',oninput:e=>{S.vehicle.own=e.target.value;}})));
+  st.numbers.forEach((n,i)=>list.append(el('div',{class:'item'},el('div',{class:'lab num'},n),el('button',{class:'ghost danger','aria-label':t('sheet.cancel'),onclick:()=>{st.numbers.splice(i,1);render();}},'✕'))));
   return [el('div',{class:'phone-head'},el('button',{class:'ghost',onclick:()=>go('settings')},'‹ '+t('nav.settings')),el('h2',{style:'font-size:20px'},t('settings.numbers'))),
     el('p',{class:'hint'},t('settings.numbersHelp')),list,
-    st.numbers.length<5?el('div',{class:'row'},el('input',{type:'tel',id:'newnum',placeholder:S.vehicle.dial+' …'}),el('button',{class:'ghost',onclick:()=>{const v=$('#newnum').value.trim();if(v){st.numbers.push(v);render();}}},t('settings.addNumber'))):null,
-    el('button',{class:'primary',onclick:()=>openSheet({cmd:st.pin+'ACCLIM:'+st.numbers.map(x=>x.replace(/[\s+]/g,'')).join(':'),custom:t('settings.numbersHelp'),force:true})},t('sheet.send'))];}
+    all.length<5?el('div',{class:'row'},el('input',{type:'tel',id:'newnum',placeholder:S.vehicle.dial+' …'}),el('button',{class:'ghost',onclick:()=>{const v=$('#newnum').value.trim();if(v){st.numbers.push(v);render();}}},t('settings.addNumber'))):null,
+    el('button',{class:'primary',disabled:!own,onclick:()=>openSheet({cmd:st.pin+'ACCLIM:'+all.map(x=>x.replace(/[\s+]/g,'')).join(':'),custom:t('settings.numbersHelp'),force:true})},t('sheet.send')+' ACCLIM')];}
 function rLanguage(){const list=el('div',{class:'list'});
   list.append(el('button',{class:'item',onclick:()=>{S.settings.followPhone=true;render();}},el('div',{class:'lab'},t('settings.languageSystem')),el('span',{class:'radio'+(S.settings.followPhone?' on':'')})));
   for(const l of LANGS)list.append(el('button',{class:'item',lang:l,onclick:()=>{S.settings.followPhone=false;setLang(l);}},el('div',{class:'lab'},I18N[l].meta.name),el('span',{class:'radio'+(!S.settings.followPhone&&l===S.lang?' on':'')})));
@@ -703,12 +744,12 @@ function showNotif(){const nx=computeNext().find(x=>!x.sent&&!x.automation);if(!
     el('div',{class:'na'},el('button',{onclick:()=>{notif.classList.remove('show');skipOccurrence(nx);}},t('notif.later')),
       el('button',{class:'go',onclick:()=>{notif.classList.remove('show');go('home');
         openSheet({cmd:nx.command,explainKey:/^START\d{4}$/.test(nx.command)?'startAt':'start',vars:{time:fmtTime(nx.startAt)},onDone:()=>{S.sent.push({scheduleId:nx.id,dateKey:dateKey(nx.startAt),startAt:nx.startAt,command:nx.command,sentAt:now()});S.status={kind:'scheduled',at:now(),confirmed:false,until:nx.startAt};}});}},t('notif.action'))));}
-function showMorning(){const nx=computeNext().find(x=>!x.sent);const cmd=nx?nx.command:'START0630';
+function showMorning(){const nx=computeNext().find(x=>!x.sent);const cmd=nx?nx.command:'START0630';const direct=S.settings.mode==='direct'||S.settings.scheduleSend==='atStart';
   ensurePhoneVisible();notif.innerHTML='';notif.classList.add('show');
   notif.append(el('div',{class:'nh'},el('i',{}),t('notif.title'),el('span',{style:'margin-left:auto;text-transform:none;letter-spacing:0'},nx?fmtTime(nx.startAt):'06:30')),
-    el('div',{class:'nb'},t('notif.morningReserve',{command:cmd})),
+    el('div',{class:'nb'},t(direct?'notif.morningReserveDirect':'notif.morningReserve',{command:cmd})),
     el('div',{class:'na'},el('button',{onclick:()=>{notif.classList.remove('show');}},t('notif.later')),
-      el('button',{class:'go',onclick:()=>{notif.classList.remove('show');go('home');openSheet({cmd:'START',explainKey:'start'});}},t('notif.action'))));}
+      el('button',{class:'go',onclick:()=>{notif.classList.remove('show');go('home');openSheet({cmd:'START',explainKey:'start',onDone:()=>{if(nx){S.sent.push({scheduleId:nx.id,dateKey:dateKey(nx.startAt),startAt:now(),command:'START',sentAt:now()});}}});}},t('notif.action'))));}
 let toastT;function toast(msg){const tt=$('#toast');tt.textContent=msg;tt.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>tt.classList.remove('show'),2800);}
 function hideToast(){clearTimeout(toastT);$('#toast').classList.remove('show');}
 
@@ -723,7 +764,8 @@ const PANEL={
  sched:['Faste dager','Ser ut som vekkerklokke-alarmer: tid stort, dager, navn, bryter. Hver plan viser neste forekomst og kommando. På iPhone kan en plan merkes «Sendes av Kortkommandoer»; da sender appen ingen påminnelse for den.'],
  schedEdit:['Rediger plan','Dager som chips med snarveier, avreisetid, forvarming med kjøretidsadvarsel, Hopp over neste, Pause til dato, og på iPhone: Kortkommando-flagg med oppskrift.'],
  settings:['Innstillinger','Eneste nødvendige felt er nummer + landkode. Sendemodus og «Bekreft før sending» gjelder alle moduser (standard av Via Meldinger, på i Direkte). Varmerens kjøretid, SIM-gyldighet og lesing av svar er nye felt etter review. Avanserte modul-kommandoer går via samme kommando-ark.'],
- numbers:['Autoriserte numre (ACCLIM)','Eget nummer alltid først og låst. Maks 5. Modulen krever at alle numre sendes på nytt ved hver endring, så appen sender hele listen i én kommando.'],
+ numbers:['Autoriserte numre (ACCLIM)','Brukerens eget nummer (fra Innstillinger → Ditt nummer) står alltid først. Maks 5. Modulen krever at alle numre sendes på nytt ved hver endring, så appen sender hele listen i én kommando. Nummerformatet står på verifiseringslisten.'],
+ recipe:['Oppskrift for Kortkommandoer','Appen regner ut dager (forskjøvet én dag bakover når sendingen skjer kvelden før), klokkeslett, tekst og nummer, og viser trinnene med kopier-knapper. For lesing av svar: utløser «Melding fra modulen» → «Åpne URL varmestart://reply».'],
  language:['Språk','Åtte språk, uavhengig av OS-språket, bytte uten omstart. Kommandoene oversettes aldri, forklaringene gjør det. Sammensatte dato-tid-fraser har egne nøkler per språk.'],
  log:['Logg','Alle sendte kommandoer med modus og resultat, «bekreftet av modulen» når et svar matcher, og svar fra modulen der appen kan lese dem (Android Pro, eller iPhone med Kortkommando-automasjon).'],
 };
@@ -737,8 +779,8 @@ function renderPanel(){const[title,desc]=PANEL[S.screen]||PANEL.home;$('#pTitle'
     android:'Android (Google Play): samme som iPhone, SMS-appen åpnes ferdig utfylt. Google Play godtar ikke SEND_SMS for denne typen app, så butikkversjonen sender aldri i bakgrunnen. Eksakte påminnelser krever «Alarmer og påminnelser».',
     androidPro:'Android Pro (APK utenfor Play): egen Expo-modul sender direkte via SmsManager, planlegger med eksakt alarm og leser svar fra modulens nummer. Null trykk på faste dager, bekreftelse før spontane sendinger.'};
   $('#pNote').textContent=notes[S.platform];
-  const sc=$('#screens');sc.innerHTML='';const list=[['onb1','Oppsett'],['home','Hjem'],['plan','Planlegg'],['sched','Faste dager'],['schedEdit','Rediger plan'],['settings','Innstillinger'],['numbers','Autoriserte numre'],['language','Språk'],['log','Logg']];
-  for(const[id,lab]of list)sc.append(el('button',{'aria-pressed':S.screen===id||(id==='onb1'&&S.screen.startsWith('onb'))?'true':'false',onclick:()=>{if(id==='schedEdit'){const w=S.schedules.find(s=>s.repeat);S.edit=w?JSON.parse(JSON.stringify(w)):{id:null,name:'',nameKey:null,repeat:true,date:null,days:[1,1,1,1,1,0,0],depart:'07:00',preheat:30,enabled:true,skipNext:false,pausedUntil:null,automation:false};}go(id);}},lab));}
+  const sc=$('#screens');sc.innerHTML='';const list=[['onb1','Oppsett'],['home','Hjem'],['plan','Planlegg'],['sched','Faste dager'],['schedEdit','Rediger plan'],['settings','Innstillinger'],['numbers','Autoriserte numre'],['recipe','Kortkommando-oppskrift'],['language','Språk'],['log','Logg']];
+  for(const[id,lab]of list)sc.append(el('button',{'aria-pressed':S.screen===id||(id==='onb1'&&S.screen.startsWith('onb'))?'true':'false',onclick:()=>{if(id==='recipe'){const w=S.schedules.find(x=>x.repeat);S.recipe=w?{mode:'plan',plan:JSON.parse(JSON.stringify(w)),back:'sched'}:{mode:'reply',back:'settings'};}if(id==='schedEdit'){const w=S.schedules.find(s=>s.repeat);S.edit=w?JSON.parse(JSON.stringify(w)):{id:null,name:'',nameKey:null,repeat:true,date:null,days:[1,1,1,1,1,0,0],depart:'07:00',preheat:30,enabled:true,skipNext:false,pausedUntil:null,automation:false};}go(id);}},lab));}
 
 /* ---------- top controls ---------- */
 const langSel=$('#lang');for(const l of LANGS)langSel.append(el('option',{value:l},I18N[l].meta.name));langSel.value=S.lang;

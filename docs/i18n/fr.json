@@ -21,7 +21,7 @@
       "started": "Chauffage allumé",
       "stopped": "Chauffage éteint",
       "scheduled": "Démarrage programmé",
-      "assumed": "présumé {time}",
+      "assumed": "estimé {time}",
       "confirmed": "confirmé {time}"
     },
     "start": "Démarrer",
@@ -69,7 +69,7 @@
       "stop": "Arrête le chauffage et annule tout démarrage programmé.",
       "startAt": "Démarre le chauffage à {time}. Le module gère l’heure lui-même.",
       "temp": "Demande la température au module.",
-      "status": "Demande l’état et les codes d’erreur au module."
+      "status": "Demande son état au module."
     },
     "sentDirect": "Envoyé directement",
     "delivered": "Remis",
@@ -121,10 +121,11 @@
     "heaterStarts": "Le chauffage démarre à {time}",
     "skipSendsStop": "Le démarrage a déjà été envoyé au module. Ignorer envoie STOP.",
     "automation": "Envoyé par Raccourcis",
-    "automationHelp": "L’app n’envoie aucun rappel pour ce programme. Ignorer et suspendre se font dans Raccourcis ; l’app montre comment.",
+    "automationHelp": "L’app n’envoie aucun rappel pour ce programme. Ignorer : l’app vous rappelle à {remind} d’envoyer STOP. Suspendre : désactivez l’automatisation dans Raccourcis (l’app montre comment).",
     "byAutomation": "Raccourcis",
     "clearPause": "Retirer la pause",
-    "replaced": "Remplacé par {name}"
+    "replaced": "Remplacé par {name}",
+    "skipAutomation": "Raccourcis enverra {command} à {time} quoi qu’il arrive. Envoyez STOP ensuite. L’app vous le rappelle à {remind}."
   },
   "days": {
     "mon": "L",
@@ -207,7 +208,7 @@
     "simValidUntil": "Carte SIM valable jusqu’au",
     "simHelp": "Rappel 7 jours avant.",
     "readReplies": "Lire les réponses du module",
-    "readRepliesHelpIos": "Nécessite une automatisation Raccourcis : « Quand je reçois un message du module → Ouvrir Varmestart ». L’app affiche la marche à suivre.",
+    "readRepliesHelpIos": "Nécessite une automatisation Raccourcis : « Quand je reçois un message du module → Ouvrir l’URL varmestart://reply ». L’app affiche la marche à suivre.",
     "readRepliesHelpPro": "La version Pro lit automatiquement les réponses du numéro du module.",
     "pinChange": "Changer le PIN",
     "numbersHelp": "Votre propre numéro est toujours inclus. Tous les numéros sont renvoyés à chaque modification. 5 maximum.",
@@ -218,7 +219,12 @@
     "includePin": "Inclure le PIN",
     "deleteConfirm": "Supprimer toutes les données de ce téléphone ? Cette action est irréversible.",
     "resetConfirm": "Le module perd tous ses réglages, y compris les numéros autorisés. Êtes-vous sûr ?",
-    "automationGuide": "Marche à suivre pour Raccourcis"
+    "automationGuide": "Marche à suivre pour Raccourcis",
+    "ownNumber": "Votre numéro",
+    "ownNumberHelp": "Votre numéro enregistré dans le module. Utilisé dans Numéros autorisés.",
+    "profileCall": "Eberspächer EasyStart Call (avec PIN)",
+    "profileCustom": "Personnalisé",
+    "importHelp": "Choisissez une sauvegarde JSON dans Fichiers. Prévu en phase 2."
   },
   "onboarding": {
     "welcome": {
@@ -259,7 +265,7 @@
     "in": "Entrant",
     "empty": "Aucun événement pour l’instant",
     "mode": {
-      "compose": "Rédiger",
+      "compose": "Via Messages",
       "direct": "Direct",
       "automation": "Automatisation",
       "reminder": "Rappel"
@@ -284,7 +290,8 @@
     "action": "Envoyer maintenant",
     "later": "Pas aujourd’hui",
     "morningReserve": "Vous n’avez pas envoyé {command} hier. Envoyer START maintenant ?",
-    "renew": "Ouvrez Varmestart pour renouveler les programmes des deux prochaines semaines."
+    "renew": "Ouvrez Varmestart pour renouveler les programmes des deux prochaines semaines.",
+    "morningReserveDirect": "L’envoi de {command} a échoué. Envoyer START maintenant ?"
   },
   "common": {
     "on": "Activé",
@@ -303,5 +310,20 @@
     "todayAt": "aujourd’hui à {time}",
     "tomorrowAt": "demain à {time}",
     "number": "Numéro"
+  },
+  "recipe": {
+    "title": "Marche à suivre pour Raccourcis",
+    "intro": "Créez une automatisation personnelle dans Raccourcis sur l’iPhone :",
+    "step1": "Automatisation → + → Heure de la journée",
+    "step2": "Heure {time}. Répéter chaque semaine : {days}",
+    "step3": "Choisissez « Exécuter immédiatement » (pas « Demander avant d’exécuter »)",
+    "step4": "Action « Envoyer un message » : texte {command} à {number}",
+    "step5": "Désactivez « Afficher à l’exécution ». Touchez OK.",
+    "replyIntro": "Pour lire les réponses du module dans l’app :",
+    "reply1": "Automatisation → + → Message → de {number}",
+    "reply2": "Action « Ouvrir l’URL » : varmestart://reply?text=[Contenu du message]",
+    "reply3": "Choisissez « Exécuter immédiatement »",
+    "done": "J’ai créé l’automatisation",
+    "note": "Quand le programme change, l’app affiche une nouvelle marche à suivre."
   }
 }

@@ -69,7 +69,7 @@
       "stop": "Stops the heater and clears any scheduled start.",
       "startAt": "Starts the heater at {time}. The module keeps the time itself.",
       "temp": "Asks the module for the temperature.",
-      "status": "Asks the module for status and fault codes."
+      "status": "Asks the module for its status."
     },
     "sentDirect": "Sent directly",
     "delivered": "Delivered",
@@ -121,10 +121,11 @@
     "heaterStarts": "Heater starts at {time}",
     "skipSendsStop": "The start has already been sent to the module. Skipping sends STOP.",
     "automation": "Sent by Shortcuts",
-    "automationHelp": "The app sends no reminder for this schedule. Skip and pause must be done in Shortcuts; the app shows how.",
+    "automationHelp": "The app sends no reminder for this schedule. Skip: the app reminds you at {remind} to send STOP. Pause: turn the automation off in Shortcuts (the app shows how).",
     "byAutomation": "Shortcuts",
     "clearPause": "Remove pause",
-    "replaced": "Replaced by {name}"
+    "replaced": "Replaced by {name}",
+    "skipAutomation": "Shortcuts will send {command} at {time} regardless. Send STOP afterwards. The app reminds you at {remind}."
   },
   "days": {
     "mon": "M",
@@ -207,7 +208,7 @@
     "simValidUntil": "SIM card valid until",
     "simHelp": "Reminder 7 days before.",
     "readReplies": "Read replies from module",
-    "readRepliesHelpIos": "Needs one Shortcuts automation: “When I get a message from the module → Open Varmestart”. The app shows the recipe.",
+    "readRepliesHelpIos": "Needs one Shortcuts automation: “When I get a message from the module → Open URL varmestart://reply”. The app shows the recipe.",
     "readRepliesHelpPro": "The Pro version reads replies from the module’s number automatically.",
     "pinChange": "Change PIN",
     "numbersHelp": "Your own number is always included. All numbers are re-sent on every change. Max 5.",
@@ -218,7 +219,12 @@
     "includePin": "Include PIN",
     "deleteConfirm": "Delete all data on this phone? This cannot be undone.",
     "resetConfirm": "The module loses all settings, including authorised numbers. Are you sure?",
-    "automationGuide": "Shortcuts recipe"
+    "automationGuide": "Shortcuts recipe",
+    "ownNumber": "Your number",
+    "ownNumberHelp": "Your number as registered in the module. Used in Authorised numbers.",
+    "profileCall": "Eberspächer EasyStart Call (PIN based)",
+    "profileCustom": "Custom",
+    "importHelp": "Choose a JSON backup from Files. Coming in phase 2."
   },
   "onboarding": {
     "welcome": {
@@ -259,7 +265,7 @@
     "in": "In",
     "empty": "No events yet",
     "mode": {
-      "compose": "Compose",
+      "compose": "Via Messages",
       "direct": "Direct",
       "automation": "Automation",
       "reminder": "Reminder"
@@ -284,7 +290,8 @@
     "action": "Send now",
     "later": "Not today",
     "morningReserve": "You did not send {command} yesterday. Send START now?",
-    "renew": "Open Varmestart to renew the schedules for the next two weeks."
+    "renew": "Open Varmestart to renew the schedules for the next two weeks.",
+    "morningReserveDirect": "Sending {command} failed. Send START now?"
   },
   "common": {
     "on": "On",
@@ -303,5 +310,20 @@
     "todayAt": "today at {time}",
     "tomorrowAt": "tomorrow at {time}",
     "number": "Number"
+  },
+  "recipe": {
+    "title": "Shortcuts recipe",
+    "intro": "Create one personal automation in Shortcuts on iPhone:",
+    "step1": "Automation → + → Time of Day",
+    "step2": "Time {time}. Repeat weekly: {days}",
+    "step3": "Choose “Run Immediately” (not “Ask Before Running”)",
+    "step4": "Action “Send Message”: text {command} to {number}",
+    "step5": "Turn off “Show When Run”. Tap Done.",
+    "replyIntro": "To read replies from the module in the app:",
+    "reply1": "Automation → + → Message → from {number}",
+    "reply2": "Action “Open URL”: varmestart://reply?text=[Message content]",
+    "reply3": "Choose “Run Immediately”",
+    "done": "I have created the automation",
+    "note": "When the schedule changes, the app shows a new recipe."
   }
 }
